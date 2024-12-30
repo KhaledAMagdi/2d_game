@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable
     //-------constructor-------//
     public GamePanel()
     {
-        this.setPreferredSize(new Dimension(screenWidth,screenHeight)); //creates window in the screen dimensions mentioned
+        this.setPreferredSize(new Dimension(screenWidth,screenHeight));//creates window in the screen dimensions mentioned
         this.setBackground(Color.black);//background color
         this.setDoubleBuffered(true);//flickering stability
         this.addKeyListener(keyH);//key handling
@@ -73,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable
         gameThread.start();//runs thread
     }
     
-    //-------FPS managment-------//
+    //-------FPS management-------//
     @Override
     public void run()
     {

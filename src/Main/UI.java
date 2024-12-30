@@ -22,8 +22,8 @@ public class UI
    //-------constructor-------//
    public UI(GamePanel gp)
     {
-	this.gp = gp; //refer to game panel
-	arial = new Font("Arial", Font.PLAIN, 30); //font
+	    this.gp = gp; //refer to game panel
+	    arial = new Font("Arial", Font.PLAIN, 30); //font
         Comic = new Font("Comic Sans MS", Font.PLAIN, 30); //font
         Impact = new Font("Palatino Linotype", Font.PLAIN, 30); //font
           
