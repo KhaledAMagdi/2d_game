@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements Runnable
 {
     //-------screen settings-------//
-    //adfjklbndfkjs
     final int originalTileSize = 16; //base tile size
     final int scale = 5; //scale the tile size
     
