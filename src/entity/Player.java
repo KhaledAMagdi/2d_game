@@ -81,24 +81,24 @@ public class Player extends Entity
     {
         if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed)
         {
-            if(keyH.upPressed == true)
+            if(keyH.upPressed)
             {  
                 direction = "up"; 
             }
-            if(keyH.downPressed == true)
+            if(keyH.downPressed)
             {
                 direction = "down";  
             }
-            if(keyH.leftPressed == true)
+            if(keyH.leftPressed)
             {
                 direction = "left"; 
             }
-            if(keyH.rightPressed == true)
+            if(keyH.rightPressed)
             {
                 direction = "right";
             }
 
-            if(collisionOn == false)
+            if(collisionOn)
             {
                switch(direction)
                {
@@ -195,10 +195,10 @@ public class Player extends Entity
     public void draw(Graphics2D g2)
     {
         BufferedImage image = null;
-        
+
         switch(direction)
         {
-            case "up" -> 
+            case "up" ->
             {
                 for(int i = 0; i < numOfImages; i++)
                 {
@@ -206,7 +206,7 @@ public class Player extends Entity
                         image = up[i];
                 }
             }
-            case "down" -> 
+            case "down" ->
             {
                 for(int i = 0; i < numOfImages; i++)
                 {
@@ -214,7 +214,7 @@ public class Player extends Entity
                         image = down[i];
                 }
             }
-            case "left" -> 
+            case "left" ->
             {
                 for(int i = 0; i < numOfImages; i++)
                 {
@@ -222,7 +222,7 @@ public class Player extends Entity
                         image = left[i];
                 }
             }
-            case "right" -> 
+            case "right" ->
             {
                 for(int i = 0; i < numOfImages; i++)
                 {
@@ -231,8 +231,8 @@ public class Player extends Entity
                 }
             }
         }
-        
-        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize), (int)(gp.tileSize), null);
+
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         
         if(gp.devMode)
         {
@@ -247,7 +247,7 @@ public class Player extends Entity
             int y = (gp.tileSize * 5);
             g2.drawString(text,x,y); 
             
-            text = String.format(" K/L keys");
+            text = " K/L keys";
             y += gp.tileSize/4;
             g2.drawString(text,x,y); 
         }
