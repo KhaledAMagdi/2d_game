@@ -27,4 +27,3 @@ public class Main
         gamePanel.startGameThread();
     }
 }
-//<3
