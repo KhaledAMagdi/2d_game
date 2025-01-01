@@ -155,7 +155,6 @@ public class GamePanel extends JPanel implements Runnable
             ui.draw(g2);
             
             //-------event-------//
-            g2.drawRect(31* tileSize, 16 * tileSize, tileSize, tileSize);
             eventH.draw(g2);
         
             g2.dispose();

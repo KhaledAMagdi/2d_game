@@ -98,7 +98,7 @@ public class Player extends Entity
                 direction = "right";
             }
 
-            if(collisionOn)
+            if(!collisionOn)
             {
                switch(direction)
                {

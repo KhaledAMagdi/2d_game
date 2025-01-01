@@ -14,6 +14,9 @@ public class Entity
     public BufferedImage[] down = new BufferedImage[12];
     public BufferedImage[] right = new BufferedImage[12];
     public BufferedImage[] left = new BufferedImage[12];
+    public BufferedImage[] idle;
+    public boolean idleOn = false;
+    public boolean moving = false;
     public String direction = "down";
     public int spriteCounter = 0;
     public int spriteNum = 1;

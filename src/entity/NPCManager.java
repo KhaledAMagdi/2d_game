@@ -12,7 +12,7 @@ public class NPCManager
     GamePanel gp;
     public Entity[] npcs;
     int numOfImages = 4;
-    int npcNum=2;
+    int npcNum=3;
     
     public NPCManager(GamePanel gp)
     {
@@ -24,8 +24,7 @@ public class NPCManager
         getNPCImage();
     }
 
-    private void initiateNPCs()
-    {   
+    private void initiateNPCs() {
 //---------------Template---------------//
 //        npcs[0] = new Entity(gp);
 //        npcs[0].name = "name";
@@ -51,12 +50,12 @@ public class NPCManager
         npcs[0].left = new BufferedImage[numOfImages];
         npcs[0].worldX = 32 * gp.tileSize;
         npcs[0].worldY = 10 * gp.tileSize;
-        npcs[0].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
+        npcs[0].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         npcs[0].solidAreaDefaultX = 0;
         npcs[0].solidAreaDefaultY = 0;
         npcs[0].dialogue = new String[1];
-        npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";   
-        
+        npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
+
         npcs[1] = new Entity();
         npcs[1].name = "chillguy";
         npcs[1].speed = 5;
@@ -66,39 +65,66 @@ public class NPCManager
         npcs[1].left = new BufferedImage[numOfImages];
         npcs[1].worldX = 20 * gp.tileSize;
         npcs[1].worldY = 10 * gp.tileSize;
-        npcs[1].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
+        npcs[1].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         npcs[1].solidAreaDefaultX = 0;
         npcs[1].solidAreaDefaultY = 0;
         npcs[1].dialogue = new String[1];
-        npcs[1].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu"; 
+        npcs[1].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
+
+        npcs[2] = new Entity();
+        npcs[2].name = "thor";
+        npcs[2].speed = 5;
+        npcs[2].idle = new BufferedImage[numOfImages];
+        npcs[2].idleOn = true;
+        npcs[2].direction = "idle";
+        npcs[2].worldX = 10 * gp.tileSize;
+        npcs[2].worldY = 10 * gp.tileSize;
+        npcs[2].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        npcs[2].solidAreaDefaultX = 0;
+        npcs[2].solidAreaDefaultY = 0;
+        npcs[2].dialogue = new String[1];
+        npcs[2].dialogue[0] = "thor BOY";
     }
     
     private void getNPCImage()
     {  
         for (Entity npc : npcs) 
         {
-            try{
-            for(int i = 0; i < numOfImages; i++)
+            try
             {
-                String file = String.format("/res/npcs/%s_up%d.png/",npc.name,i);
-                npc.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/npcs/%s_down%d.png/",npc.name,i);
-                npc.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/npcs/%s_right%d.png/",npc.name,i);
-                npc.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/npcs/%s_left%d.png/",npc.name,i);
-                npc.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-           }catch(IOException e)
+                if (!npc.idleOn)
+                {
+                    for (int i = 0; i < numOfImages; i++)
+                    {
+                        String file = String.format("/res/npcs/%s_up%d.png/", npc.name, i);
+                        npc.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                    }
+                    for (int i = 0; i < numOfImages; i++)
+                    {
+                        String file = String.format("/res/npcs/%s_down%d.png/", npc.name, i);
+                        npc.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                    }
+                    for (int i = 0; i < numOfImages; i++)
+                    {
+                        String file = String.format("/res/npcs/%s_right%d.png/", npc.name, i);
+                        npc.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                    }
+                    for (int i = 0; i < numOfImages; i++)
+                    {
+                        String file = String.format("/res/npcs/%s_left%d.png/", npc.name, i);
+                        npc.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < numOfImages; i++)
+                    {
+                        String file = String.format("/res/npcs/%s%d.png/", npc.name, i);
+                        npc.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                    }
+                }
+           }
+            catch(IOException e)
            {
                 System.out.println("Failed to load image");
            }
@@ -107,19 +133,23 @@ public class NPCManager
     
     public void speak(int index)
     {
+
         if(npcs[index].dialogueIndex >= npcs[index].dialogue.length)
         {
             npcs[index].dialogueIndex = 0;
         }
         gp.ui.currentDialogue = npcs[index].dialogue[npcs[index].dialogueIndex];
         npcs[index].dialogueIndex++;
-        
-        switch(gp.player.direction)
+
+        if(!npcs[index].idleOn)
         {
-            case "up" -> npcs[index].direction = "down";
-            case "down" -> npcs[index].direction = "up";
-            case "right" -> npcs[index].direction = "left";
-            case "left" -> npcs[index].direction = "right";
+            switch (gp.player.direction)
+            {
+                case "up" -> npcs[index].direction = "down";
+                case "down" -> npcs[index].direction = "up";
+                case "right" -> npcs[index].direction = "left";
+                case "left" -> npcs[index].direction = "right";
+            }
         }
     }
 
@@ -127,25 +157,26 @@ public class NPCManager
     {
         for (Entity npc : npcs) 
         {
+
             setAction();
 
-            if(npc.collisionOn == false)
+            if (!npc.collisionOn)
             {
-               switch(npc.direction)
-               {
+                switch (npc.direction)
+                {
                     case "up" -> npc.worldY -= npc.speed;
                     case "down" -> npc.worldY += npc.speed;
                     case "left" -> npc.worldX -= npc.speed;
                     case "right" -> npc.worldX += npc.speed;
-               }
+                }
             }
-            
+
+
             //Check tile collision
             npc.collisionOn = false;
             gp.cChecker.checkTile(npc);
             gp.cChecker.checkPlayer(npc);
-            //gp.cChecker.checkEntity(npc,npcs);
-        
+
             npc.spriteCounter++;
             
             if(npc.spriteCounter > 14)
@@ -164,29 +195,32 @@ public class NPCManager
     {
         for (Entity npc : npcs) 
         {
-            Random random = new Random();
-            int i = random.nextInt(100)+1;
-            npc.actionLock++;
-            
-            if(npc.actionLock == 120)
+            if(!npc.idleOn)
             {
-                if(i <= 25)
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+                npc.actionLock++;
+
+                if (npc.actionLock == 120)
                 {
-                    npc.direction = "up";
+                    if (i <= 25)
+                    {
+                        npc.direction = "up";
+                    }
+                    if (i > 25 && i <= 50)
+                    {
+                        npc.direction = "down";
+                    }
+                    if (i > 50 && i <= 75)
+                    {
+                        npc.direction = "left";
+                    }
+                    if (i > 75 && i <= 100)
+                    {
+                        npc.direction = "right";
+                    }
+                    npc.actionLock = 0;
                 }
-                if(i > 25 && i <= 50)
-                {
-                    npc.direction = "down";
-                }
-                if(i > 50 && i <= 75)
-                {
-                    npc.direction = "left";
-                }
-                if(i > 75 && i<= 100)
-                {
-                    npc.direction = "right";
-                }
-                npc.actionLock = 0;
             }
         }
     }
@@ -231,6 +265,14 @@ public class NPCManager
                             image = npc.right[i];
                     }
                 }
+                case "idle" ->
+                {
+                    for(int i = 0; i < numOfImages; i++)
+                    {
+                        if(npc.spriteNum == i+1)
+                            image = npc.idle[i];
+                    }
+                }
             }
         
             int screenX = npc.worldX - gp.player.worldX + gp.player.screenX;
@@ -246,3 +288,4 @@ public class NPCManager
         } 
     }
 }
+
