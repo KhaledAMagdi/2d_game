@@ -84,48 +84,27 @@ public class CollisionChecker
                     case "up" -> 
                     {
                         entity.solidArea.y -= entity.speed;
-                        //checks if 2 rectangles are colliding or not
-                        if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
-                        {
-                            if(gp.objectM.objs[i].collision == true)
-                                entity.collisionOn=true;
-                            if(player == true)
-                                index = i;
-                        }
                     }
                     case "down" -> 
                     {
                         entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
-                        {
-                            if(gp.objectM.objs[i].collision == true)
-                                entity.collisionOn=true;
-                            if(player == true)
-                                index = i;
-                        }
                     }
                     case "left" -> 
                     {
                         entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
-                        {
-                            if(gp.objectM.objs[i].collision == true)
-                                entity.collisionOn=true;
-                            if(player == true)
-                                index = i;
-                        }
                     }
                     case "right" -> 
                     {
                         entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
-                        {
-                            if(gp.objectM.objs[i].collision == true)
-                                entity.collisionOn=true;
-                            if(player == true)
-                                index = i;
-                        }
                     }
+                }
+
+                if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
+                {
+                    if(gp.objectM.objs[i].collision == true)
+                        entity.collisionOn=true;
+                    if(player == true)
+                        index = i;
                 }
                         
                 entity.solidArea.x = entity.solidAreaDefaultX;
@@ -160,39 +139,26 @@ public class CollisionChecker
                     case "up" -> 
                     {
                         entity.solidArea.y -= entity.speed;
-                        //checks if 2 rectangles are colliding or not
-                        if(entity.solidArea.intersects(target[i].solidArea))
-                        {
-                            entity.collisionOn=true;
-                            index = i;
-                        }
                     }
                     case "down" -> 
                     {
                         entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea))
-                        {
-                            entity.collisionOn=true;
-                            index = i;
-                        }
                     }
 			        case "left" ->
                     {
                         entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea))
-                        {
-                            entity.collisionOn=true;
-                            index = i;
-                        }
                     }
 			        case "right" ->
                     {
                         entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea))
-                        {
-                            entity.collisionOn=true;
-                            index = i;
-                        }
+                    }
+                }
+
+                if(entity.solidArea.intersects(target[i].solidArea))
+                {
+                    if(target[i] != entity) {
+                        entity.collisionOn = true;
+                        index = i;
                     }
                 }
                         
@@ -206,55 +172,35 @@ public class CollisionChecker
     	return index;	
     }
     
-    public void checkPlayer(Entity entity)
+    public boolean checkPlayer(Entity entity)
     {
+        boolean contact = false;
+
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
         entity.solidArea.y = entity.worldY + entity.solidArea.y;
                 
         //Get object's solid area position
         gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
         gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
-			
-        switch(entity.direction)
+
+        switch (entity.direction) {
+            case "up" -> entity.solidArea.y -= entity.speed;
+            case "down" -> entity.solidArea.y += entity.speed;
+            case "left" -> entity.solidArea.x -= entity.speed;
+            case "right" -> entity.solidArea.x += entity.speed;
+        }
+
+        if(entity.solidArea.intersects(gp.player.solidArea))
         {
-            case "up" -> 
-            {
-                entity.solidArea.y -= entity.speed;
-                //checks if 2 rectangles are colliding or not
-                if(entity.solidArea.intersects(gp.player.solidArea))
-                {
-                    entity.collisionOn=true;
-                }
-            }
-            case "down" -> 
-            {
-                entity.solidArea.y += entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea))
-                {
-                    entity.collisionOn=true;
-                }
-            }
-            case "left" -> 
-            {
-                entity.solidArea.x -= entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea))
-                {
-                    entity.collisionOn=true;
-                }
-            }
-            case "right" -> 
-            {
-                entity.solidArea.x += entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea))
-                {
-                    entity.collisionOn=true;
-                }
-            }
+            entity.collisionOn=true;
+            contact = true;
         }
                 
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-        gp.player.solidArea.y = gp.player.solidAreaDefaultY;   
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+        return contact;
     }
 }

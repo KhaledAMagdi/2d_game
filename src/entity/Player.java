@@ -2,10 +2,8 @@ package entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -123,7 +121,10 @@ public class Player extends Entity
             //Check NPC collision
             int npcIndex = gp.cChecker.checkEntity(this,gp.npcM.npcs);
             interactNPC(npcIndex);
-        
+
+            int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monster);
+            contactMonster(monsterIndex);
+
             spriteCounter++;
             if(spriteCounter > 11)
             {
@@ -139,7 +140,17 @@ public class Player extends Entity
         {
             spriteCounter = 0;
             spriteNum = 1;
-        }   
+        }
+
+        if(invincible)
+        {
+            invincibleTimer++;
+            if(invincibleTimer > 60)
+            {
+                invincible = false;
+                invincibleTimer = 0;
+            }
+        }
     }
     
     public boolean pickUpObject(int i)
@@ -190,7 +201,17 @@ public class Player extends Entity
         }
         return false;
     }
-            
+
+    public void contactMonster(int i)
+    {
+        if(i != 999)
+        {
+            if(!invincible) {
+                life--;
+                invincible = true;
+            }
+        }
+    }
             
     public void draw(Graphics2D g2)
     {
@@ -232,10 +253,19 @@ public class Player extends Entity
             }
         }
 
+        if(invincible)
+        {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        }
+
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         
         if(gp.devMode)
         {
+            System.out.println("invinsibletimer: "+invincibleTimer);
+
             g2.setColor(Color.magenta);
             g2.drawRect(screenX + solidArea.x,screenY + solidArea.y, solidArea.width, solidArea.height);
             
