@@ -12,7 +12,6 @@ public class MonsterManager
 {
     GamePanel gp;
     public Entity[] monster;
-    int numOfImages = 2;
     int npcNum=1;
 
     public MonsterManager(GamePanel gp)
@@ -27,14 +26,15 @@ public class MonsterManager
 
     private void initiateMonsters()
     {
-        monster[0] = new Entity();
+        monster[0] = new Entity(gp);
         monster[0].type = 2;
         monster[0].name = "bat";
         monster[0].speed = 3;
-        monster[0].idle = new BufferedImage[numOfImages];
-        monster[0].worldX = 20 * gp.tileSize;
+        monster[0].numOfImages = 2;
+        monster[0].idle = new BufferedImage[monster[0].numOfImages];
+        monster[0].worldX = 10 * gp.tileSize;
         monster[0].worldY = 9 * gp.tileSize;
-        monster[0].solidArea = new Rectangle(60, 60, (int)(gp.tileSize*0.5), (int)(gp.tileSize*0.5));
+        monster[0].solidArea = new Rectangle(0, 0, (int)(gp.tileSize*0.5), (int)(gp.tileSize*0.5));
         monster[0].solidAreaDefaultX = monster[0].solidArea.x;
         monster[0].solidAreaDefaultY = monster[0].solidArea.y;
         monster[0].direction = "idle";
@@ -48,10 +48,30 @@ public class MonsterManager
         {
             try
             {
-                for (int i = 0; i < numOfImages; i++)
+                for (int i = 0; i < monster.numOfImages; i++)
                 {
                     String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
                     monster.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                }
+                for (int i = 0; i < monster.numOfImages; i++)
+                {
+                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
+                    monster.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                }
+                for (int i = 0; i < monster.numOfImages; i++)
+                {
+                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
+                    monster.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                }
+                for (int i = 0; i < monster.numOfImages; i++)
+                {
+                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
+                    monster.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
+                }
+                for (int i = 0; i < monster.numOfImages; i++)
+                {
+                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
+                    monster.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
                 }
             }
             catch(IOException e)
@@ -112,7 +132,7 @@ public class MonsterManager
             monster.spriteCounter++;
 
             if (monster.spriteCounter > 14) {
-                if (monster.spriteNum < numOfImages)
+                if (monster.spriteNum < monster.numOfImages)
                     monster.spriteNum++;
                 else
                     monster.spriteNum = 1;
@@ -130,34 +150,13 @@ public class MonsterManager
                 }
             }
         }
-
     }
 
-    public void draw(Graphics2D g2) {
-        for (Entity monster : monster) {
-            BufferedImage image = null;
-
-            for (int i = 0; i < numOfImages; i++) {
-                if (monster.spriteNum == i + 1)
-                    image = monster.idle[i];
-            }
-
-            int screenX = monster.worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = monster.worldY - gp.player.worldY + gp.player.screenY;
-
-            if(monster.invincible)
-            {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            }
-
-            g2.drawImage(image, screenX, screenY, gp.tileSize*2, (int) (gp.tileSize*2), null);
-
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
-            if (gp.devMode) {
-                g2.setColor(Color.magenta);
-                g2.drawRect(screenX + monster.solidArea.x, screenY + monster.solidArea.y, monster.solidArea.width, monster.solidArea.height);
-            }
+    public void draw(Graphics2D g2)
+    {
+        for(Entity monster : monster)
+        {
+            monster.draw(g2);
         }
     }
 }

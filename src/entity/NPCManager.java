@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 public class NPCManager {
     GamePanel gp;
     public Entity[] npcs;
-    int numOfImages = 4;
     int npcNum = 2;
 
     public NPCManager(GamePanel gp) {
@@ -40,14 +39,15 @@ public class NPCManager {
 //        npcs[0].dialogue = new String[number oof dialogues];
 //        npcs[0].dialogue[0] = "dialogue";
 //---------------Set objects for UI---------------//        
-        npcs[0] = new Entity();
+        npcs[0] = new Entity(gp);
         npcs[0].type = 1;
         npcs[0].name = "farmer";
         npcs[0].speed = 3;
-        npcs[0].up = new BufferedImage[numOfImages];
-        npcs[0].down = new BufferedImage[numOfImages];
-        npcs[0].right = new BufferedImage[numOfImages];
-        npcs[0].left = new BufferedImage[numOfImages];
+        npcs[0].numOfImages = 4;
+        npcs[0].up = new BufferedImage[npcs[0].numOfImages];
+        npcs[0].down = new BufferedImage[npcs[0].numOfImages];
+        npcs[0].right = new BufferedImage[npcs[0].numOfImages];
+        npcs[0].left = new BufferedImage[npcs[0].numOfImages];
         npcs[0].worldX = 12 * gp.tileSize;
         npcs[0].worldY = 10 * gp.tileSize;
         npcs[0].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
@@ -57,14 +57,15 @@ public class NPCManager {
         npcs[0].dialogue = new String[1];
         npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
 
-        npcs[1] = new Entity();
+        npcs[1] = new Entity(gp);
         npcs[1].type = 1;
         npcs[1].name = "chillguy";
         npcs[1].speed = 3;
-        npcs[1].up = new BufferedImage[numOfImages];
-        npcs[1].down = new BufferedImage[numOfImages];
-        npcs[1].right = new BufferedImage[numOfImages];
-        npcs[1].left = new BufferedImage[numOfImages];
+        npcs[1].numOfImages = 4;
+        npcs[1].up = new BufferedImage[npcs[1].numOfImages];
+        npcs[1].down = new BufferedImage[npcs[1].numOfImages];
+        npcs[1].right = new BufferedImage[npcs[1].numOfImages];
+        npcs[1].left = new BufferedImage[npcs[1].numOfImages];
         npcs[1].worldX = 10 * gp.tileSize;
         npcs[1].worldY = 10 * gp.tileSize;
         npcs[1].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
@@ -79,24 +80,24 @@ public class NPCManager {
         for (Entity npc : npcs) {
             try {
                 if (!npc.idleOn) {
-                    for (int i = 0; i < numOfImages; i++) {
+                    for (int i = 0; i < npc.numOfImages; i++) {
                         String file = String.format("/res/npcs/%s_up%d.png/", npc.name, i);
                         npc.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
                     }
-                    for (int i = 0; i < numOfImages; i++) {
+                    for (int i = 0; i < npc.numOfImages; i++) {
                         String file = String.format("/res/npcs/%s_down%d.png/", npc.name, i);
                         npc.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
                     }
-                    for (int i = 0; i < numOfImages; i++) {
+                    for (int i = 0; i < npc.numOfImages; i++) {
                         String file = String.format("/res/npcs/%s_right%d.png/", npc.name, i);
                         npc.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
                     }
-                    for (int i = 0; i < numOfImages; i++) {
+                    for (int i = 0; i < npc.numOfImages; i++) {
                         String file = String.format("/res/npcs/%s_left%d.png/", npc.name, i);
                         npc.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
                     }
                 } else {
-                    for (int i = 0; i < numOfImages; i++) {
+                    for (int i = 0; i < npc.numOfImages; i++) {
                         String file = String.format("/res/npcs/%s%d.png/", npc.name, i);
                         npc.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
                     }
@@ -149,7 +150,7 @@ public class NPCManager {
             npc.spriteCounter++;
 
             if (npc.spriteCounter > 14) {
-                if (npc.spriteNum < numOfImages)
+                if (npc.spriteNum < npc.numOfImages)
                     npc.spriteNum++;
                 else
                     npc.spriteNum = 1;
@@ -185,52 +186,11 @@ public class NPCManager {
         }
     }
 
-    public void draw(Graphics2D g2) {
-        for (Entity npc : npcs) {
-            BufferedImage image = null;
-
-            switch (npc.direction) {
-                case "up" -> {
-                    for (int i = 0; i < numOfImages; i++) {
-                        if (npc.spriteNum == i + 1)
-                            image = npc.up[i];
-                    }
-                }
-                case "down" -> {
-                    for (int i = 0; i < numOfImages; i++) {
-                        if (npc.spriteNum == i + 1)
-                            image = npc.down[i];
-                    }
-                }
-                case "left" -> {
-                    for (int i = 0; i < numOfImages; i++) {
-                        if (npc.spriteNum == i + 1)
-                            image = npc.left[i];
-                    }
-                }
-                case "right" -> {
-                    for (int i = 0; i < numOfImages; i++) {
-                        if (npc.spriteNum == i + 1)
-                            image = npc.right[i];
-                    }
-                }
-                case "idle" -> {
-                    for (int i = 0; i < numOfImages; i++) {
-                        if (npc.spriteNum == i + 1)
-                            image = npc.idle[i];
-                    }
-                }
-            }
-
-            int screenX = npc.worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = npc.worldY - gp.player.worldY + gp.player.screenY;
-
-            g2.drawImage(image, screenX, screenY, gp.tileSize, (int) (gp.tileSize * 1.5), null);
-
-            if (gp.devMode) {
-                g2.setColor(Color.magenta);
-                g2.drawRect(screenX + npc.solidArea.x, screenY + npc.solidArea.y, npc.solidArea.width, npc.solidArea.height);
-            }
+    public void draw(Graphics2D g2)
+    {
+        for(Entity npc : npcs)
+        {
+            npc.draw(g2);
         }
     }
 }
