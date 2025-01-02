@@ -20,11 +20,7 @@ public class Entity
     public BufferedImage[] slashdown = new BufferedImage[5];
     public BufferedImage[] slashright = new BufferedImage[5];
     public BufferedImage[] slashleft = new BufferedImage[5];
-
     public boolean attacking = false;
-    public boolean alive = true;
-    public boolean dead = false;
-    int dyingCounter = 0;
 
     public boolean idleOn = false;
     public String direction = "down";
