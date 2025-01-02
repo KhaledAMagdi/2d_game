@@ -18,7 +18,6 @@ public class Entity
     public BufferedImage[] idle;
 
     public boolean idleOn = false;
-    public boolean moving = false;
     public String direction = "down";
 
     public int spriteCounter = 0;

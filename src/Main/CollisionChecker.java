@@ -78,32 +78,19 @@ public class CollisionChecker
                 //Get object's solid area position
                 gp.objectM.objs[i].solidArea.x = gp.objectM.objs[i].worldX + gp.objectM.objs[i].solidArea.x;
                 gp.objectM.objs[i].solidArea.y = gp.objectM.objs[i].worldY + gp.objectM.objs[i].solidArea.y;
-    			
-                switch(entity.direction)
-                {
-                    case "up" -> 
-                    {
-                        entity.solidArea.y -= entity.speed;
-                    }
-                    case "down" -> 
-                    {
-                        entity.solidArea.y += entity.speed;
-                    }
-                    case "left" -> 
-                    {
-                        entity.solidArea.x -= entity.speed;
-                    }
-                    case "right" -> 
-                    {
-                        entity.solidArea.x += entity.speed;
-                    }
+
+                switch (entity.direction) {
+                    case "up" -> entity.solidArea.y -= entity.speed;
+                    case "down" -> entity.solidArea.y += entity.speed;
+                    case "left" -> entity.solidArea.x -= entity.speed;
+                    case "right" -> entity.solidArea.x += entity.speed;
                 }
 
                 if(entity.solidArea.intersects(gp.objectM.objs[i].solidArea))
                 {
-                    if(gp.objectM.objs[i].collision == true)
+                    if(gp.objectM.objs[i].collision)
                         entity.collisionOn=true;
-                    if(player == true)
+                    if(player)
                         index = i;
                 }
                         
@@ -133,25 +120,12 @@ public class CollisionChecker
                 //Get object's solid area position
                 target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
                 target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
-    			
-                switch(entity.direction)
-                {
-                    case "up" -> 
-                    {
-                        entity.solidArea.y -= entity.speed;
-                    }
-                    case "down" -> 
-                    {
-                        entity.solidArea.y += entity.speed;
-                    }
-			        case "left" ->
-                    {
-                        entity.solidArea.x -= entity.speed;
-                    }
-			        case "right" ->
-                    {
-                        entity.solidArea.x += entity.speed;
-                    }
+
+                switch (entity.direction) {
+                    case "up" -> entity.solidArea.y -= entity.speed;
+                    case "down" -> entity.solidArea.y += entity.speed;
+                    case "left" -> entity.solidArea.x -= entity.speed;
+                    case "right" -> entity.solidArea.x += entity.speed;
                 }
 
                 if(entity.solidArea.intersects(target[i].solidArea))
