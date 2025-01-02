@@ -47,4 +47,4 @@ public class Entity
 
     public int type = 0; // 0->player 1->npc 2->monster
 }
-//yo
+//yoyo
