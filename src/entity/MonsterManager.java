@@ -119,7 +119,18 @@ public class MonsterManager
 
                 monster.spriteCounter = 0;
             }
+
+            if(monster.invincible)
+            {
+                monster.invincibleTimer++;
+                if(monster.invincibleTimer > 60)
+                {
+                    monster.invincible = false;
+                    monster.invincibleTimer = 0;
+                }
+            }
         }
+
     }
 
     public void draw(Graphics2D g2) {
@@ -134,7 +145,14 @@ public class MonsterManager
             int screenX = monster.worldX - gp.player.worldX + gp.player.screenX;
             int screenY = monster.worldY - gp.player.worldY + gp.player.screenY;
 
+            if(monster.invincible)
+            {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            }
+
             g2.drawImage(image, screenX, screenY, gp.tileSize*2, (int) (gp.tileSize*2), null);
+
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
             if (gp.devMode) {
                 g2.setColor(Color.magenta);

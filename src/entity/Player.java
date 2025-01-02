@@ -306,14 +306,12 @@ public class Player extends Entity
     }
     public void damageMonster(int i)
     {
-        if(i != 999)
+        if(i != 999 && !gp.monsterM.monster[i].invincible)
         {
             System.out.println("Hit!");
             gp.monsterM.monster[i].life -= 1;
-//            if(gp.monsterM.monster[i].life <= 0) //need to implement death for player to make monster die
-//            {
-//                gp.monsterM.monster[i] = null;
-//            }
+            System.out.println(gp.monsterM.monster[i].life);
+            gp.monsterM.monster[i].invincible = true;
         }
         else
         {
