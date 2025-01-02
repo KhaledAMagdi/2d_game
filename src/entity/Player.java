@@ -312,6 +312,10 @@ public class Player extends Entity
             gp.monsterM.monster[i].life -= 1;
             System.out.println(gp.monsterM.monster[i].life);
             gp.monsterM.monster[i].invincible = true;
+            if(gp.monsterM.monster[i].life <= 0)
+            {
+                gp.monsterM.monster[i].dead = true;
+            }
         }
         else
         {

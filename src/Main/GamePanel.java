@@ -2,6 +2,7 @@ package Main;
 
 import Event.EventHandler;
 import Object.ObjectManager;
+import entity.Entity;
 import entity.MonsterManager;
 import tile.TileManager;
 import entity.Player;
@@ -114,7 +115,16 @@ public class GamePanel extends JPanel implements Runnable {
             case playState -> {
                 player.update();
                 npcM.update();
-                monsterM.update();
+                if (monsterM.monster != null) {
+                    for (Entity monster : monsterM.monster) {
+                        if (monster != null) {
+                            if (monster.alive == true && monster.dead == false)
+                                monsterM.update();
+                        }
+                        if (monster.alive == false)
+                            monster = null;
+                    }
+                }
             }
             case pauseState -> {
 

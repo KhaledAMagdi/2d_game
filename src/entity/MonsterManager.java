@@ -8,15 +8,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-public class MonsterManager
-{
+import static java.lang.Math.abs;
+
+public class MonsterManager {
     GamePanel gp;
     public Entity[] monster;
     int numOfImages = 2;
-    int npcNum=1;
+    public int npcNum = 1;
 
-    public MonsterManager(GamePanel gp)
-    {
+    public MonsterManager(GamePanel gp) {
         this.gp = gp;
 
         monster = new Entity[npcNum];
@@ -25,8 +25,7 @@ public class MonsterManager
         getImage();
     }
 
-    private void initiateMonsters()
-    {
+    private void initiateMonsters() {
         monster[0] = new Entity();
         monster[0].type = 2;
         monster[0].name = "bat";
@@ -34,7 +33,7 @@ public class MonsterManager
         monster[0].idle = new BufferedImage[numOfImages];
         monster[0].worldX = 20 * gp.tileSize;
         monster[0].worldY = 9 * gp.tileSize;
-        monster[0].solidArea = new Rectangle(60, 60, (int)(gp.tileSize*0.5), (int)(gp.tileSize*0.5));
+        monster[0].solidArea = new Rectangle(60, 60, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
         monster[0].solidAreaDefaultX = monster[0].solidArea.x;
         monster[0].solidAreaDefaultY = monster[0].solidArea.y;
         monster[0].direction = "idle";
@@ -42,20 +41,14 @@ public class MonsterManager
         monster[0].life = monster[0].maxLife;
     }
 
-    public void getImage()
-    {
-        for (Entity monster : monster)
-        {
-            try
-            {
-                for (int i = 0; i < numOfImages; i++)
-                {
+    public void getImage() {
+        for (Entity monster : monster) {
+            try {
+                for (int i = 0; i < numOfImages; i++) {
                     String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
                     monster.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
                 }
-            }
-            catch(IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println("Failed to load image");
             }
         }
@@ -102,9 +95,8 @@ public class MonsterManager
             //Check tile collision
             monster.collisionOn = false;
             gp.cChecker.checkTile(monster);
-
-            if(gp.cChecker.checkPlayer(monster) && !gp.player.invincible)
-            {
+            //Monster Damage
+            if (gp.cChecker.checkPlayer(monster) && !gp.player.invincible) {
                 gp.player.life--;
                 gp.player.invincible = true;
             }
@@ -120,11 +112,9 @@ public class MonsterManager
                 monster.spriteCounter = 0;
             }
 
-            if(monster.invincible)
-            {
+            if (monster.invincible) {
                 monster.invincibleTimer++;
-                if(monster.invincibleTimer > 60)
-                {
+                if (monster.invincibleTimer > 60) {
                     monster.invincible = false;
                     monster.invincibleTimer = 0;
                 }
@@ -133,30 +123,55 @@ public class MonsterManager
 
     }
 
+    public void deathAnimation(Graphics2D g2) {
+        float flip = 0;
+        for (int i = 0; i < npcNum; i++) {
+            monster[i].dyingCounter++;
+            for (int j = 0; j <= 40; j += 5) //Blinking effect
+            {
+                if (monster[i].dyingCounter > j && monster[i].dyingCounter <= j + 5) {
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, flip));
+                    flip = abs(flip - 1);
+                }
+            }
+            if (monster[i].dyingCounter > 40) {
+                monster[i].dead = true;
+                monster[i].alive = false;
+            }
+        }
+
+
+    }
+
+
     public void draw(Graphics2D g2) {
         for (Entity monster : monster) {
             BufferedImage image = null;
-
-            for (int i = 0; i < numOfImages; i++) {
-                if (monster.spriteNum == i + 1)
-                    image = monster.idle[i];
-            }
-
-            int screenX = monster.worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = monster.worldY - gp.player.worldY + gp.player.screenY;
-
-            if(monster.invincible)
+            if (monster != null)
             {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            }
+                for (int i = 0; i < numOfImages; i++) {
+                    if (monster.spriteNum == i + 1)
+                        image = monster.idle[i];
+                }
 
-            g2.drawImage(image, screenX, screenY, gp.tileSize*2, (int) (gp.tileSize*2), null);
+                int screenX = monster.worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = monster.worldY - gp.player.worldY + gp.player.screenY;
 
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+                if (monster.invincible) {
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+                }
+                if (monster.dead = true) {
+                    deathAnimation(g2);
+                }
 
-            if (gp.devMode) {
-                g2.setColor(Color.magenta);
-                g2.drawRect(screenX + monster.solidArea.x, screenY + monster.solidArea.y, monster.solidArea.width, monster.solidArea.height);
+                g2.drawImage(image, screenX, screenY, gp.tileSize * 2, (int) (gp.tileSize * 2), null);
+
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+                if (gp.devMode) {
+                    g2.setColor(Color.magenta);
+                    g2.drawRect(screenX + monster.solidArea.x, screenY + monster.solidArea.y, monster.solidArea.width, monster.solidArea.height);
+                }
             }
         }
     }
