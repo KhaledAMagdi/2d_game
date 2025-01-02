@@ -18,6 +18,7 @@ public class Player extends Entity
     public int hasKey =0;
     
     int numOfImages = 12;
+    int numOfSlashImages = 5;
     
     public Player(GamePanel gp, KeyHandler  keyH)
     {
@@ -29,6 +30,7 @@ public class Player extends Entity
         screenY = gp.screenHeight/2 - (gp.tileSize / 2);
         
         solidArea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), gp.tileSize/3, gp.tileSize/3);
+        attackarea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), 20, 20); //change width and height to change attack range
         solidAreaDefaultX = (gp.tileSize/2)-((gp.tileSize/3)/2);
         solidAreaDefaultY = (gp.tileSize/2)-((gp.tileSize/3)/2);
         setDefaultValues();
@@ -69,6 +71,26 @@ public class Player extends Entity
                 String file = String.format("/res/player/left%03d.png/",i);
                 left[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/player/slashdown%d.png/",i);
+                slashdown[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/player/slashup%d.png/",i);
+                slashup[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/player/slashleft%d.png/",i);
+                slashleft[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/player/slashright%d.png/",i);
+                slashright[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
            }catch(IOException e)
            {
                 System.out.println("Failed to load image");
@@ -77,7 +99,12 @@ public class Player extends Entity
     
     public void update()
     {
-        if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed)
+        if(attacking == true)
+        {
+            attacking();
+        }
+
+       else if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed)
         {
             if(keyH.upPressed)
             {  
@@ -128,12 +155,25 @@ public class Player extends Entity
             spriteCounter++;
             if(spriteCounter > 11)
             {
-                if(spriteNum < numOfImages)
-                    spriteNum++;
+                if(!attacking)
+                {
+                    if(spriteNum < numOfImages)
+                        spriteNum++;
+                    else
+                        spriteNum = 1;
+
+                    spriteCounter = 0;
+                }
                 else
-                    spriteNum = 1;
-            
-                spriteCounter = 0;
+                {
+                    if(spriteNum < numOfSlashImages)
+                        spriteNum++;
+                    else
+                        spriteNum = 1;
+
+                    spriteCounter = 0;
+                }
+
             }
         }
         else
@@ -199,7 +239,59 @@ public class Player extends Entity
             
             return true;
         }
+        else
+        {
+            if(gp.keyH.rpressed == true)
+            {
+                attacking = true;
+            }
+        }
+
         return false;
+    }
+    public void attacking()
+    {
+        spriteCounter++;
+
+        if(spriteCounter <= 5)  //if within first 5 frames load attack image 1
+        {
+            spriteNum = 1;
+        }
+        if(spriteCounter > 5 && spriteCounter <= 25)
+        {
+            spriteNum = 2;
+            //Save current worldX, worldY and solidArea
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int solidAreaWidth = solidArea.width;
+            int solidAreaHeight = solidArea.height;
+
+            //Adujyst player worldX and Y for attack area
+            switch(direction)
+            {
+                case "up": worldY -= attackarea.height; break;
+                case "down": worldY += attackarea.height; break;
+                case "left": worldX -= attackarea.width; break;
+                case "right": worldX += attackarea.width; break;
+            }
+            //attack Area becomes solid area
+            solidArea.width = attackarea.width;
+            solidArea.height = attackarea.height;
+
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monster);
+            damageMonster(monsterIndex);
+
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            solidArea.width = solidAreaWidth;
+            solidArea.height = solidAreaHeight;
+        }
+        if(spriteCounter > 25)
+        {
+            spriteNum = 1;
+            spriteCounter = 0;
+            attacking = false;
+        }
     }
 
     public void contactMonster(int i)
@@ -212,6 +304,22 @@ public class Player extends Entity
             }
         }
     }
+    public void damageMonster(int i)
+    {
+        if(i != 999)
+        {
+            System.out.println("Hit!");
+            gp.monsterM.monster[i].life -= 1;
+//            if(gp.monsterM.monster[i].life <= 0) //need to implement death for player to make monster die
+//            {
+//                gp.monsterM.monster[i] = null;
+//            }
+        }
+        else
+        {
+            System.out.println("Miss!");
+        }
+    }
             
     public void draw(Graphics2D g2)
     {
@@ -221,34 +329,79 @@ public class Player extends Entity
         {
             case "up" ->
             {
-                for(int i = 0; i < numOfImages; i++)
+                if(!attacking)
                 {
-                    if(spriteNum == i+1)
-                        image = up[i];
+                    for(int i = 0; i < numOfImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = up[i];
+                    }
                 }
+                else if(attacking)
+                {
+                    for(int i = 0; i < numOfSlashImages; i++) //Screen adjustments may be needed if slash image changes players position (video 26 min 15)
+                    {
+                        if(spriteNum == i+1)
+                            image = slashup[i];
+                    }
+                }
+
             }
             case "down" ->
             {
-                for(int i = 0; i < numOfImages; i++)
+                if(!attacking)
                 {
-                    if(spriteNum == i+1)
-                        image = down[i];
+                    for(int i = 0; i < numOfImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = down[i];
+                    }
+                }
+                else if(attacking)
+                {
+                    for(int i = 0; i < numOfSlashImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = slashdown[i];
+                    }
                 }
             }
             case "left" ->
             {
-                for(int i = 0; i < numOfImages; i++)
+                if(!attacking)
                 {
-                    if(spriteNum == i+1)
-                        image = left[i];
+                    for(int i = 0; i < numOfImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = left[i];
+                    }
+                }
+                else if(attacking)
+                {
+                    for(int i = 0; i < numOfSlashImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = slashleft[i];
+                    }
                 }
             }
             case "right" ->
             {
-                for(int i = 0; i < numOfImages; i++)
+                if(!attacking)
                 {
-                    if(spriteNum == i+1)
-                        image = right[i];
+                    for(int i = 0; i < numOfImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = right[i];
+                    }
+                }
+                else if(attacking)
+                {
+                    for(int i = 0; i < numOfSlashImages; i++)
+                    {
+                        if(spriteNum == i+1)
+                            image = slashright[i];
+                    }
                 }
             }
         }

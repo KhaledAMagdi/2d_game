@@ -16,6 +16,11 @@ public class Entity
     public BufferedImage[] right = new BufferedImage[12];
     public BufferedImage[] left = new BufferedImage[12];
     public BufferedImage[] idle;
+    public BufferedImage[] slashup = new BufferedImage[5];
+    public BufferedImage[] slashdown = new BufferedImage[5];
+    public BufferedImage[] slashright = new BufferedImage[5];
+    public BufferedImage[] slashleft = new BufferedImage[5];
+    public boolean attacking = false;
 
     public boolean idleOn = false;
     public String direction = "down";
@@ -25,6 +30,7 @@ public class Entity
 
     public int actionLock = 0;
     public Rectangle solidArea;
+    public Rectangle attackarea;
 
     public boolean collisionOn = false;
     public int solidAreaDefaultX = 0;
