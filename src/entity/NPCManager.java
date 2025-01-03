@@ -118,6 +118,7 @@ public class NPCManager {
             gp.cChecker.checkTile(npc);
             gp.cChecker.checkPlayer(npc);
             gp.cChecker.checkEntity(npc, npcs);
+            gp.cChecker.checkEntity(npc, gp.monsterM.monsters);
 
             npc.spriteCounter++;
 
@@ -134,25 +135,7 @@ public class NPCManager {
 
     public void setAction() {
         for (Entity npc : npcs) {
-                Random random = new Random();
-                int i = random.nextInt(100) + 1;
-                npc.actionLock++;
-
-                if (npc.actionLock == 120) {
-                    if (i <= 25) {
-                        npc.direction = "up";
-                    }
-                    if (i > 25 && i <= 50) {
-                        npc.direction = "down";
-                    }
-                    if (i > 50 && i <= 75) {
-                        npc.direction = "left";
-                    }
-                    if (i > 75 && i <= 100) {
-                        npc.direction = "right";
-                    }
-                    npc.actionLock = 0;
-                }
+            npc.setAction();
         }
     }
 

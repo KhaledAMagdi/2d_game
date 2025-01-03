@@ -4,9 +4,6 @@ import Main.GamePanel;
 import Main.KeyHandler;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class Player extends Entity
 {
@@ -100,7 +97,7 @@ public class Player extends Entity
             interactNPC(npcIndex);
 
             //Check monster collision
-            int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monster);
+            int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monsters);
             contactMonster(monsterIndex);
 
             spriteCounter++;
@@ -229,7 +226,7 @@ public class Player extends Entity
             solidArea.width = attackarea.width;
             solidArea.height = attackarea.height;
 
-            int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monster);
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
             damageMonster(monsterIndex);
 
             worldX = currentWorldX;
@@ -255,14 +252,15 @@ public class Player extends Entity
             }
         }
     }
+
     public void damageMonster(int i)
     {
-        if(i != 999 && !gp.monsterM.monster[i].invincible)
+        if(i != 999 && !gp.monsterM.monsters[i].invincible)
         {
             System.out.println("Hit!");
-            gp.monsterM.monster[i].life -= 1;
-            System.out.println(gp.monsterM.monster[i].life);
-            gp.monsterM.monster[i].invincible = true;
+            gp.monsterM.monsters[i].life -= 1;
+            System.out.println(gp.monsterM.monsters[i].life);
+            gp.monsterM.monsters[i].invincible = true;
         }
         else
         {
