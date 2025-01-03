@@ -3,17 +3,16 @@ package entity;
 import Main.GamePanel;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MonsterManager {
     GamePanel gp;
     public Entity[] monsters;
-    int npcNum = 1;
+    int monsterNum = 2;
 
     public MonsterManager(GamePanel gp) {
         this.gp = gp;
 
-        monsters = new Entity[npcNum];
+        monsters = new Entity[monsterNum];
 
         initiateMonsters();
         getImage();
@@ -30,8 +29,27 @@ public class MonsterManager {
         monsters[0].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
         monsters[0].solidAreaDefaultX = monsters[0].solidArea.x;
         monsters[0].solidAreaDefaultY = monsters[0].solidArea.y;
-        monsters[0].maxLife = 20;
+        monsters[0].maxLife = 4;
         monsters[0].life = monsters[0].maxLife;
+        monsters[0].attack = 3;
+        monsters[0].defense = 0;
+        monsters[0].exp = 3;
+
+        monsters[1] = new Entity(gp);
+        monsters[1].type = 2;
+        monsters[1].name = "bat_";
+        monsters[1].speed = 3;
+        monsters[1].numOfImages = 3;
+        monsters[1].worldX = 12 * gp.tileSize;
+        monsters[1].worldY = 9 * gp.tileSize;
+        monsters[1].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
+        monsters[1].solidAreaDefaultX = monsters[0].solidArea.x;
+        monsters[1].solidAreaDefaultY = monsters[0].solidArea.y;
+        monsters[1].maxLife = 4;
+        monsters[1].life = monsters[0].maxLife;
+        monsters[1].attack = 3;
+        monsters[1].defense = 0;
+        monsters[1].exp = 3;
     }
 
     public void getImage() {
@@ -54,7 +72,9 @@ public class MonsterManager {
                     monsters[i].update();
 
                     if (gp.cChecker.checkPlayer(monsters[i]) && !gp.player.invincible) {
-                        gp.player.life--;
+                        int damage = monsters[i].attack - gp.player.defense;
+                        if(damage < 0) damage = 0;
+                        gp.player.life -= damage;
                         gp.player.invincible = true;
                     }
 
@@ -71,7 +91,7 @@ public class MonsterManager {
 
                     if (monsters[i].invincible) {
                         monsters[i].invincibleTimer++;
-                        if (monsters[i].invincibleTimer > 60) {
+                        if (monsters[i].invincibleTimer > 30) {
                             monsters[i].invincible = false;
                             monsters[i].invincibleTimer = 0;
                         }

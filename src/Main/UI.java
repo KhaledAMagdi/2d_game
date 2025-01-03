@@ -3,6 +3,7 @@ package Main;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class UI {
     //-------variables needed-------//
@@ -11,9 +12,9 @@ public class UI {
     Font arial; //font
     Font Comic; //font
     Font Impact; //font
+    ArrayList<String> message = new ArrayList<>(); //object message
+    ArrayList<Integer> messageCounter = new ArrayList<>(); //message coounter
     public boolean messageOn = false; //object displays a message or not
-    public String message = ""; //object message
-    public int messageCounter = 0; //message counter
     public String currentDialogue = ""; //current dialogue to be drawn
     public int commandNum = 0; //game select
     BufferedImage heart, halfHeart, emptyHeart, keyImage; //images to be used in UI
@@ -32,9 +33,9 @@ public class UI {
     }
 
     //-------message to be displayed-------//
-    public void showMessage(String text) {
-        message = text;
-        messageOn = true;
+    public void addMessage(String text) {
+        message.add(text);
+        messageCounter.add(0);
     }
 
     //-------main draw method-------//
@@ -52,12 +53,13 @@ public class UI {
             if (gp.player.interactNPC(gp.cChecker.checkEntity(gp.player, gp.npcM.npcs)) || gp.player.pickUpObject(gp.cChecker.checkObject(gp.player, true)))
                 drawPlayerPrompt(); //player prompt draw method
 
-            drawKeys(); //keys in inventory draw method
+            //drawKeys(); //keys in inventory draw method
             drawPlayerLife(); //health bar draw method
+            drawMessage();
         }
         if (gp.gameState == gp.pauseState) {
             drawPauseScreen(); //pause menu draw method
-            drawKeys(); //keys in inventory draw method
+            //drawKeys(); //keys in inventory draw method
             drawPlayerLife(); //health bar draw method
         }
         if (gp.gameState == gp.dialogueState) {
@@ -69,29 +71,55 @@ public class UI {
         }
     }
 
-    //-------key in inventory-------//
-    public void drawKeys() {
-        int x = 0; //x position
-        int y = gp.tileSize * 2; //y position
-        g2.setFont(arial); //font
-        g2.setColor(Color.white); //colour of text
-        g2.drawImage(keyImage, x, y, gp.tileSize, gp.tileSize, null); //draws key image
-        g2.drawString("x " + gp.player.hasKey, x + gp.tileSize, y + gp.tileSize - 10); //draw amount of keys
+    public void drawMessage()
+    {
+        int messageX = gp.tileSize/2;
+        int messageY= gp.tileSize * 4;
 
-        if (messageOn == true)//new key aquired
-        {
-            g2.setFont(g2.getFont().deriveFont(20F));//sets font
-            g2.drawString(message, x + 20, y + gp.tileSize * 2);//draws said message
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,16F));
+        for(int i = 0; i < message.size(); i++) {
+            if (messageCounter.get(i) != null) {
+                g2.setColor(Color.black);
+                g2.drawString(message.get(i), messageX+2, messageY+2);
+                g2.setColor(Color.white);
+                g2.drawString(message.get(i), messageX, messageY);
 
-            messageCounter++;//increments message to be 
+                int counter = messageCounter.get(i) + 1;
+                messageCounter.set(i, counter);
+                messageY += 50;
 
-            if (messageCounter > 60) //message stays displayed for 60 frames
-            {
-                messageCounter = 0;
-                messageOn = false;
+                if(messageCounter.get(i) > 180)
+                {
+                    message.remove(i);
+                    messageCounter.remove(i);
+                }
             }
         }
     }
+
+//    //-------key in inventory-------//
+//    public void drawKeys() {
+//        int x = 0; //x position
+//        int y = gp.tileSize * 2; //y position
+//        g2.setFont(arial); //font
+//        g2.setColor(Color.white); //colour of text
+//        g2.drawImage(keyImage, x, y, gp.tileSize, gp.tileSize, null); //draws key image
+//        g2.drawString("x " + gp.player.hasKey, x + gp.tileSize, y + gp.tileSize - 10); //draw amount of keys
+//
+//        if (messageOn == true)//new key aquired
+//        {
+//            g2.setFont(g2.getFont().deriveFont(20F));//sets font
+//           // g2.drawString(message, x + 20, y + gp.tileSize * 2);//draws said message
+//
+//           // messageCounter++;//increments message to be
+//
+//            //if (messageCounter > 60) //message stays displayed for 60 frames
+//            {
+//               // messageCounter = 0;
+//                messageOn = false;
+//            }
+//        }
+//    }
 
     //-------player health bar-------//
     public void drawPlayerLife() {

@@ -39,46 +39,47 @@ public class NPCManager {
 //        npcs[0].dialogue = new String[number oof dialogues];
 //        npcs[0].dialogue[0] = "dialogue";
 //---------------Set objects for UI---------------//        
-        npcs[0] = new Entity(gp);
-        npcs[0].type = 1;
-        npcs[0].name = "farmer_";
-        npcs[0].speed = 3;
-        npcs[0].numOfImages = 4;
-        npcs[0].up = new BufferedImage[npcs[0].numOfImages];
-        npcs[0].down = new BufferedImage[npcs[0].numOfImages];
-        npcs[0].right = new BufferedImage[npcs[0].numOfImages];
-        npcs[0].left = new BufferedImage[npcs[0].numOfImages];
-        npcs[0].worldX = 12 * gp.tileSize;
-        npcs[0].worldY = 10 * gp.tileSize;
-        npcs[0].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        npcs[0].solidAreaDefaultX = 0;
-        npcs[0].solidAreaDefaultY = 0;
-        npcs[0].direction = "left";
-        npcs[0].dialogue = new String[1];
-        npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
-
-        npcs[1] = new Entity(gp);
-        npcs[1].type = 1;
-        npcs[1].name = "chillguy_";
-        npcs[1].speed = 3;
-        npcs[1].numOfImages = 4;
-        npcs[1].up = new BufferedImage[npcs[1].numOfImages];
-        npcs[1].down = new BufferedImage[npcs[1].numOfImages];
-        npcs[1].right = new BufferedImage[npcs[1].numOfImages];
-        npcs[1].left = new BufferedImage[npcs[1].numOfImages];
-        npcs[1].worldX = 10 * gp.tileSize;
-        npcs[1].worldY = 10 * gp.tileSize;
-        npcs[1].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        npcs[1].solidAreaDefaultX = 0;
-        npcs[1].solidAreaDefaultY = 0;
-        npcs[1].direction = "right";
-        npcs[1].dialogue = new String[1];
-        npcs[1].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
+//        npcs[0] = new Entity(gp);
+//        npcs[0].type = 1;
+//        npcs[0].name = "farmer_";
+//        npcs[0].speed = 3;
+//        npcs[0].numOfImages = 4;
+//        npcs[0].up = new BufferedImage[npcs[0].numOfImages];
+//        npcs[0].down = new BufferedImage[npcs[0].numOfImages];
+//        npcs[0].right = new BufferedImage[npcs[0].numOfImages];
+//        npcs[0].left = new BufferedImage[npcs[0].numOfImages];
+//        npcs[0].worldX = 12 * gp.tileSize;
+//        npcs[0].worldY = 10 * gp.tileSize;
+//        npcs[0].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+//        npcs[0].solidAreaDefaultX = 0;
+//        npcs[0].solidAreaDefaultY = 0;
+//        npcs[0].direction = "left";
+//        npcs[0].dialogue = new String[1];
+//        npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
+//
+//        npcs[1] = new Entity(gp);
+//        npcs[1].type = 1;
+//        npcs[1].name = "chillguy_";
+//        npcs[1].speed = 3;
+//        npcs[1].numOfImages = 4;
+//        npcs[1].up = new BufferedImage[npcs[1].numOfImages];
+//        npcs[1].down = new BufferedImage[npcs[1].numOfImages];
+//        npcs[1].right = new BufferedImage[npcs[1].numOfImages];
+//        npcs[1].left = new BufferedImage[npcs[1].numOfImages];
+//        npcs[1].worldX = 10 * gp.tileSize;
+//        npcs[1].worldY = 10 * gp.tileSize;
+//        npcs[1].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+//        npcs[1].solidAreaDefaultX = 0;
+//        npcs[1].solidAreaDefaultY = 0;
+//        npcs[1].direction = "right";
+//        npcs[1].dialogue = new String[1];
+//        npcs[1].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
     }
 
     private void getNPCImage() {
         for (Entity npc : npcs) {
-            npc.getImage();
+            if(npc != null)
+                npc.getImage();
         }
     }
 
@@ -100,18 +101,19 @@ public class NPCManager {
 
     public void update() {
         for (Entity npc : npcs) {
+            if (npc != null) {
+                npc.update();
 
-            npc.update();
+                npc.spriteCounter++;
 
-            npc.spriteCounter++;
+                if (npc.spriteCounter > 14) {
+                    if (npc.spriteNum < npc.numOfImages)
+                        npc.spriteNum++;
+                    else
+                        npc.spriteNum = 1;
 
-            if (npc.spriteCounter > 14) {
-                if (npc.spriteNum < npc.numOfImages)
-                    npc.spriteNum++;
-                else
-                    npc.spriteNum = 1;
-
-                npc.spriteCounter = 0;
+                    npc.spriteCounter = 0;
+                }
             }
         }
     }
@@ -126,7 +128,8 @@ public class NPCManager {
     {
         for(Entity npc : npcs)
         {
-            npc.draw(g2);
+            if(npc != null)
+                npc.draw(g2);
         }
     }
 }

@@ -164,7 +164,7 @@ public class Player extends Entity
                 case "key" -> 
                 {
                     hasKey++;
-                    gp.ui.showMessage(gp.objectM.objs[i].msgShown);
+                    gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                     gp.objectM.objs[i] = null;
                     System.out.println("Key:"+hasKey);
                 }
@@ -174,7 +174,7 @@ public class Player extends Entity
                     {
                         if(gp.keyH.enterPressed)
                         {
-                            gp.ui.showMessage(gp.objectM.objs[i].msgShown);
+                            gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                             gp.objectM.objs[i] = null;
                             hasKey--;
                             life--;
@@ -270,7 +270,9 @@ public class Player extends Entity
         if(i != 999)
         {
             if(!invincible) {
-                life--;
+                int damage = gp.monsterM.monsters[i].attack - defense;
+                if(damage < 0) damage = 0;
+                life -= damage;
                 invincible = true;
             }
         }
@@ -280,12 +282,38 @@ public class Player extends Entity
     {
         if(i != 999 && !gp.monsterM.monsters[i].invincible)
         {
-            gp.monsterM.monsters[i].life--;
+            int damage = attack - gp.monsterM.monsters[i].defense;
+            if(damage < 0) damage = 0;
+            gp.monsterM.monsters[i].life -= damage;
             gp.monsterM.monsters[i].invincible = true;
             gp.monsterM.monsters[i].damageReaction();
 
-            if(gp.monsterM.monsters[i].life <= 0)
+            if(gp.monsterM.monsters[i].life <= 0) {
+                gp.ui.addMessage("The monster " + gp.monsterM.monsters[i].name + " has been killed!");
+                gp.ui.addMessage("Exp + " + gp.monsterM.monsters[i].exp);
                 gp.monsterM.monsters[i].dying = true;
+                exp += gp.monsterM.monsters[i].exp;
+                checkLevelUp();
+            }
+        }
+    }
+
+    public void checkLevelUp() {
+        if (exp >= nextLevelExp) {
+            level++;
+            nextLevelExp += nextLevelExp;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+
+            if(life < maxLife-1)
+                life += 2;
+
+            attack = getAttack();
+            defense = getDefence();
+
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = String.format("Level up! New level: " + level + "\nStats has increased!");
         }
     }
 }
