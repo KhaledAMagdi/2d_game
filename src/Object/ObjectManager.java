@@ -118,11 +118,11 @@ public class ObjectManager
 
     public void draw(Graphics2D g2) {
         for (SuperObject obj : objs) {
-            if (obj.drawable) {
-                boolean flag1 = false;
-                boolean flag2 = false;
+            if (obj != null) {
+                if (obj.drawable) {
+                    boolean flag1 = false;
+                    boolean flag2 = false;
 
-                if (obj != null) {
                     for (BufferedImage image : obj.image) {
                         int screenX = obj.worldX - gp.player.worldX + gp.player.screenX;
                         int screenY = obj.worldY - gp.player.worldY + gp.player.screenY;
