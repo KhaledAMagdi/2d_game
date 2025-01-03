@@ -101,24 +101,7 @@ public class NPCManager {
     public void update() {
         for (Entity npc : npcs) {
 
-            setAction();
-
-            if (!npc.collisionOn) {
-                switch (npc.direction) {
-                    case "up" -> npc.worldY -= npc.speed;
-                    case "down" -> npc.worldY += npc.speed;
-                    case "left" -> npc.worldX -= npc.speed;
-                    case "right" -> npc.worldX += npc.speed;
-                }
-            }
-
-
-            //Check tile collision
-            npc.collisionOn = false;
-            gp.cChecker.checkTile(npc);
-            gp.cChecker.checkPlayer(npc);
-            gp.cChecker.checkEntity(npc, npcs);
-            gp.cChecker.checkEntity(npc, gp.monsterM.monsters);
+            npc.update();
 
             npc.spriteCounter++;
 

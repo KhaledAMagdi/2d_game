@@ -27,7 +27,7 @@ public class Player extends Entity
         name = "";
         
         solidArea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), gp.tileSize/3, gp.tileSize/3);
-        attackarea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), 20, 20); //change width and height to change attack range
+        attackArea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), 20, 20); //change width and height to change attack range
         solidAreaDefaultX = (gp.tileSize/2)-((gp.tileSize/3)/2);
         solidAreaDefaultY = (gp.tileSize/2)-((gp.tileSize/3)/2);
         setDefaultValues();
@@ -47,7 +47,7 @@ public class Player extends Entity
     
     public void update()
     {
-        if(attacking == true)
+        if(attacking)
         {
             attacking();
         }
@@ -103,24 +103,24 @@ public class Player extends Entity
             spriteCounter++;
             if(spriteCounter > 11)
             {
-                if(!attacking)
-                {
-                    if(spriteNum < numOfImages)
-                        spriteNum++;
-                    else
-                        spriteNum = 1;
-
-                    spriteCounter = 0;
-                }
-                else
+                if(attacking)
                 {
                     if(spriteNum < numOfSlashImages)
                         spriteNum++;
                     else
                         spriteNum = 1;
 
-                    spriteCounter = 0;
                 }
+                else
+                {
+                    if(spriteNum < numOfImages)
+                        spriteNum++;
+                    else
+                        spriteNum = 1;
+
+                }
+
+                spriteCounter = 0;
             }
         }
         else
@@ -188,7 +188,7 @@ public class Player extends Entity
         }
         else
         {
-            if(gp.keyH.rpressed == true)
+            if(gp.keyH.rpressed)
             {
                 attacking = true;
             }
@@ -214,17 +214,17 @@ public class Player extends Entity
             int solidAreaWidth = solidArea.width;
             int solidAreaHeight = solidArea.height;
 
-            //Adujyst player worldX and Y for attack area
+            //adjust player worldX and Y for attack area
             switch(direction)
             {
-                case "up": worldY -= attackarea.height; break;
-                case "down": worldY += attackarea.height; break;
-                case "left": worldX -= attackarea.width; break;
-                case "right": worldX += attackarea.width; break;
+                case "up": worldY -= attackArea.height; break;
+                case "down": worldY += attackArea.height; break;
+                case "left": worldX -= attackArea.width; break;
+                case "right": worldX += attackArea.width; break;
             }
             //attack Area becomes solid area
-            solidArea.width = attackarea.width;
-            solidArea.height = attackarea.height;
+            solidArea.width = attackArea.width;
+            solidArea.height = attackArea.height;
 
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
             damageMonster(monsterIndex);

@@ -10,8 +10,7 @@ import Main.GamePanel;
 import javax.imageio.ImageIO;
 
 //Abstract Class
-public class Entity 
-{
+public class Entity {
     public GamePanel gp;
     public int worldX, worldY;
     public int speed;
@@ -21,7 +20,6 @@ public class Entity
     public BufferedImage[] down = new BufferedImage[12];
     public BufferedImage[] right = new BufferedImage[12];
     public BufferedImage[] left = new BufferedImage[12];
-    public BufferedImage[] idle;
     public BufferedImage[] slashup = new BufferedImage[5];
     public BufferedImage[] slashdown = new BufferedImage[5];
     public BufferedImage[] slashright = new BufferedImage[5];
@@ -37,7 +35,7 @@ public class Entity
 
     public int actionLock = 0;
     public Rectangle solidArea;
-    public Rectangle attackarea;
+    public Rectangle attackArea;
 
     public boolean collisionOn = false;
     public int solidAreaDefaultX = 0;
@@ -55,104 +53,70 @@ public class Entity
     public int type = 0; // 0->player 1->npc 2->monster
     String typeString = "";
 
-    public Entity(GamePanel gp)
-    {
+    public Entity(GamePanel gp) {
         this.gp = gp;
     }
 
-    public void draw(Graphics2D g2)
-    {
+    public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
-        switch(direction)
-        {
-            case "up" ->
-            {
-                if(!attacking)
-                {
-                    for(int i = 0; i < numOfImages; i++)
-                    {
-                        if(spriteNum == i+1)
+        switch (direction) {
+            case "up" -> {
+                if (!attacking) {
+                    for (int i = 0; i < numOfImages; i++) {
+                        if (spriteNum == i + 1)
                             image = up[i];
                     }
-                }
-                else if(attacking)
-                {
-                    for(int i = 0; i < numOfSlashImages; i++) //Screen adjustments may be needed if slash image changes players position (video 26 min 15)
+                } else if (attacking) {
+                    for (int i = 0; i < numOfSlashImages; i++) //Screen adjustments may be needed if slash image changes players position (video 26 min 15)
                     {
-                        if(spriteNum == i+1)
+                        if (spriteNum == i + 1)
                             image = slashup[i];
                     }
                 }
-
             }
-            case "down" ->
-            {
-                if(!attacking)
-                {
-                    for(int i = 0; i < numOfImages; i++)
-                    {
-                        if(spriteNum == i+1)
+            case "down" -> {
+                if (!attacking) {
+                    for (int i = 0; i < numOfImages; i++) {
+                        if (spriteNum == i + 1)
                             image = down[i];
                     }
-                }
-                else if(attacking)
-                {
-                    for(int i = 0; i < numOfSlashImages; i++)
-                    {
-                        if(spriteNum == i+1)
+                } else if (attacking) {
+                    for (int i = 0; i < numOfSlashImages; i++) {
+                        if (spriteNum == i + 1)
                             image = slashdown[i];
                     }
                 }
             }
-            case "left" ->
-            {
-                if(!attacking)
-                {
-                    for(int i = 0; i < numOfImages; i++)
-                    {
-                        if(spriteNum == i+1)
+            case "left" -> {
+                if (!attacking) {
+                    for (int i = 0; i < numOfImages; i++) {
+                        if (spriteNum == i + 1)
                             image = left[i];
                     }
-                }
-                else if(attacking)
-                {
-                    for(int i = 0; i < numOfSlashImages; i++)
-                    {
-                        if(spriteNum == i+1)
+                } else if (attacking) {
+                    for (int i = 0; i < numOfSlashImages; i++) {
+                        if (spriteNum == i + 1)
                             image = slashleft[i];
                     }
                 }
             }
-            case "right" ->
-            {
-                if(!attacking)
-                {
-                    for(int i = 0; i < numOfImages; i++)
-                    {
-                        if(spriteNum == i+1)
+            case "right" -> {
+                if (!attacking) {
+                    for (int i = 0; i < numOfImages; i++) {
+                        if (spriteNum == i + 1)
                             image = right[i];
                     }
-                }
-                else if(attacking)
-                {
-                    for(int i = 0; i < numOfSlashImages; i++)
-                    {
-                        if(spriteNum == i+1)
+                } else if (attacking) {
+                    for (int i = 0; i < numOfSlashImages; i++) {
+                        if (spriteNum == i + 1)
                             image = slashright[i];
                     }
                 }
             }
-            case "idle" -> {
-                for (int i = 0; i < numOfImages; i++) {
-                    if (spriteNum == i + 1)
-                        image = idle[i];
-                }
-            }
         }
 
-        if(invincible)
-        {
+        if (invincible) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         }
 
@@ -162,86 +126,74 @@ public class Entity
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        if(gp.devMode)
-        {
-            System.out.println("invinsibletimer: "+invincibleTimer);
+        if (gp.devMode) {
+            System.out.println("invinsibletimer: " + invincibleTimer);
 
             g2.setColor(Color.magenta);
-            g2.drawRect(screenX + solidArea.x,screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
-            String text = String.format(" -/= Speed = "+speed);
+            String text = String.format(" -/= Speed = " + speed);
             g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD,20));
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
 
             int x = 0;
             int y = (gp.tileSize * 5);
-            g2.drawString(text,x,y);
+            g2.drawString(text, x, y);
 
             text = " K/L keys";
-            y += gp.tileSize/4;
-            g2.drawString(text,x,y);
+            y += gp.tileSize / 4;
+            g2.drawString(text, x, y);
         }
 
     }
 
-    public void getImage()
-    {
-        if(type == 0)
+    public void getImage() {
+        if (type == 0)
             typeString = "player";
-        if(type == 1)
+        if (type == 1)
             typeString = "npcs";
-        if(type == 2)
+        if (type == 2)
             typeString = "monsters";
 
-        try{
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/%s/%sup%d.png/",typeString,name,i);
+        try {
+            for (int i = 0; i < numOfImages; i++) {
+                String file = String.format("/res/%s/%sup%d.png/", typeString, name, i);
                 up[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/%s/%sdown%d.png/",typeString,name, i);
+            for (int i = 0; i < numOfImages; i++) {
+                String file = String.format("/res/%s/%sdown%d.png/", typeString, name, i);
                 down[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/%s/%sright%d.png/",typeString,name,i);
+            for (int i = 0; i < numOfImages; i++) {
+                String file = String.format("/res/%s/%sright%d.png/", typeString, name, i);
                 right[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/%s/%sleft%d.png/",typeString,name,i);
+            for (int i = 0; i < numOfImages; i++) {
+                String file = String.format("/res/%s/%sleft%d.png/", typeString, name, i);
                 left[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/%s/slashdown%d.png/",typeString,i);
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/slashdown%d.png/", typeString, i);
                 slashdown[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/%s/slashup%d.png/",typeString,i);
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/slashup%d.png/", typeString, i);
                 slashup[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/%s/slashleft%d.png/",typeString,i);
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/slashleft%d.png/", typeString, i);
                 slashleft[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/%s/slashright%d.png/",typeString,i);
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/slashright%d.png/", typeString, i);
                 slashright[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
-        }catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Failed to load image");
         }
     }
 
-    public void setAction()
-    {
+    public void setAction() {
         Random random = new Random();
         int i = random.nextInt(100) + 1;
         actionLock++;
@@ -261,5 +213,25 @@ public class Entity
             }
             actionLock = 0;
         }
+    }
+
+    public void update() {
+
+        setAction();
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+        gp.cChecker.checkPlayer(this);
+        gp.cChecker.checkEntity(this, gp.npcM.npcs);
+        gp.cChecker.checkEntity(this, gp.monsterM.monsters);
     }
 }
