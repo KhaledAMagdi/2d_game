@@ -12,7 +12,7 @@ public class ObjectManager
 {
     GamePanel gp;
     public SuperObject[] objs;
-    int objNum = 9;
+    int objNum = 8;
     
     public ObjectManager(GamePanel gp)
     {
@@ -40,49 +40,45 @@ public class ObjectManager
         objs[0] = new SuperObject();
         objs[0].name = "heart";
         objs[0].image = new BufferedImage[1];
+        objs[0].drawable = false;
         
         objs[1] = new SuperObject();
         objs[1].name = "half_heart";
         objs[1].image = new BufferedImage[1];
+        objs[1].drawable = false;
         
         objs[2] = new SuperObject();
         objs[2].name = "empty_heart";
         objs[2].image = new BufferedImage[1];
+        objs[2].drawable = false;
 
         objs[3] = new SuperObject();
         objs[3].name = "key";
         objs[3].image = new BufferedImage[1];
+        objs[3].drawable = false;
+
+        objs[4] = new SuperObject();
+        objs[4].name = "sword";
+        objs[4].image = new BufferedImage[1];
+        objs[4].drawable = false;
+        objs[4].attackValue = 1;
+
+        objs[5] = new SuperObject();
+        objs[5].name = "shield";
+        objs[5].image = new BufferedImage[1];
+        objs[5].drawable = false;
+        objs[5].defenseValue = 1;
         
 //---------------Custome made objects-----------------------------//
-        objs[4] = new SuperObject();
-        objs[4].name = "key";
-        objs[4].image = new BufferedImage[1];
-        objs[4].worldX = 16 * gp.tileSize;
-        objs[4].worldY = 9 * gp.tileSize;
-        objs[4].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
-        objs[4].solidAreaDefaultX = 0;
-        objs[4].solidAreaDefaultY = 0;
-        objs[4].msgShown = "You've gotten a key!";
-       
-        objs[5] = new SuperObject();
-        objs[5].name = "key";
-        objs[5].image = new BufferedImage[1];
-        objs[5].worldX = 18 * gp.tileSize;
-        objs[5].worldY = 9 * gp.tileSize;
-        objs[5].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
-        objs[5].solidAreaDefaultX = 0;
-        objs[5].solidAreaDefaultY = 0;
-        objs[5].msgShown = "You've gotten a key!";
-        
         objs[6] = new SuperObject();
-        objs[6].name = "chest";
+        objs[6].name = "key";
         objs[6].image = new BufferedImage[1];
-        objs[6].worldX = 20 * gp.tileSize;
+        objs[6].worldX = 16 * gp.tileSize;
         objs[6].worldY = 9 * gp.tileSize;
         objs[6].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
         objs[6].solidAreaDefaultX = 0;
         objs[6].solidAreaDefaultY = 0;
-        objs[6].msgShown = "You've opened a chest!";
+        objs[6].msgShown = "You've gotten a key!";
         
         objs[7] = new SuperObject();
         objs[7].name = "chest";
@@ -119,48 +115,45 @@ public class ObjectManager
             }
         }
     }
-    
-    public void draw(Graphics2D g2) 
-    {               
-        for (SuperObject obj : objs) 
-        {
-            boolean flag1 = false;
-            boolean flag2 = false;
-            
-            if (obj != null) 
-            {
-                for (BufferedImage image : obj.image) 
-                {
-                    int screenX = obj.worldX - gp.player.worldX + gp.player.screenX;
-                    int screenY = obj.worldY - gp.player.worldY + gp.player.screenY;
-                    
-                    if(flag1 && !flag2)
-                    { screenX += gp.tileSize; flag2 = true; flag1 = false;}
-                    else if(flag2 && !flag1)
-                    {screenY += gp.tileSize; flag1=true;}
-                    else if(flag1 && flag2)
-                    {
-                        screenX += gp.tileSize;
-                        screenY += gp.tileSize;
-                    }
-                    
-                    if (obj.worldX + gp.tileSize > gp.player.worldX - gp.player.screenX 
-                     && obj.worldX - gp.tileSize < gp.player.worldX + gp.player.screenX 
-                     && obj.worldY + gp.tileSize > gp.player.worldY - gp.player.screenY 
-                     && obj.worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
-                    {
-                        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                        
-                        if(gp.devMode)
-                        {
-                            g2.setColor(Color.magenta);
-                            g2.drawRect(screenX + obj.solidArea.x,screenY + obj.solidArea.y, obj.solidArea.width, obj.solidArea.height);
+
+    public void draw(Graphics2D g2) {
+        for (SuperObject obj : objs) {
+            if (obj.drawable) {
+                boolean flag1 = false;
+                boolean flag2 = false;
+
+                if (obj != null) {
+                    for (BufferedImage image : obj.image) {
+                        int screenX = obj.worldX - gp.player.worldX + gp.player.screenX;
+                        int screenY = obj.worldY - gp.player.worldY + gp.player.screenY;
+
+                        if (flag1 && !flag2) {
+                            screenX += gp.tileSize;
+                            flag2 = true;
+                            flag1 = false;
+                        } else if (flag2 && !flag1) {
+                            screenY += gp.tileSize;
+                            flag1 = true;
+                        } else if (flag1 && flag2) {
+                            screenX += gp.tileSize;
+                            screenY += gp.tileSize;
                         }
-                    }
-                    
-                    if(!flag1 && !flag2)
-                    {
-                        flag1 = true;
+
+                        if (obj.worldX + gp.tileSize > gp.player.worldX - gp.player.screenX
+                                && obj.worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
+                                && obj.worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
+                                && obj.worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+                            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+                            if (gp.devMode) {
+                                g2.setColor(Color.magenta);
+                                g2.drawRect(screenX + obj.solidArea.x, screenY + obj.solidArea.y, obj.solidArea.width, obj.solidArea.height);
+                            }
+                        }
+
+                        if (!flag1 && !flag2) {
+                            flag1 = true;
+                        }
                     }
                 }
             }

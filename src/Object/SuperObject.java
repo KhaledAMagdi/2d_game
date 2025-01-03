@@ -13,4 +13,7 @@ public class SuperObject
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
     public String msgShown;
+    public boolean drawable = true;
+    public int attackValue = 0;
+    public int defenseValue = 0;
 }

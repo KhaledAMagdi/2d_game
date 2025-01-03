@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import Object.*;
 
 import Main.GamePanel;
 
@@ -50,6 +51,17 @@ public class Entity {
 
     public int maxLife;
     public int life;
+    public int level;
+    public int strength;
+    public int dexterity;
+    public int attack;
+    public int defense;
+    public int magic;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public SuperObject currentWeapon;
+    public SuperObject currentShield;
 
     public boolean invincible = false;
     public int invincibleTimer = 0;

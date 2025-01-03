@@ -40,19 +40,20 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread; //main thread
     TileManager tileM = new TileManager(this); //tile manager
     public KeyHandler keyH = new KeyHandler(this); //key handling
-    public Player player = new Player(this, keyH);  //player manager
     public CollisionChecker cChecker = new CollisionChecker(this); //collision handling
     public ObjectManager objectM = new ObjectManager(this); //object manager
     public UI ui = new UI(this); //user interface manager
     public NPCManager npcM = new NPCManager(this); //NPC manager
     public EventHandler eventH = new EventHandler(this); //event handling
     public MonsterManager monsterM = new MonsterManager(this);
+    public Player player = new Player(this, keyH);  //player manager
 
     //-------game states-------//
-    public final int playState = 1; //normal play state
-    public final int pauseState = -1; //paused game state
-    public final int dialogueState = 2; //dialogue display state
     public final int titleState = 0; //title screen state
+    public final int pauseState = -1; //paused game state
+    public final int playState = 1; //normal play state
+    public final int dialogueState = 2; //dialogue display state
+    public final int characterState = 3; //stats screen
     public boolean devMode = false; //developer state
     public int gameState = titleState; //seting the default game state
 
@@ -145,14 +146,15 @@ public class GamePanel extends JPanel implements Runnable {
             //-------player-------//
             player.draw(g2);
 
-            //-------UI-------//
-            ui.draw(g2);
 
             //-------event-------//
             eventH.draw(g2);
 
             //-------monsters-------//
             monsterM.draw(g2);
+
+            //-------UI-------//
+            ui.draw(g2);
 
             g2.dispose();
         }
