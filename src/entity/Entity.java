@@ -24,6 +24,10 @@ public class Entity {
     public BufferedImage[] slashdown = new BufferedImage[5];
     public BufferedImage[] slashright = new BufferedImage[5];
     public BufferedImage[] slashleft = new BufferedImage[5];
+    public BufferedImage[] swordup = new BufferedImage[5];
+    public BufferedImage[] sworddown = new BufferedImage[5];
+    public BufferedImage[] swordleft = new BufferedImage[5];
+    public BufferedImage[] swordright = new BufferedImage[5];
     public int numOfImages;
     public int numOfSlashImages = 0;
     public boolean attacking = false;
@@ -53,12 +57,15 @@ public class Entity {
     public int type = 0; // 0->player 1->npc 2->monster
     String typeString = "";
 
-    public Entity(GamePanel gp) {
-        this.gp = gp;
-    }
+    public boolean alive = true;
+    public boolean dying = false;
+    public int dyingCounter = 0;
+
+    public Entity(GamePanel gp) {this.gp = gp;}
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
+        BufferedImage weapon = null;
 
         switch (direction) {
             case "up" -> {
@@ -73,6 +80,10 @@ public class Entity {
                         if (spriteNum == i + 1)
                             image = slashup[i];
                     }
+                    for (int j = 0; j < numOfSlashImages; j++) {
+                        if (spriteNum == j + 1)
+                            weapon = swordup[j];
+                    }
                 }
             }
             case "down" -> {
@@ -85,6 +96,10 @@ public class Entity {
                     for (int i = 0; i < numOfSlashImages; i++) {
                         if (spriteNum == i + 1)
                             image = slashdown[i];
+                    }
+                    for (int j = 0; j < numOfSlashImages; j++) {
+                        if (spriteNum == j + 1)
+                            weapon = sworddown[j];
                     }
                 }
             }
@@ -99,6 +114,10 @@ public class Entity {
                         if (spriteNum == i + 1)
                             image = slashleft[i];
                     }
+                    for (int j = 0; j < numOfSlashImages; j++) {
+                        if (spriteNum == j + 1)
+                            weapon = swordleft[j];
+                    }
                 }
             }
             case "right" -> {
@@ -112,6 +131,10 @@ public class Entity {
                         if (spriteNum == i + 1)
                             image = slashright[i];
                     }
+                    for (int j = 0; j < numOfSlashImages; j++) {
+                        if (spriteNum == j + 1)
+                            weapon = swordright[j];
+                    }
                 }
             }
         }
@@ -119,32 +142,90 @@ public class Entity {
         if (invincible) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         }
+        if(dying)
+        {
+            dyingAnimation(g2);
+        }
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+        if(alive){
+            if(attacking)
+            {
+                switch(direction){
+                    case "down" ->{
+                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+                        g2.drawImage(weapon, screenX-(gp.tileSize/10), screenY+(gp.tileSize/4), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    }
+                    case "up" ->{
+                        g2.drawImage(weapon, screenX, screenY-(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    }
+                    case "left" ->{
+                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+                        g2.drawImage(weapon, screenX-(gp.tileSize/5), screenY+(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    }
+                    case "right" ->{
+                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+                        g2.drawImage(weapon, screenX+(gp.tileSize/5), screenY+(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    }
+                }
+            }
+            else g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+        }
 
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
         if (gp.devMode) {
-            System.out.println("invinsibletimer: " + invincibleTimer);
+
+            if(invincible) {
+                System.out.println("invinsibletimer: " + invincibleTimer);
+            }
 
             g2.setColor(Color.magenta);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
-            String text = String.format(" -/= Speed = " + speed);
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
+            if(type == 0) {
+                String text = String.format(" -/= Speed = " + speed);
+                g2.setColor(Color.white);
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
 
-            int x = 0;
-            int y = (gp.tileSize * 5);
-            g2.drawString(text, x, y);
+                int x = 0;
+                int y = (gp.tileSize * 5);
+                g2.drawString(text, x, y);
 
-            text = " K/L keys";
-            y += gp.tileSize / 4;
-            g2.drawString(text, x, y);
+                text = " K/L keys";
+                y += gp.tileSize / 4;
+                g2.drawString(text, x, y);
+            }
         }
+    }
 
+    void dyingAnimation(Graphics2D g2)
+    {
+        dyingCounter++;
+
+        int i = 5;
+
+        if(dyingCounter <= i){changeAlpha(g2, 1f);}
+        if(dyingCounter > i && dyingCounter <= i*2){changeAlpha(g2, 0f);}
+        if(dyingCounter > i*2 && dyingCounter <= i*3){changeAlpha(g2, 1f);}
+        if(dyingCounter > i*3 && dyingCounter <= i*4){changeAlpha(g2, 0f);}
+        if(dyingCounter > i*4 && dyingCounter <= i*5){changeAlpha(g2, 1f);}
+        if(dyingCounter > i*5 && dyingCounter <= i*6){changeAlpha(g2, 0f);}
+        if(dyingCounter > i*6 && dyingCounter <= i*7){changeAlpha(g2, 1f);}
+        if(dyingCounter > i*7 && dyingCounter <= i*8){changeAlpha(g2, 0f);}
+        if(dyingCounter > i*8)
+        {
+            dying = false;
+            alive = false;
+        }
+    }
+
+    public void changeAlpha(Graphics2D g2, float alpha)
+    {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
 
     public void getImage() {
@@ -187,6 +268,22 @@ public class Entity {
             for (int i = 0; i < numOfSlashImages; i++) {
                 String file = String.format("/res/%s/slashright%d.png/", typeString, i);
                 slashright[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/sword_down%d.png/", typeString, i);
+                sworddown[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/sword_up%d.png/", typeString, i);
+                swordup[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/sword_right%d.png/", typeString, i);
+                swordright[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for (int i = 0; i < numOfSlashImages; i++) {
+                String file = String.format("/res/%s/sword_left%d.png/", typeString, i);
+                swordleft[i] = ImageIO.read(getClass().getResourceAsStream(file));
             }
         } catch (IOException e) {
             System.out.println("Failed to load image");

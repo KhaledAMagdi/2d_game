@@ -45,13 +45,14 @@ public class Player extends Entity
         life = maxLife;
     }
     
+    @Override
     public void update()
     {
         if(attacking)
         {
             attacking();
         }
-       else if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed)
+       else if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed || keyH.enterPressed)
         {
             if(keyH.upPressed)
             {  
@@ -70,7 +71,26 @@ public class Player extends Entity
                 direction = "right";
             }
 
-            if(!collisionOn)
+            //Check event
+            gp.eventH.checkEvent();
+
+            //Check tile collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            //Check objects collision
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
+            //Check NPC collision
+            int npcIndex = gp.cChecker.checkEntity(this,gp.npcM.npcs);
+            interactNPC(npcIndex);
+
+            //Check monster collision
+            int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monsters);
+            contactMonster(monsterIndex);
+
+            if(!collisionOn && !keyH.enterPressed)
             {
                switch(direction)
                {
@@ -80,51 +100,28 @@ public class Player extends Entity
                     case "right" -> worldX += speed;
                }
             }
-            
-            //Check event
-            gp.eventH.checkEvent();
-            
-            //Check tile collision
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-       
-            //Check objects collision
-            int objIndex = gp.cChecker.checkObject(this, true);
-            pickUpObject(objIndex);
-       
-            //Check NPC collision
-            int npcIndex = gp.cChecker.checkEntity(this,gp.npcM.npcs);
-            interactNPC(npcIndex);
 
-            //Check monster collision
-            int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monsters);
-            contactMonster(monsterIndex);
+            keyH.enterPressed = false;
 
             spriteCounter++;
-            if(spriteCounter > 11)
-            {
-                if(attacking)
-                {
-                    if(spriteNum < numOfSlashImages)
+            if (spriteCounter > 11) {
+                if (attacking) {
+                    if (spriteNum < numOfSlashImages) {
+                        spriteNum++;
+                    } else {
+                        spriteNum = 1;
+                    }
+                } else {
+                    if (spriteNum < numOfImages)
                         spriteNum++;
                     else
                         spriteNum = 1;
 
                 }
-                else
-                {
-                    if(spriteNum < numOfImages)
-                        spriteNum++;
-                    else
-                        spriteNum = 1;
-
-                }
-
                 spriteCounter = 0;
             }
-        }
-        else
-        {
+
+        } else {
             spriteCounter = 0;
             spriteNum = 1;
         }
@@ -197,49 +194,57 @@ public class Player extends Entity
         return false;
     }
 
-    public void attacking()
-    {
+    public void attacking() {
         spriteCounter++;
 
-        if(spriteCounter <= 5)  //if within first 5 frames load attack image 1
-        {
-            spriteNum = 1;
-        }
-        if(spriteCounter > 5 && spriteCounter <= 25)
-        {
-            spriteNum = 2;
-            //Save current worldX, worldY and solidArea
-            int currentWorldX = worldX;
-            int currentWorldY = worldY;
-            int solidAreaWidth = solidArea.width;
-            int solidAreaHeight = solidArea.height;
+        // Define the total sprite sequences with corresponding settings
+        if (spriteCounter <= 25) {
+            // Determine the sprite and attack frame numbers based on the counter
+            int frameInterval = 5;
+            spriteNum = (spriteCounter - 1) / frameInterval + 1;
 
-            //adjust player worldX and Y for attack area
-            switch(direction)
-            {
-                case "up": worldY -= attackArea.height; break;
-                case "down": worldY += attackArea.height; break;
-                case "left": worldX -= attackArea.width; break;
-                case "right": worldX += attackArea.width; break;
+            if (spriteCounter % frameInterval == 0) {
+                adjustAttackAreaTemporary();
             }
-            //attack Area becomes solid area
-            solidArea.width = attackArea.width;
-            solidArea.height = attackArea.height;
-
-            int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
-            damageMonster(monsterIndex);
-
-            worldX = currentWorldX;
-            worldY = currentWorldY;
-            solidArea.width = solidAreaWidth;
-            solidArea.height = solidAreaHeight;
+        } else {
+            resetAttackState();
         }
-        if(spriteCounter > 25)
-        {
-            spriteNum = 1;
-            spriteCounter = 0;
-            attacking = false;
+    }
+
+    private void adjustAttackAreaTemporary() {
+        // Save current state
+        int currentWorldX = worldX;
+        int currentWorldY = worldY;
+        int solidAreaWidth = solidArea.width;
+        int solidAreaHeight = solidArea.height;
+
+        // Adjust based on direction
+        switch (direction) {
+            case "up" -> worldY -= attackArea.height;
+            case "down" -> worldY += attackArea.height;
+            case "left" -> worldX -= attackArea.width;
+            case "right" -> worldX += attackArea.width;
         }
+
+        // Set attack area
+        solidArea.width = attackArea.width;
+        solidArea.height = attackArea.height;
+
+        // Check and damage monsters
+        int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
+        damageMonster(monsterIndex);
+
+        // Reset to previous state
+        worldX = currentWorldX;
+        worldY = currentWorldY;
+        solidArea.width = solidAreaWidth;
+        solidArea.height = solidAreaHeight;
+    }
+
+    private void resetAttackState() {
+        spriteNum = 1;
+        spriteCounter = 0;
+        attacking = false;
     }
 
     public void contactMonster(int i)
@@ -257,14 +262,11 @@ public class Player extends Entity
     {
         if(i != 999 && !gp.monsterM.monsters[i].invincible)
         {
-            System.out.println("Hit!");
-            gp.monsterM.monsters[i].life -= 1;
-            System.out.println(gp.monsterM.monsters[i].life);
+            gp.monsterM.monsters[i].life--;
             gp.monsterM.monsters[i].invincible = true;
-        }
-        else
-        {
-            System.out.println("Miss!");
+
+            if(gp.monsterM.monsters[i].life <= 0)
+                gp.monsterM.monsters[i].dying = true;
         }
     }
 }

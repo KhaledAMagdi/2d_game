@@ -223,8 +223,6 @@ public class UI
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,24F)); //font settings
         g2.drawString("Press Enter to Interact",x,y); //draw text
 
-        if(gp.devMode)
-            System.out.println("Interaction complete");//consol output to signify method call
     }
     
     //-------dialogue box-------//

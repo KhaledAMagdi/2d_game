@@ -30,48 +30,55 @@ public class MonsterManager {
         monsters[0].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
         monsters[0].solidAreaDefaultX = monsters[0].solidArea.x;
         monsters[0].solidAreaDefaultY = monsters[0].solidArea.y;
-        monsters[0].maxLife = 3;
+        monsters[0].maxLife = 1;
         monsters[0].life = monsters[0].maxLife;
     }
 
     public void getImage() {
         for (Entity monster : monsters) {
-            monster.getImage();
+                monster.getImage();
         }
     }
 
     public void setAction() {
         for (Entity monster : monsters) {
-            monster.setAction();
+            if(monster != null)
+                monster.setAction();
         }
     }
 
     public void update() {
-        for (Entity monster : monsters) {
+        for (int i = 0; i < monsters.length; i++ ) {
+            if(monsters[i] != null) {
+                if (monsters[i].alive && !monsters[i].dying) {
+                    monsters[i].update();
 
-            monster.update();
+                    if (gp.cChecker.checkPlayer(monsters[i]) && !gp.player.invincible) {
+                        gp.player.life--;
+                        gp.player.invincible = true;
+                    }
 
-            if (gp.cChecker.checkPlayer(monster) && !gp.player.invincible) {
-                gp.player.life--;
-                gp.player.invincible = true;
-            }
+                    monsters[i].spriteCounter++;
 
-            monster.spriteCounter++;
+                    if (monsters[i].spriteCounter > 14) {
+                        if (monsters[i].spriteNum < monsters[i].numOfImages)
+                            monsters[i].spriteNum++;
+                        else
+                            monsters[i].spriteNum = 1;
 
-            if (monster.spriteCounter > 14) {
-                if (monster.spriteNum < monster.numOfImages)
-                    monster.spriteNum++;
-                else
-                    monster.spriteNum = 1;
+                        monsters[i].spriteCounter = 0;
+                    }
 
-                monster.spriteCounter = 0;
-            }
-
-            if (monster.invincible) {
-                monster.invincibleTimer++;
-                if (monster.invincibleTimer > 60) {
-                    monster.invincible = false;
-                    monster.invincibleTimer = 0;
+                    if (monsters[i].invincible) {
+                        monsters[i].invincibleTimer++;
+                        if (monsters[i].invincibleTimer > 60) {
+                            monsters[i].invincible = false;
+                            monsters[i].invincibleTimer = 0;
+                        }
+                    }
+                }
+                if(!monsters[i].alive) {
+                    monsters[i] = null;
                 }
             }
         }
@@ -79,7 +86,8 @@ public class MonsterManager {
 
     public void draw(Graphics2D g2) {
         for (Entity monster : monsters) {
-            monster.draw(g2);
+            if(monster != null)
+                monster.draw(g2);
         }
     }
 }
