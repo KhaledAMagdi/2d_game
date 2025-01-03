@@ -55,11 +55,14 @@ public class Entity {
     public int invincibleTimer = 0;
 
     public int type = 0; // 0->player 1->npc 2->monster
-    String typeString = "";
+    public String typeString = "";
 
     public boolean alive = true;
     public boolean dying = false;
     public int dyingCounter = 0;
+
+    public boolean hpBarOn = false;
+    public int hpBarCounter = 0;
 
     public Entity(GamePanel gp) {this.gp = gp;}
 
@@ -139,16 +142,39 @@ public class Entity {
             }
         }
 
+        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        if(type == 2 && hpBarOn) {
+
+            double oneScale = (double) gp.tileSize / maxLife;
+            double hpBar = oneScale * life;
+
+            g2.setColor(new Color(35,35,35));
+            g2.fillRect(screenX - 1, screenY - 16, gp.tileSize + 2, 12);
+
+            g2.setColor(new Color(255, 0, 30));
+            g2.fillRect(screenX, screenY - 15, (int)hpBar, 10);
+
+            hpBarCounter++;
+
+            if(hpBarCounter >= 500) {
+                hpBarCounter = 0;
+                hpBarOn = false;
+            }
+
+        }
+
+
         if (invincible) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            hpBarOn = true;
+            hpBarCounter = 0;
+            changeAlpha(g2, 0.5f);
         }
         if(dying)
         {
             dyingAnimation(g2);
         }
-
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
         if(alive){
             if(attacking)
@@ -175,7 +201,7 @@ public class Entity {
             else g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
         }
 
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        changeAlpha(g2, 1f);
 
         if (gp.devMode) {
 
@@ -310,6 +336,13 @@ public class Entity {
             }
             actionLock = 0;
         }
+    }
+
+    public void damageReaction()
+    {
+        actionLock = 0;
+
+        direction = gp.player.direction;
     }
 
     public void update() {

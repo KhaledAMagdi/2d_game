@@ -30,7 +30,7 @@ public class MonsterManager {
         monsters[0].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
         monsters[0].solidAreaDefaultX = monsters[0].solidArea.x;
         monsters[0].solidAreaDefaultY = monsters[0].solidArea.y;
-        monsters[0].maxLife = 1;
+        monsters[0].maxLife = 20;
         monsters[0].life = monsters[0].maxLife;
     }
 
