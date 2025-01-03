@@ -5,14 +5,12 @@ import Main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class MonsterManager
-{
+public class MonsterManager {
     GamePanel gp;
     public Entity[] monsters;
-    int npcNum=1;
+    int npcNum = 1;
 
-    public MonsterManager(GamePanel gp)
-    {
+    public MonsterManager(GamePanel gp) {
         this.gp = gp;
 
         monsters = new Entity[npcNum];
@@ -21,8 +19,7 @@ public class MonsterManager
         getImage();
     }
 
-    private void initiateMonsters()
-    {
+    private void initiateMonsters() {
         monsters[0] = new Entity(gp);
         monsters[0].type = 2;
         monsters[0].name = "bat_";
@@ -30,7 +27,7 @@ public class MonsterManager
         monsters[0].numOfImages = 3;
         monsters[0].worldX = 10 * gp.tileSize;
         monsters[0].worldY = 9 * gp.tileSize;
-        monsters[0].solidArea = new Rectangle(0, 0, (int)(gp.tileSize*0.5), (int)(gp.tileSize*0.5));
+        monsters[0].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
         monsters[0].solidAreaDefaultX = monsters[0].solidArea.x;
         monsters[0].solidAreaDefaultY = monsters[0].solidArea.y;
         monsters[0].maxLife = 3;
@@ -54,8 +51,7 @@ public class MonsterManager
 
             monster.update();
 
-            if(gp.cChecker.checkPlayer(monster) && !gp.player.invincible)
-            {
+            if (gp.cChecker.checkPlayer(monster) && !gp.player.invincible) {
                 gp.player.life--;
                 gp.player.invincible = true;
             }
@@ -81,10 +77,8 @@ public class MonsterManager
         }
     }
 
-    public void draw(Graphics2D g2)
-    {
-        for(Entity monster : monsters)
-        {
+    public void draw(Graphics2D g2) {
+        for (Entity monster : monsters) {
             monster.draw(g2);
         }
     }
