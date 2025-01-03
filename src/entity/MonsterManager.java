@@ -28,7 +28,7 @@ public class MonsterManager
     {
         monster[0] = new Entity(gp);
         monster[0].type = 2;
-        monster[0].name = "bat";
+        monster[0].name = "bat_";
         monster[0].speed = 3;
         monster[0].numOfImages = 2;
         monster[0].idle = new BufferedImage[monster[0].numOfImages];
@@ -46,38 +46,7 @@ public class MonsterManager
     {
         for (Entity monster : monster)
         {
-            try
-            {
-                for (int i = 0; i < monster.numOfImages; i++)
-                {
-                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
-                    monster.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                }
-                for (int i = 0; i < monster.numOfImages; i++)
-                {
-                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
-                    monster.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                }
-                for (int i = 0; i < monster.numOfImages; i++)
-                {
-                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
-                    monster.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                }
-                for (int i = 0; i < monster.numOfImages; i++)
-                {
-                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
-                    monster.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                }
-                for (int i = 0; i < monster.numOfImages; i++)
-                {
-                    String file = String.format("/res/monsters/%s%d.png/", monster.name, i);
-                    monster.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                }
-            }
-            catch(IOException e)
-            {
-                System.out.println("Failed to load image");
-            }
+            monster.getImage();
         }
     }
 

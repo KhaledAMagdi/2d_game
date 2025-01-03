@@ -41,7 +41,7 @@ public class NPCManager {
 //---------------Set objects for UI---------------//        
         npcs[0] = new Entity(gp);
         npcs[0].type = 1;
-        npcs[0].name = "farmer";
+        npcs[0].name = "farmer_";
         npcs[0].speed = 3;
         npcs[0].numOfImages = 4;
         npcs[0].up = new BufferedImage[npcs[0].numOfImages];
@@ -59,7 +59,7 @@ public class NPCManager {
 
         npcs[1] = new Entity(gp);
         npcs[1].type = 1;
-        npcs[1].name = "chillguy";
+        npcs[1].name = "chillguy_";
         npcs[1].speed = 3;
         npcs[1].numOfImages = 4;
         npcs[1].up = new BufferedImage[npcs[1].numOfImages];
@@ -78,33 +78,7 @@ public class NPCManager {
 
     private void getNPCImage() {
         for (Entity npc : npcs) {
-            try {
-                if (!npc.idleOn) {
-                    for (int i = 0; i < npc.numOfImages; i++) {
-                        String file = String.format("/res/npcs/%s_up%d.png/", npc.name, i);
-                        npc.up[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                    }
-                    for (int i = 0; i < npc.numOfImages; i++) {
-                        String file = String.format("/res/npcs/%s_down%d.png/", npc.name, i);
-                        npc.down[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                    }
-                    for (int i = 0; i < npc.numOfImages; i++) {
-                        String file = String.format("/res/npcs/%s_right%d.png/", npc.name, i);
-                        npc.right[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                    }
-                    for (int i = 0; i < npc.numOfImages; i++) {
-                        String file = String.format("/res/npcs/%s_left%d.png/", npc.name, i);
-                        npc.left[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                    }
-                } else {
-                    for (int i = 0; i < npc.numOfImages; i++) {
-                        String file = String.format("/res/npcs/%s%d.png/", npc.name, i);
-                        npc.idle[i] = ImageIO.read(getClass().getResourceAsStream(file));
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println("Failed to load image");
-            }
+            npc.getImage();
         }
     }
 
@@ -116,14 +90,12 @@ public class NPCManager {
         gp.ui.currentDialogue = npcs[index].dialogue[npcs[index].dialogueIndex];
         npcs[index].dialogueIndex++;
 
-        if (!npcs[index].idleOn) {
             switch (gp.player.direction) {
                 case "up" -> npcs[index].direction = "down";
                 case "down" -> npcs[index].direction = "up";
                 case "right" -> npcs[index].direction = "left";
                 case "left" -> npcs[index].direction = "right";
             }
-        }
     }
 
     public void update() {
@@ -162,7 +134,6 @@ public class NPCManager {
 
     public void setAction() {
         for (Entity npc : npcs) {
-            if (!npc.idleOn) {
                 Random random = new Random();
                 int i = random.nextInt(100) + 1;
                 npc.actionLock++;
@@ -182,7 +153,6 @@ public class NPCManager {
                     }
                     npc.actionLock = 0;
                 }
-            }
         }
     }
 

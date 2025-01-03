@@ -27,13 +27,14 @@ public class Player extends Entity
         screenY = gp.screenHeight/2 - (gp.tileSize / 2);
         numOfImages = 12;
         numOfSlashImages = 5;
+        name = "";
         
         solidArea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), gp.tileSize/3, gp.tileSize/3);
         attackarea = new Rectangle((gp.tileSize/2)-((gp.tileSize/3)/2), (gp.tileSize/2)-((gp.tileSize/3)/2), 20, 20); //change width and height to change attack range
         solidAreaDefaultX = (gp.tileSize/2)-((gp.tileSize/3)/2);
         solidAreaDefaultY = (gp.tileSize/2)-((gp.tileSize/3)/2);
         setDefaultValues();
-        getPlayerImage();
+        getImage();
     }
     
     private void setDefaultValues()
@@ -47,62 +48,12 @@ public class Player extends Entity
         life = maxLife;
     }
     
-    private void getPlayerImage()
-    {
-           try{
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/player/up%03d.png/",i);
-                up[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/player/down%03d.png/",i);
-                down[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/player/right%03d.png/",i);
-                right[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfImages; i++)
-            {
-                String file = String.format("/res/player/left%03d.png/",i);
-                left[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/player/slashdown%d.png/",i);
-                slashdown[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/player/slashup%d.png/",i);
-                slashup[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/player/slashleft%d.png/",i);
-                slashleft[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-            for(int i = 0; i < numOfSlashImages; i++)
-            {
-                String file = String.format("/res/player/slashright%d.png/",i);
-                slashright[i] = ImageIO.read(getClass().getResourceAsStream(file));
-            }
-           }catch(IOException e)
-           {
-                System.out.println("Failed to load image");
-           }
-    }
-    
     public void update()
     {
         if(attacking == true)
         {
             attacking();
         }
-
        else if(keyH.upPressed || keyH.downPressed ||keyH.leftPressed || keyH.rightPressed)
         {
             if(keyH.upPressed)
@@ -141,13 +92,14 @@ public class Player extends Entity
             gp.cChecker.checkTile(this);
        
             //Check objects collision
-            int objIndex = gp.cChecker.checkObject(this, true); //gets index of collision
+            int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
        
             //Check NPC collision
             int npcIndex = gp.cChecker.checkEntity(this,gp.npcM.npcs);
             interactNPC(npcIndex);
 
+            //Check monster collision
             int monsterIndex = gp.cChecker.checkEntity(this,gp.monsterM.monster);
             contactMonster(monsterIndex);
 
@@ -172,7 +124,6 @@ public class Player extends Entity
 
                     spriteCounter = 0;
                 }
-
             }
         }
         else
@@ -248,6 +199,7 @@ public class Player extends Entity
 
         return false;
     }
+
     public void attacking()
     {
         spriteCounter++;

@@ -2,7 +2,11 @@ package entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import Main.GamePanel;
+
+import javax.imageio.ImageIO;
 
 //Abstract Class
 public class Entity 
@@ -11,7 +15,7 @@ public class Entity
     public int worldX, worldY;
     public int speed;
 
-    public String name;
+    public String name = "";
     public BufferedImage[] up = new BufferedImage[12];
     public BufferedImage[] down = new BufferedImage[12];
     public BufferedImage[] right = new BufferedImage[12];
@@ -22,10 +26,9 @@ public class Entity
     public BufferedImage[] slashright = new BufferedImage[5];
     public BufferedImage[] slashleft = new BufferedImage[5];
     public int numOfImages;
-    public int numOfSlashImages;
+    public int numOfSlashImages = 0;
     public boolean attacking = false;
 
-    public boolean idleOn = false;
     public String direction = "down";
 
     public int spriteCounter = 0;
@@ -49,6 +52,7 @@ public class Entity
     public int invincibleTimer = 0;
 
     public int type = 0; // 0->player 1->npc 2->monster
+    String typeString = "";
 
     public Entity(GamePanel gp)
     {
@@ -178,9 +182,60 @@ public class Entity
         }
 
     }
+
+    public void getImage()
+    {
+        if(type == 0)
+            typeString = "player";
+        if(type == 1)
+            typeString = "npcs";
+        if(type == 2)
+            typeString = "monsters";
+
+        try{
+            for(int i = 0; i < numOfImages; i++)
+            {
+                String file = String.format("/res/%s/%sup%d.png/",typeString,name,i);
+                up[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfImages; i++)
+            {
+                String file = String.format("/res/%s/%sdown%d.png/",typeString,name, i);
+                down[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfImages; i++)
+            {
+                String file = String.format("/res/%s/%sright%d.png/",typeString,name,i);
+                right[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfImages; i++)
+            {
+                String file = String.format("/res/%s/%sleft%d.png/",typeString,name,i);
+                left[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/%s/slashdown%d.png/",typeString,i);
+                slashdown[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/%s/slashup%d.png/",typeString,i);
+                slashup[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/%s/slashleft%d.png/",typeString,i);
+                slashleft[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+            for(int i = 0; i < numOfSlashImages; i++)
+            {
+                String file = String.format("/res/%s/slashright%d.png/",typeString,i);
+                slashright[i] = ImageIO.read(getClass().getResourceAsStream(file));
+            }
+        }catch(IOException e)
+        {
+            System.out.println("Failed to load image");
+        }
+    }
 }
-/*
-
-
-
-                    */
