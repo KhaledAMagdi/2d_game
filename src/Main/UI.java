@@ -207,6 +207,8 @@ public class UI {
         textY += gp.tileSize;
         g2.drawRect(textX,textY,160,30);
 
+        gp.config1.saveConfig();
+
     }
     public void optionsTitleScreenConfirmation(int frameX, int frameY)
     {

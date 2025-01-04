@@ -20,6 +20,13 @@ public class Main
         //-------adds it to the window-------//
         window.add(gamePanel);
         window.pack();
+       // window.setUndecorated(true);
+
+        gamePanel.config1.loadConfig();
+        if(gamePanel.fullScreenOn == true)
+        {
+            //window.setUndecorated(true);
+        }
 
         //-------sets location of the window and visibility-------//
         window.setLocationRelativeTo(null);

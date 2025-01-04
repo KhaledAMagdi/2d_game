@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     BufferedImage tempScreen;
     Graphics2D g2;
     public boolean fullScreenOn = false;
+    config config1 = new config(this);
 
     //-------world settings-------//
     public final int maxWorldCol = 50; //raw world width
@@ -81,7 +82,10 @@ public class GamePanel extends JPanel implements Runnable {
     {
         tempScreen = new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
-        setFullScreen();
+        if(fullScreenOn == true)
+        {
+            setFullScreen();
+        }
     }
 
 
