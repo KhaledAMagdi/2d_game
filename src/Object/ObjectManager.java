@@ -23,9 +23,8 @@ public class ObjectManager
         initiateObjects();
         getObjectsImage();
     }
-    
-    private void initiateObjects()
-    {   
+
+    private void initiateObjects() {
 //---------------Template---------------//
 //        objs[] = new SuperObject();
 //        objs[].name = "object name";
@@ -35,77 +34,92 @@ public class ObjectManager
 //        objs[].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize); <-- hitbox
 //        objs[].solidAreaDefaultX = 0; <-- hitbox
 //        objs[].solidAreaDefaultY = 0; <-- hitbox
-//        objs[].msgShown = "message"; <-- if the object displays a message when interacted with       
+//        objs[].msgShown = "message"; <-- if the object displays a message when interacted with
+//        i++;
 //---------------Set objects for UI---------------//
-        objs[0] = new SuperObject();
-        objs[0].name = "heart";
-        objs[0].image = new BufferedImage[1];
-        objs[0].drawable = false;
-        
-        objs[1] = new SuperObject();
-        objs[1].name = "half_heart";
-        objs[1].image = new BufferedImage[1];
-        objs[1].drawable = false;
-        
-        objs[2] = new SuperObject();
-        objs[2].name = "empty_heart";
-        objs[2].image = new BufferedImage[1];
-        objs[2].drawable = false;
+        int i = 0;
 
-        objs[3] = new SuperObject();
-        objs[3].name = "key";
-        objs[3].image = new BufferedImage[1];
-        objs[3].drawable = false;
-        objs[3].discription = "[" + objs[3].name + "]\nA key that can be used to open \nseveral things";
+        objs[i] = new SuperObject();
+        objs[i].name = "heart";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        i++;
 
-        objs[4] = new SuperObject();
-        objs[4].name = "sword";
-        objs[4].image = new BufferedImage[1];
-        objs[4].drawable = false;
-        objs[4].attackValue = 1;
-        objs[4].discription = "["+ objs[4].name + "]\nAn old sword but handy";
+        objs[i] = new SuperObject();
+        objs[i].name = "half_heart";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        i++;
 
-        objs[5] = new SuperObject();
-        objs[5].name = "shield";
-        objs[5].image = new BufferedImage[1];
-        objs[5].drawable = false;
-        objs[5].defenseValue = 1;
-        objs[5].discription = "["+ objs[5].name + "]\nAn old shield but handy";
-        
-//---------------Custome made objects-----------------------------//
-        objs[6] = new SuperObject();
-        objs[6].name = "key";
-        objs[6].image = new BufferedImage[1];
-        objs[6].worldX = 16 * gp.tileSize;
-        objs[6].worldY = 9 * gp.tileSize;
-        objs[6].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
-        objs[6].solidAreaDefaultX = 0;
-        objs[6].solidAreaDefaultY = 0;
-        objs[6].msgShown = "You've gotten a key!";
-        
-        objs[7] = new SuperObject();
-        objs[7].name = "chest";
-        objs[7].image = new BufferedImage[1];
-        objs[7].worldX = 22 * gp.tileSize;
-        objs[7].worldY = 9 * gp.tileSize;
-        objs[7].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
-        objs[7].solidAreaDefaultX = 0;
-        objs[7].solidAreaDefaultY = 0;
-        objs[7].msgShown = "You've opened a chest!";
+        objs[i] = new SuperObject();
+        objs[i].name = "empty_heart";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        i++;
 
-        objs[8] = new SuperObject();
-        objs[8].name = "chest";
-        objs[8].image = new BufferedImage[1];
-        objs[8].worldX = 25 * gp.tileSize;
-        objs[8].worldY = 9 * gp.tileSize;
-        objs[8].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
-        objs[8].solidAreaDefaultX = 0;
-        objs[8].solidAreaDefaultY = 0;
-        objs[8].msgShown = "You've opened a chest!";
+        objs[i] = new SuperObject();
+        objs[i].name = "key";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        objs[i].discription = "[" + objs[i].name + "]\nA key that can be used to open \nseveral things";
+        i++;
 
-        for(SuperObject obj : objs)
-            if(obj != null)
+        objs[i] = new SuperObject();
+        objs[i].name = "sword";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        objs[i].attackValue = 1;
+        objs[i].discription = "[" + objs[i].name + "]\nAn old sword but handy";
+        i++;
+
+        objs[i] = new SuperObject();
+        objs[i].name = "shield";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        objs[i].defenseValue = 1;
+        objs[i].discription = "[" + objs[i].name + "]\nAn old shield but handy";
+        i++;
+
+// ---------------Custom made objects---------------//
+        objs[i] = new SuperObject();
+        objs[i].name = "key";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 16 * gp.tileSize;
+        objs[i].worldY = 9 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].msgShown = "You've gotten a key!";
+        i++;
+
+        objs[i] = new SuperObject();
+        objs[i].name = "chest";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 22 * gp.tileSize;
+        objs[i].worldY = 9 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].msgShown = "You've opened a chest!";
+        i++;
+
+        objs[i] = new SuperObject();
+        objs[i].name = "chest";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 25 * gp.tileSize;
+        objs[i].worldY = 9 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].msgShown = "You've opened a chest!";
+        i++;
+
+        // Enable collision for all objects
+        for (SuperObject obj : objs) {
+            if (obj != null) {
                 obj.collision = true;
+            }
+        }
     }
     
     private void getObjectsImage()

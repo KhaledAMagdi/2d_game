@@ -24,56 +24,61 @@ public class NPCManager {
 
     private void initiateNPCs() {
 //---------------Template---------------//
-//        npcs[0] = new Entity(gp);
-//        npcs[0].name = "name";
-//        npcs[0].speed = speed;
-//        npcs[0].up = new BufferedImage[numOfImages];
-//        npcs[0].down = new BufferedImage[numOfImages];
-//        npcs[0].right = new BufferedImage[numOfImages];
-//        npcs[0].left = new BufferedImage[numOfImages];
-//        npcs[0].worldX = x position * gp.tileSize;
-//        npcs[0].worldY = y position * gp.tileSize;
-//        npcs[0].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize); <-- hitbox
-//        npcs[0].solidAreaDefaultX = npcs[0].solidArea.x; <-- hitbox
-//        npcs[0].solidAreaDefaultY = npcs[0].solidArea.y; <-- hitbox
-//        npcs[0].dialogue = new String[number oof dialogues];
-//        npcs[0].dialogue[0] = "dialogue";
-//---------------Set objects for UI---------------//        
-//        npcs[0] = new Entity(gp);
-//        npcs[0].type = 1;
-//        npcs[0].name = "farmer_";
-//        npcs[0].speed = 3;
-//        npcs[0].numOfImages = 4;
-//        npcs[0].up = new BufferedImage[npcs[0].numOfImages];
-//        npcs[0].down = new BufferedImage[npcs[0].numOfImages];
-//        npcs[0].right = new BufferedImage[npcs[0].numOfImages];
-//        npcs[0].left = new BufferedImage[npcs[0].numOfImages];
-//        npcs[0].worldX = 12 * gp.tileSize;
-//        npcs[0].worldY = 10 * gp.tileSize;
-//        npcs[0].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-//        npcs[0].solidAreaDefaultX = 0;
-//        npcs[0].solidAreaDefaultY = 0;
-//        npcs[0].direction = "left";
-//        npcs[0].dialogue = new String[1];
-//        npcs[0].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
+//        npcs[i] = new Entity(gp);
+//        npcs[i].name = "name";
+//        npcs[i].speed = speed;
+//        npcs[i].up = new BufferedImage[numOfImages];
+//        npcs[i].down = new BufferedImage[numOfImages];
+//        npcs[i].right = new BufferedImage[numOfImages];
+//        npcs[i].left = new BufferedImage[numOfImages];
+//        npcs[i].worldX = x position * gp.tileSize;
+//        npcs[i].worldY = y position * gp.tileSize;
+//        npcs[i].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize); <-- hitbox
+//        npcs[i].solidAreaDefaultX = npcs[0].solidArea.x; <-- hitbox
+//        npcs[i].solidAreaDefaultY = npcs[0].solidArea.y; <-- hitbox
+//        npcs[i].dialogue = new String[number oof dialogues];
+//        npcs[i].dialogue[0] = "dialogue";
+//        i++;
+// ---------------Custom made objects---------------//
+//        int i = 0;
 //
-//        npcs[1] = new Entity(gp);
-//        npcs[1].type = 1;
-//        npcs[1].name = "chillguy_";
-//        npcs[1].speed = 3;
-//        npcs[1].numOfImages = 4;
-//        npcs[1].up = new BufferedImage[npcs[1].numOfImages];
-//        npcs[1].down = new BufferedImage[npcs[1].numOfImages];
-//        npcs[1].right = new BufferedImage[npcs[1].numOfImages];
-//        npcs[1].left = new BufferedImage[npcs[1].numOfImages];
-//        npcs[1].worldX = 10 * gp.tileSize;
-//        npcs[1].worldY = 10 * gp.tileSize;
-//        npcs[1].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-//        npcs[1].solidAreaDefaultX = 0;
-//        npcs[1].solidAreaDefaultY = 0;
-//        npcs[1].direction = "right";
-//        npcs[1].dialogue = new String[1];
-//        npcs[1].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
+//        npcs[i] = new Entity(gp);
+//        npcs[i].type = 1;
+//        npcs[i].name = "farmer_";
+//        npcs[i].speed = 3;
+//        npcs[i].numOfImages = 4;
+//        npcs[i].up = new BufferedImage[npcs[0].numOfImages];
+//        npcs[i].down = new BufferedImage[npcs[0].numOfImages];
+//        npcs[i].right = new BufferedImage[npcs[0].numOfImages];
+//        npcs[i].left = new BufferedImage[npcs[0].numOfImages];
+//        npcs[i].worldX = 12 * gp.tileSize;
+//        npcs[i].worldY = 10 * gp.tileSize;
+//        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+//        npcs[i].solidAreaDefaultX = 0;
+//        npcs[i].solidAreaDefaultY = 0;
+//        npcs[i].direction = "left";
+//        npcs[i].dialogue = new String[1];
+//        npcs[i].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
+//        i++;
+//
+//        npcs[i] = new Entity(gp);
+//        npcs[i].type = 1;
+//        npcs[i].name = "chillguy_";
+//        npcs[i].speed = 3;
+//        npcs[i].numOfImages = 4;
+//        npcs[i].up = new BufferedImage[npcs[1].numOfImages];
+//        npcs[i].down = new BufferedImage[npcs[1].numOfImages];
+//        npcs[i].right = new BufferedImage[npcs[1].numOfImages];
+//        npcs[i].left = new BufferedImage[npcs[1].numOfImages];
+//        npcs[i].worldX = 10 * gp.tileSize;
+//        npcs[i].worldY = 10 * gp.tileSize;
+//        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+//        npcs[i].solidAreaDefaultX = 0;
+//        npcs[i].solidAreaDefaultY = 0;
+//        npcs[i].direction = "right";
+//        npcs[i].dialogue = new String[1];
+//        npcs[i].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
+//        i++;
     }
 
     private void getNPCImage() {

@@ -19,37 +19,59 @@ public class MonsterManager {
     }
 
     private void initiateMonsters() {
-        monsters[0] = new Entity(gp);
-        monsters[0].type = 2;
-        monsters[0].name = "bat_";
-        monsters[0].speed = 3;
-        monsters[0].numOfImages = 3;
-        monsters[0].worldX = 10 * gp.tileSize;
-        monsters[0].worldY = 9 * gp.tileSize;
-        monsters[0].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
-        monsters[0].solidAreaDefaultX = monsters[0].solidArea.x;
-        monsters[0].solidAreaDefaultY = monsters[0].solidArea.y;
-        monsters[0].maxLife = 4;
-        monsters[0].life = monsters[0].maxLife;
-        monsters[0].attack = 3;
-        monsters[0].defense = 0;
-        monsters[0].exp = 3;
+//---------------Template---------------//
+//        monsters[i] = new Entity(gp);
+//        monsters[i].type = 2;
+//        monsters[i].name = "bat_";
+//        monsters[i].speed = 3;
+//        monsters[i].numOfImages = 3;
+//        monsters[i].worldX = 10 * gp.tileSize;
+//        monsters[i].worldY = 9 * gp.tileSize;
+//        monsters[i].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
+//        monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+//        monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+//        monsters[i].maxLife = 4;
+//        monsters[i].life = monsters[i].maxLife;
+//        monsters[i].attack = 3;
+//        monsters[i].defense = 0;
+//        monsters[i].exp = 3;
+//        i++;
+// ---------------Custom made objects---------------//
+        int i = 0;
 
-        monsters[1] = new Entity(gp);
-        monsters[1].type = 2;
-        monsters[1].name = "bat_";
-        monsters[1].speed = 3;
-        monsters[1].numOfImages = 3;
-        monsters[1].worldX = 12 * gp.tileSize;
-        monsters[1].worldY = 9 * gp.tileSize;
-        monsters[1].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
-        monsters[1].solidAreaDefaultX = monsters[0].solidArea.x;
-        monsters[1].solidAreaDefaultY = monsters[0].solidArea.y;
-        monsters[1].maxLife = 4;
-        monsters[1].life = monsters[0].maxLife;
-        monsters[1].attack = 3;
-        monsters[1].defense = 0;
-        monsters[1].exp = 3;
+        monsters[i] = new Entity(gp);
+        monsters[i].type = 2;
+        monsters[i].name = "bat_";
+        monsters[i].speed = 3;
+        monsters[i].numOfImages = 3;
+        monsters[i].worldX = 10 * gp.tileSize;
+        monsters[i].worldY = 9 * gp.tileSize;
+        monsters[i].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
+        monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+        monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+        monsters[i].maxLife = 4;
+        monsters[i].life = monsters[i].maxLife;
+        monsters[i].attack = 3;
+        monsters[i].defense = 0;
+        monsters[i].exp = 3;
+        i++;
+
+        monsters[i] = new Entity(gp);
+        monsters[i].type = 2;
+        monsters[i].name = "bat_";
+        monsters[i].speed = 3;
+        monsters[i].numOfImages = 3;
+        monsters[i].worldX = 12 * gp.tileSize;
+        monsters[i].worldY = 9 * gp.tileSize;
+        monsters[i].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
+        monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+        monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+        monsters[i].maxLife = 4;
+        monsters[i].life = monsters[i].maxLife;
+        monsters[i].attack = 3;
+        monsters[i].defense = 0;
+        monsters[i].exp = 3;
+        i++;
     }
 
     public void getImage() {
