@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener 
 {
     GamePanel gp; //gamepanel
-    public boolean upPressed, downPressed, rightPressed, leftPressed, enterPressed, rpressed; //used keys
+    public boolean upPressed, downPressed, rightPressed, leftPressed, enterPressed, rPressed, ePressed; //used keys
     
     //-------constructor-------//
     public KeyHandler(GamePanel gp)
@@ -92,7 +92,11 @@ public class KeyHandler implements KeyListener
         }
         if(code == KeyEvent.VK_R)//if enter is pressed
         {
-            rpressed = true;//update variable
+            rPressed = true;//update variable
+        }
+        if(code == KeyEvent.VK_E)//if enter is pressed
+        {
+            ePressed = true;//update variable
         }
         if(code == KeyEvent.VK_C)
         {
@@ -203,7 +207,11 @@ public class KeyHandler implements KeyListener
         }
         if(code == KeyEvent.VK_R)//if enter
         {
-            rpressed = false;//update variable
+            rPressed = false;//update variable
+        }
+        if(code == KeyEvent.VK_E)//if enter is pressed
+        {
+            ePressed = false;//update variable
         }
     }  
 }

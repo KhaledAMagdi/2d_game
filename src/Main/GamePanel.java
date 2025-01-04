@@ -1,7 +1,7 @@
 package Main;
 
 import Event.EventHandler;
-import Object.ObjectManager;
+import Object.*;
 import entity.MonsterManager;
 import tile.TileManager;
 import entity.Player;
@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this); //tile manager
     public KeyHandler keyH = new KeyHandler(this); //key handling
     public ObjectManager objectM = new ObjectManager(this); //object manager
+    public ProjectileManager projM = new ProjectileManager(this);
     public UI ui = new UI(this); //user interface manager
     public NPCManager npcM = new NPCManager(this); //NPC manager
     public EventHandler eventH = new EventHandler(this); //event handling
@@ -126,6 +127,7 @@ public class GamePanel extends JPanel implements Runnable {
                 player.update();
                 npcM.update();
                 monsterM.update();
+                projM.update();
             }
             case pauseState -> {
 
@@ -156,9 +158,11 @@ public class GamePanel extends JPanel implements Runnable {
             //-------NPC-------//
             npcM.draw(g2);
 
+            //-------Projectile-------//
+            projM.draw(g2);
+
             //-------player-------//
             player.draw(g2);
-
 
             //-------event-------//
             eventH.draw(g2);

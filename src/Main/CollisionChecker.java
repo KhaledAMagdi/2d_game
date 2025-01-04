@@ -1,6 +1,7 @@
 package Main;
 
 import entity.Entity;
+import Object.Projectiles;
 
 public class CollisionChecker 
 {
@@ -144,6 +145,45 @@ public class CollisionChecker
     	}
         
     	return index;	
+    }
+
+    public int checkEntity(Projectiles entity, Entity[] target)
+    {
+        int index = 999;
+
+        for(int i = 0; i < target.length; i++)
+        {
+            if(target[i] != null)
+            {
+                //Get entity's solid Area position
+                entity.solidArea.x = entity.worldX + entity.solidArea.x;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+
+                //Get object's solid area position
+                target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
+                target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
+
+                switch (entity.direction) {
+                    case "up" -> entity.solidArea.y -= entity.speed;
+                    case "down" -> entity.solidArea.y += entity.speed;
+                    case "left" -> entity.solidArea.x -= entity.speed;
+                    case "right" -> entity.solidArea.x += entity.speed;
+                }
+
+                if(entity.solidArea.intersects(target[i].solidArea))
+                {
+                        entity.collisionOn = true;
+                        index = i;
+                }
+
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                target[i].solidArea.x = target[i].solidAreaDefaultX;
+                target[i].solidArea.y = target[i].solidAreaDefaultY;
+            }
+        }
+
+        return index;
     }
     
     public boolean checkPlayer(Entity entity)

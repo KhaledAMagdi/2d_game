@@ -79,6 +79,10 @@ public class Entity {
     public boolean hpBarOn = false;
     public int hpBarCounter = 0;
 
+    public int maxMana;
+    public int mana;
+    public Projectiles projectile;
+
     public Entity(GamePanel gp) {this.gp = gp;}
 
     public void draw(Graphics2D g2) {

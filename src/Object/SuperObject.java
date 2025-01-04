@@ -1,10 +1,19 @@
 package Object;
 
+import Main.GamePanel;
+
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class SuperObject 
 {
+    GamePanel gp;
+
+    public SuperObject(GamePanel gp)
+    {
+        this.gp = gp;
+    }
+
     public BufferedImage image[];
     public String name;
     public boolean collision = false;

@@ -39,32 +39,32 @@ public class ObjectManager
 //---------------Set objects for UI---------------//
         int i = 0;
 
-        objs[i] = new SuperObject(); //0
+        objs[i] = new SuperObject(gp); //0
         objs[i].name = "heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
         i++;
 
-        objs[i] = new SuperObject(); //1
+        objs[i] = new SuperObject(gp); //1
         objs[i].name = "half_heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
         i++;
 
-        objs[i] = new SuperObject(); //2
+        objs[i] = new SuperObject(gp); //2
         objs[i].name = "empty_heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
         i++;
 
-        objs[i] = new SuperObject(); //3
+        objs[i] = new SuperObject(gp); //3
         objs[i].name = "key";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
         objs[i].discription = "[" + objs[i].name + "]\nA key that can be used to open \nseveral things";
         i++;
 
-        objs[i] = new SuperObject(); //4
+        objs[i] = new SuperObject(gp); //4
         objs[i].name = "wooden_sword";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
@@ -73,7 +73,7 @@ public class ObjectManager
         objs[i].type = objs[i].sword;
         i++;
 
-        objs[i] = new SuperObject(); //5
+        objs[i] = new SuperObject(gp); //5
         objs[i].name = "gold_sword";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 9 * gp.tileSize;
@@ -85,7 +85,7 @@ public class ObjectManager
         objs[i].type = objs[i].sword;
         i++;
 
-        objs[i] = new SuperObject(); //6
+        objs[i] = new SuperObject(gp); //6
         objs[i].name = "iron_sword";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 10 * gp.tileSize;
@@ -97,7 +97,7 @@ public class ObjectManager
         objs[i].type = objs[i].sword;
         i++;
 
-        objs[i] = new SuperObject(); //7
+        objs[i] = new SuperObject(gp); //7
         objs[i].name = "diamond_sword";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 11 * gp.tileSize;
@@ -109,7 +109,7 @@ public class ObjectManager
         objs[i].type = objs[i].sword;
         i++;
 
-        objs[i] = new SuperObject(); //8
+        objs[i] = new SuperObject(gp); //8
         objs[i].name = "wooden_shield";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
@@ -118,7 +118,7 @@ public class ObjectManager
         objs[i].type = objs[i].shield;
         i++;
 
-        objs[i] = new SuperObject(); //9
+        objs[i] = new SuperObject(gp); //9
         objs[i].name = "reinforced_shield";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 12 * gp.tileSize;
@@ -130,7 +130,7 @@ public class ObjectManager
         objs[i].type = objs[i].shield;
         i++;
 
-        objs[i] = new SuperObject(); //10
+        objs[i] = new SuperObject(gp); //10
         objs[i].name = "encased_shield";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 13 * gp.tileSize;
@@ -142,7 +142,7 @@ public class ObjectManager
         objs[i].type = objs[i].shield;
         i++;
 
-        objs[i] = new SuperObject(); //11
+        objs[i] = new SuperObject(gp); //11
         objs[i].name = "iron_shield";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 14 * gp.tileSize;
@@ -154,7 +154,7 @@ public class ObjectManager
         objs[i].type = objs[i].shield;
         i++;
 
-        objs[i] = new SuperObject(); //12
+        objs[i] = new SuperObject(gp); //12
         objs[i].name = "potion_blue";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 10 * gp.tileSize;
@@ -166,7 +166,7 @@ public class ObjectManager
         i++;
 
 // ---------------Custom made objects---------------//
-        objs[i] = new SuperObject();
+        objs[i] = new SuperObject(gp);
         objs[i].name = "key";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 16 * gp.tileSize;
@@ -178,7 +178,7 @@ public class ObjectManager
         objs[i].type = objs[i].consumable;
         i++;
 
-        objs[i] = new SuperObject();
+        objs[i] = new SuperObject(gp);
         objs[i].name = "chest";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 22 * gp.tileSize;
@@ -189,7 +189,7 @@ public class ObjectManager
         objs[i].msgShown = "You've opened a chest!";
         i++;
 
-        objs[i] = new SuperObject();
+        objs[i] = new SuperObject(gp);
         objs[i].name = "chest";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 25 * gp.tileSize;

@@ -57,6 +57,7 @@ public class Player extends Entity
         currentShield = gp.objectM.objs[8];
         attack = getAttack();
         defense = getDefence();
+        projectile = gp.projM.projs[0];
     }
 
     public void setItems()
@@ -155,6 +156,11 @@ public class Player extends Entity
             spriteNum = 1;
         }
 
+       if(gp.keyH.ePressed && !projectile.alive)
+       {
+           projectile.set(worldX, worldY, direction, true, this);
+       }
+
         if(invincible)
         {
             invincibleTimer++;
@@ -229,7 +235,7 @@ public class Player extends Entity
         }
         else
         {
-            if(gp.keyH.rpressed)
+            if(gp.keyH.rPressed)
             {
                 attacking = true;
             }
@@ -276,7 +282,7 @@ public class Player extends Entity
 
         // Check and damage monsters
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
-        damageMonster(monsterIndex);
+        damageMonster(monsterIndex, attack);
 
         // Reset to previous state
         worldX = currentWorldX;
@@ -304,7 +310,7 @@ public class Player extends Entity
         }
     }
 
-    public void damageMonster(int i)
+    public void damageMonster(int i, int attack)
     {
         if(i != 999 && !gp.monsterM.monsters[i].invincible)
         {
@@ -312,6 +318,7 @@ public class Player extends Entity
             if(damage < 0) damage = 0;
             gp.monsterM.monsters[i].life -= damage;
             gp.monsterM.monsters[i].invincible = true;
+            gp.ui.addMessage(damage + "damage!");
             gp.monsterM.monsters[i].damageReaction();
 
             if(gp.monsterM.monsters[i].life <= 0) {
