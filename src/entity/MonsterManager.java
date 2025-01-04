@@ -3,6 +3,8 @@ package entity;
 import Main.GamePanel;
 
 import java.awt.*;
+import java.util.Random;
+import Object.*;
 
 public class MonsterManager {
     GamePanel gp;
@@ -72,7 +74,7 @@ public class MonsterManager {
         monsters[i].attack = 3;
         monsters[i].defense = 0;
         monsters[i].exp = 3;
-        monsters[i].projectile = gp.projM.projs[2];
+        monsters[i].projectile = gp.projM.projs[1];
         i++;
     }
 
@@ -115,6 +117,7 @@ public class MonsterManager {
                     }
                 }
                 if(!monsters[i].alive) {
+                    monsters[i].checkDrop();
                     monsters[i] = null;
                 }
             }

@@ -387,4 +387,22 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.npcM.npcs);
         gp.cChecker.checkEntity(this, gp.monsterM.monsters);
     }
+
+    public void checkDrop()
+    {
+        int i = new Random().nextInt(100) + 1;
+
+        if(i < 50)
+        {
+            gp.objectM.dropItem(gp.objectM.objs[0], this);
+        }
+        if(i >= 50 && i < 75)
+        {
+            gp.objectM.dropItem(gp.objectM.objs[15],this);
+        }
+        if(i >= 75 && i < 100)
+        {
+            gp.objectM.dropItem(gp.objectM.objs[16],this);
+        }
+    }
 }

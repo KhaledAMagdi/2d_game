@@ -214,6 +214,10 @@ public class Player extends Entity
                             return true;
                         }
                     }
+                    case "coin", "heart", "mana"-> {
+                        gp.objectM.use(gp.objectM.objs[i]);
+                        gp.objectM.objs[i].drawable = false;
+                    }
                     default -> {
                         inventory.add(gp.objectM.objs[i]);
                         if(gp.objectM.objs[i].msgShown != null)

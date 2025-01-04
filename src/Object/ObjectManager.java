@@ -6,7 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;   
+import javax.imageio.ImageIO;
+import entity.*;
 
 public class ObjectManager
 {
@@ -43,24 +44,36 @@ public class ObjectManager
         objs[i].name = "heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         i++;
 
         objs[i] = new SuperObject(gp); //1
         objs[i].name = "half_heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         i++;
 
         objs[i] = new SuperObject(gp); //2
         objs[i].name = "empty_heart";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         i++;
 
         objs[i] = new SuperObject(gp); //3
         objs[i].name = "key";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         objs[i].discription = "[" + objs[i].name + "]\nA key that can be used to open \nseveral things";
         i++;
 
@@ -68,6 +81,9 @@ public class ObjectManager
         objs[i].name = "wooden_sword";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         objs[i].attackValue = 1;
         objs[i].discription = "[" + objs[i].name + "]\nAn old sword but handy";
         objs[i].type = objs[i].sword;
@@ -79,7 +95,8 @@ public class ObjectManager
         objs[i].worldX = 9 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a sword!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a sword!";
         objs[i].attackValue = 2;
         objs[i].discription = "[" + objs[i].name + "]\nA little bit of an upgrade";
         objs[i].type = objs[i].sword;
@@ -91,7 +108,8 @@ public class ObjectManager
         objs[i].worldX = 10 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a sword!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a sword!";
         objs[i].attackValue = 3;
         objs[i].discription = "[" + objs[i].name + "]\nStronger much ?!";
         objs[i].type = objs[i].sword;
@@ -103,7 +121,8 @@ public class ObjectManager
         objs[i].worldX = 11 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a sword!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a sword!";
         objs[i].attackValue = 5;
         objs[i].discription = "[" + objs[i].name + "]\nFeels heavy";
         objs[i].type = objs[i].sword;
@@ -113,6 +132,9 @@ public class ObjectManager
         objs[i].name = "wooden_shield";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         objs[i].defenseValue = 1;
         objs[i].discription = "[" + objs[i].name + "]\nAn old shield but handy";
         objs[i].type = objs[i].shield;
@@ -124,7 +146,8 @@ public class ObjectManager
         objs[i].worldX = 12 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a shield!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a shield!";
         objs[i].defenseValue = 2;
         objs[i].discription = "[" + objs[i].name + "]\nReinforced wooden shield";
         objs[i].type = objs[i].shield;
@@ -136,7 +159,8 @@ public class ObjectManager
         objs[i].worldX = 13 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a shield!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a shield!";
         objs[i].defenseValue = 4;
         objs[i].discription = "[" + objs[i].name + "]\nEncased wooden shield";
         objs[i].type = objs[i].shield;
@@ -148,7 +172,8 @@ public class ObjectManager
         objs[i].worldX = 14 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a shield!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a shield!";
         objs[i].defenseValue = 6;
         objs[i].discription = "[" + objs[i].name + "]\nFinally an iron shield";
         objs[i].type = objs[i].shield;
@@ -160,7 +185,8 @@ public class ObjectManager
         objs[i].worldX = 10 * gp.tileSize;
         objs[i].worldY = 11 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-        objs[i].msgShown = "You've gotten a potion!";
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a potion!";
         objs[i].discription = "[" + objs[i].name + "]\nA blue potion\nI wonder what it does";
         objs[i].type = objs[i].consumable;
         i++;
@@ -171,6 +197,8 @@ public class ObjectManager
         objs[i].worldX = 15 * gp.tileSize;
         objs[i].worldY = 11 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         objs[i].msgShown = "You've gotten a potion!";
         objs[i].discription = "[" + objs[i].name + "]\nAn even bluer potion\nI wonder what it does";
         objs[i].type = objs[i].consumable;
@@ -180,12 +208,28 @@ public class ObjectManager
         objs[i].name = "empty_mana";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
         i++;
 
         objs[i] = new SuperObject(gp); //15
         objs[i].name = "mana";
         objs[i].image = new BufferedImage[1];
         objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        i++;
+
+        objs[i] = new SuperObject(gp); //16
+        objs[i].name = "coin";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].type = objs[i].pickable;
         i++;
 
 // ---------------Custom made objects---------------//
@@ -221,6 +265,17 @@ public class ObjectManager
         objs[i].solidAreaDefaultX = 0;
         objs[i].solidAreaDefaultY = 0;
         objs[i].msgShown = "You've opened a chest!";
+        i++;
+
+        objs[i] = new SuperObject(gp); //19
+        objs[i].name = "coin";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 10 * gp.tileSize;
+        objs[i].worldY = 8 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].type = objs[i].pickable;
         i++;
 
         // Enable collision for all objects
@@ -264,6 +319,31 @@ public class ObjectManager
                 gp.gameState = gp.dialogueState;
                 gp.player.maxMana++;
                 gp.ui.currentDialogue = "You drank the potion ?\n It increased your mana!";
+            }
+            case "coin" -> {
+                gp.ui.addMessage("You've found a coin!");
+                gp.player.coin++;
+            }
+            case "heart" -> {
+                gp.ui.addMessage("You've found a heart!");
+                gp.player.life += 2;
+            }
+            case "mana" -> {
+                gp.ui.addMessage("You've found some mana!");
+                gp.player.mana += 1;
+            }
+        }
+    }
+
+    public void dropItem(SuperObject item, Entity user)
+    {
+        for(SuperObject obj : objs){
+            if(obj != null){
+                if(item.equals(obj)){
+                    obj.drawable = true;
+                    obj.worldX = user.worldX;
+                    obj.worldY = user.worldY;
+                }
             }
         }
     }

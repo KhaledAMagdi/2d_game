@@ -30,4 +30,5 @@ public class SuperObject
     public final int consumable = 0;
     public final int shield = 1;
     public final int sword = 2;
+    public final int pickable = 3;
 }
