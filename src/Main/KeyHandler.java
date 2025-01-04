@@ -129,6 +129,10 @@ public class KeyHandler implements KeyListener
         {
             gp.gameState = gp.playState;//cahnge game state
         }
+        if(code == KeyEvent.VK_ENTER)
+        {
+            System.exit(0);
+        }
     }
 
     public void dialogueState(int code)
