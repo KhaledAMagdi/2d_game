@@ -47,7 +47,7 @@ public class KeyHandler implements KeyListener {
     }
 
     public void optionsState(int code) {
-        if (code == KeyEvent.VK_L) {
+        if (code == KeyEvent.VK_ESCAPE) {
             gp.gameState = gp.playState;
         }
         if (code == KeyEvent.VK_ENTER) {
@@ -166,7 +166,7 @@ public class KeyHandler implements KeyListener {
     }
 
     public void pauseState(int code) {
-        if (code == KeyEvent.VK_ESCAPE)//if esc pressed
+        if (code == KeyEvent.VK_P)//if esc pressed
         {
             gp.gameState = gp.playState;//cahnge game state
         }
