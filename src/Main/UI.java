@@ -14,7 +14,6 @@ public class UI {
     Font Impact; //font
     ArrayList<String> message = new ArrayList<>(); //object message
     ArrayList<Integer> messageCounter = new ArrayList<>(); //message coounter
-    public boolean messageOn = false; //object displays a message or not
     public String currentDialogue = ""; //current dialogue to be drawn
     public int commandNum = 0; //game select
     BufferedImage heart, halfHeart, emptyHeart, keyImage; //images to be used in UI
@@ -347,7 +346,7 @@ public class UI {
 
         RoundRectangle2D windowF = new RoundRectangle2D.Double(); //dialogue window
         windowF.setRoundRect(dframx, dframy, dframew, dframeh, 35, 35);
-        drawSubWindow(windowF);
+
 
         //draw description text
         int textX = dframx + 20;
@@ -358,6 +357,9 @@ public class UI {
         int itemIndex = getItemIndex();
 
         if(itemIndex < gp.player.inventory.size()) {
+
+            drawSubWindow(windowF);
+
             for(String line : gp.player.inventory.get(itemIndex).discription.split("\n")) {
                 g2.drawString(line, textX, textY);
                 textY += 32;
