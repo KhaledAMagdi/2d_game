@@ -165,6 +165,10 @@ public class KeyHandler implements KeyListener
             if(gp.ui.slotCol < 5)
                 gp.ui.slotCol++;
         }
+        if(code == KeyEvent.VK_ENTER)
+        {
+            gp.player.selectItem();
+        }
     }
 
     //-------key released vevent handler-------//

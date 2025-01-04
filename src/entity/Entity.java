@@ -67,6 +67,9 @@ public class Entity {
     public int invincibleTimer = 0;
 
     public int type = 0; // 0->player 1->npc 2->monster
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
     public String typeString = "";
 
     public boolean alive = true;
@@ -157,7 +160,7 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        if(type == 2 && hpBarOn) {
+        if(type == type_monster && hpBarOn) {
 
             double oneScale = (double) gp.tileSize / maxLife;
             double hpBar = oneScale * life;
@@ -224,7 +227,7 @@ public class Entity {
             g2.setColor(Color.magenta);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
-            if(type == 0) {
+            if(type == type_player) {
                 String text = String.format(" -/= Speed = " + speed);
                 g2.setColor(Color.white);
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
@@ -267,11 +270,11 @@ public class Entity {
     }
 
     public void getImage() {
-        if (type == 0)
+        if (type == type_player)
             typeString = "player";
-        if (type == 1)
+        if (type == type_npc)
             typeString = "npcs";
-        if (type == 2)
+        if (type == type_monster)
             typeString = "monsters";
 
         try {

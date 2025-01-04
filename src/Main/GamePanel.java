@@ -40,12 +40,12 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread; //main thread
     TileManager tileM = new TileManager(this); //tile manager
     public KeyHandler keyH = new KeyHandler(this); //key handling
-    public CollisionChecker cChecker = new CollisionChecker(this); //collision handling
     public ObjectManager objectM = new ObjectManager(this); //object manager
     public UI ui = new UI(this); //user interface manager
     public NPCManager npcM = new NPCManager(this); //NPC manager
     public EventHandler eventH = new EventHandler(this); //event handling
     public MonsterManager monsterM = new MonsterManager(this);
+    public CollisionChecker cChecker = new CollisionChecker(this); //collision handling
     public Player player = new Player(this, keyH);  //player manager
 
     //-------game states-------//

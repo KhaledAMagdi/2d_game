@@ -54,7 +54,7 @@ public class Player extends Entity
         nextLevelExp = 5;
         coin = 0;
         currentWeapon = gp.objectM.objs[4];
-        currentShield = gp.objectM.objs[5];
+        currentShield = gp.objectM.objs[8];
         attack = getAttack();
         defense = getDefence();
     }
@@ -165,34 +165,40 @@ public class Player extends Entity
             }
         }
     }
-    
+
     public boolean pickUpObject(int i)
     {
-    	if(i != 999) // means we touched an object
-    	{
-            switch(gp.objectM.objs[i].name) 
-            {
-                case "key" -> 
-                {
-                    inventory.add(gp.objectM.objs[3]);
-                    gp.ui.addMessage(gp.objectM.objs[i].msgShown);
-                    gp.objectM.objs[i] = null;
-                }
-    		case "chest" -> 
-                {
-                    if(checkKey())
-                    {
-                        if(gp.keyH.enterPressed)
-                        {
-                            gp.ui.addMessage(gp.objectM.objs[i].msgShown);
-                            gp.objectM.objs[i] = null;
-                            inventory.remove(gp.objectM.objs[3]);
+        if(i != 999) // means we touched an object
+        {
+            if(inventory.size() < invSize) {
+                switch (gp.objectM.objs[i].name) {
+                    case "key" -> {
+                        inventory.add(gp.objectM.objs[3]);
+                        gp.ui.addMessage(gp.objectM.objs[i].msgShown);
+                        gp.objectM.objs[i].drawable = false;
+                    }
+                    case "chest" -> {
+                        if (checkKey()) {
+                            if (gp.keyH.enterPressed) {
+                                gp.ui.addMessage(gp.objectM.objs[i].msgShown);
+                                gp.objectM.objs[i] = null;
+                                inventory.remove(gp.objectM.objs[3]);
+                            }
+                            return true;
                         }
-                        return true;
+                    }
+                    default -> {
+                        inventory.add(gp.objectM.objs[i]);
+                        if(gp.objectM.objs[i].msgShown != null)
+                            gp.ui.addMessage(gp.objectM.objs[i].msgShown);
+                        gp.objectM.objs[i].drawable = false;
                     }
                 }
+            }else
+            {
+                gp.ui.addMessage("Inventory is full!");
             }
-    	}
+        }
         return false;
     }
 
@@ -335,5 +341,31 @@ public class Player extends Entity
             gp.gameState = gp.dialogueState;
             gp.ui.currentDialogue = String.format("Level up! New level: " + level + "\nStats has increased!");
         }
+    }
+
+    public void selectItem()
+    {
+       int itemIndex = gp.ui.getItemIndex();
+
+       if(itemIndex < inventory.size())
+       {
+           SuperObject item = inventory.get(itemIndex);
+
+           if(item.type == item.sword){
+               currentWeapon = item;
+               getAttack();
+               gp.ui.addMessage("You have equipped " + item.name);
+           }
+           if(item.type == item.shield){
+               currentShield = item;
+               getDefence();
+               gp.ui.addMessage("You have equipped " + item.name);
+           }
+           if(item.type == item.consumable)
+           {
+               gp.objectM.use(item);
+               inventory.remove(itemIndex);
+           }
+       }
     }
 }

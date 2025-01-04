@@ -322,6 +322,13 @@ public class UI {
                     slotY += slotH;
                     slotX = slotXstart;
                 }
+
+                if(gp.player.inventory.get(i) == gp.player.currentWeapon || gp.player.inventory.get(i) == gp.player.currentShield)
+                {
+                    g2.setColor(new Color(255, 201, 99, 214));
+                    g2.fillRoundRect(slotX + 5, slotY + 5, gp.tileSize - 10, gp.tileSize - 10, 20, 20);
+                }
+
                 g2.drawImage(gp.player.inventory.get(i).image[0], slotX, slotY,slotW,slotH, null);
                 slotX += slotW;
             }

@@ -40,7 +40,7 @@ public class MonsterManager {
         int i = 0;
 
         monsters[i] = new Entity(gp);
-        monsters[i].type = 2;
+        monsters[i].type = monsters[i].type_monster;
         monsters[i].name = "bat_";
         monsters[i].speed = 3;
         monsters[i].numOfImages = 3;
@@ -57,7 +57,7 @@ public class MonsterManager {
         i++;
 
         monsters[i] = new Entity(gp);
-        monsters[i].type = 2;
+        monsters[i].type = monsters[i].type_monster;
         monsters[i].name = "bat_";
         monsters[i].speed = 3;
         monsters[i].numOfImages = 3;

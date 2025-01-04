@@ -17,4 +17,8 @@ public class SuperObject
     public int attackValue = 0;
     public int defenseValue = 0;
     public String discription = "";
+    public int type;
+    public final int consumable = 0;
+    public final int shield = 1;
+    public final int sword = 2;
 }

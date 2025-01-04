@@ -43,7 +43,7 @@ public class NPCManager {
 //        int i = 0;
 //
 //        npcs[i] = new Entity(gp);
-//        npcs[i].type = 1;
+//        npcs[i].type = npcs[i].type_npc;
 //        npcs[i].name = "farmer_";
 //        npcs[i].speed = 3;
 //        npcs[i].numOfImages = 4;
@@ -62,7 +62,7 @@ public class NPCManager {
 //        i++;
 //
 //        npcs[i] = new Entity(gp);
-//        npcs[i].type = 1;
+//        npcs[i].type = npcs[i].type_npc;
 //        npcs[i].name = "chillguy_";
 //        npcs[i].speed = 3;
 //        npcs[i].numOfImages = 4;

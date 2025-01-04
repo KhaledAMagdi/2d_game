@@ -69,7 +69,7 @@ public class CollisionChecker
         
     	for(int i = 0; i < gp.objectM.objs.length; i++)
     	{
-            if(gp.objectM.objs[i] != null)
+            if(gp.objectM.objs[i] != null && gp.objectM.objs[i].drawable)
             {
                 //Get entity's solid Area position
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
