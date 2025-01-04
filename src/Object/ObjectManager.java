@@ -12,7 +12,7 @@ public class ObjectManager
 {
     GamePanel gp;
     public SuperObject[] objs;
-    int objNum = 8;
+    int objNum = 9;
     
     public ObjectManager(GamePanel gp)
     {
@@ -56,18 +56,21 @@ public class ObjectManager
         objs[3].name = "key";
         objs[3].image = new BufferedImage[1];
         objs[3].drawable = false;
+        objs[3].discription = "[" + objs[3].name + "]\nA key that can be used to open \nseveral things";
 
         objs[4] = new SuperObject();
         objs[4].name = "sword";
         objs[4].image = new BufferedImage[1];
         objs[4].drawable = false;
         objs[4].attackValue = 1;
+        objs[4].discription = "["+ objs[4].name + "]\nAn old sword but handy";
 
         objs[5] = new SuperObject();
         objs[5].name = "shield";
         objs[5].image = new BufferedImage[1];
         objs[5].drawable = false;
         objs[5].defenseValue = 1;
+        objs[5].discription = "["+ objs[5].name + "]\nAn old shield but handy";
         
 //---------------Custome made objects-----------------------------//
         objs[6] = new SuperObject();
@@ -89,6 +92,16 @@ public class ObjectManager
         objs[7].solidAreaDefaultX = 0;
         objs[7].solidAreaDefaultY = 0;
         objs[7].msgShown = "You've opened a chest!";
+
+        objs[8] = new SuperObject();
+        objs[8].name = "chest";
+        objs[8].image = new BufferedImage[1];
+        objs[8].worldX = 25 * gp.tileSize;
+        objs[8].worldY = 9 * gp.tileSize;
+        objs[8].solidArea = new Rectangle(0,0,gp.tileSize,gp.tileSize);
+        objs[8].solidAreaDefaultX = 0;
+        objs[8].solidAreaDefaultY = 0;
+        objs[8].msgShown = "You've opened a chest!";
 
         for(SuperObject obj : objs)
             if(obj != null)

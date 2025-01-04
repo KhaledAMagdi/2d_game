@@ -116,10 +116,10 @@ public class KeyHandler implements KeyListener
             if(code == KeyEvent.VK_MINUS)
                 gp.player.speed--;
             if(code == KeyEvent.VK_K)//change keys in inventory
-                gp.player.hasKey++;
+                gp.player.inventory.add(gp.objectM.objs[3]);
             if(code == KeyEvent.VK_L)
-                if(gp.player.hasKey > 0)
-                    gp.player.hasKey--;
+                if(gp.player.checkKey())
+                    gp.player.inventory.remove(gp.objectM.objs[3]);
         }
     }
 
@@ -144,6 +144,26 @@ public class KeyHandler implements KeyListener
         if(code == KeyEvent.VK_C)
         {
             gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_W)//if w is pressed
+        {
+            if(gp.ui.slotRow > 0)
+                gp.ui.slotRow--;
+        }
+        if(code == KeyEvent.VK_A)//if a is pressed
+        {
+            if(gp.ui.slotCol > 0)
+                gp.ui.slotCol--;
+        }
+        if(code == KeyEvent.VK_S)//if s is pressed
+        {
+            if(gp.ui.slotRow < 4)
+                gp.ui.slotRow++;
+        }
+        if(code == KeyEvent.VK_D)//if d is pressed
+        {
+            if(gp.ui.slotCol < 5)
+                gp.ui.slotCol++;
         }
     }
 

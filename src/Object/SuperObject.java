@@ -16,4 +16,5 @@ public class SuperObject
     public boolean drawable = true;
     public int attackValue = 0;
     public int defenseValue = 0;
+    public String discription = "";
 }

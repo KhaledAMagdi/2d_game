@@ -18,6 +18,8 @@ public class UI {
     public String currentDialogue = ""; //current dialogue to be drawn
     public int commandNum = 0; //game select
     BufferedImage heart, halfHeart, emptyHeart, keyImage; //images to be used in UI
+    public int slotCol = 0;
+    public int slotRow = 0;
 
     //-------constructor-------//
     public UI(GamePanel gp) {
@@ -68,6 +70,7 @@ public class UI {
         }
         if (gp.gameState == gp.characterState) {
             drawCharacterScreen();
+            drawInventory();
         }
     }
 
@@ -290,6 +293,78 @@ public class UI {
         g2.drawImage(gp.player.currentShield.image[0], valueTailX - gp.tileSize /2, textY - lineHeight + 15, gp.tileSize/2+20, gp.tileSize/2+20, null);
     }
 
+    //-------inventory screen-------//
+    public void drawInventory()
+    {
+        //window
+        final int frameX = gp.tileSize * 9;
+        final int frameY = gp.tileSize;
+        final int frameW = (int)(gp.tileSize * 6.5);
+        final int frameH = (int)(gp.tileSize * 5.5);
+
+        RoundRectangle2D window = new RoundRectangle2D.Double(); //dialogue window
+        window.setRoundRect(frameX, frameY, frameW, frameH, 35, 35);
+        drawSubWindow(window);
+
+        final int slotXstart = frameX + 20;
+        final int slotYstart = frameY + 20;
+        int slotX = slotXstart;
+        int slotY = slotYstart;
+        final int slotW = gp.tileSize;
+        final int slotH = gp.tileSize;
+
+        //draw player items
+        for(int i = 0; i < gp.player.inventory.size(); i++)
+        {
+            if(gp.player.inventory.get(i) != null)
+            {
+                if(i == 6 || i == 12 || i == 18 || i == 24 || i == 30)
+                {
+                    slotY += slotH;
+                    slotX = slotXstart;
+                }
+                g2.drawImage(gp.player.inventory.get(i).image[0], slotX, slotY,slotW,slotH, null);
+                slotX += slotW;
+            }
+        }
+
+        //cursoor
+        int cursorX = slotXstart + (gp.tileSize * slotCol);
+        int cursorY = slotYstart + (gp.tileSize * slotRow);
+        int cursorW = gp.tileSize;
+        int cursorH = gp.tileSize;
+
+        //draw cursor
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorW, cursorH, 10, 10);
+
+        //description
+        int dframx = frameX;
+        int dframy = frameY + frameH + 10;
+        int dframew = frameW;
+        int dframeh = frameH/2;
+
+        RoundRectangle2D windowF = new RoundRectangle2D.Double(); //dialogue window
+        windowF.setRoundRect(dframx, dframy, dframew, dframeh, 35, 35);
+        drawSubWindow(windowF);
+
+        //draw description text
+        int textX = dframx + 20;
+        int textY = dframy + gp.tileSize/2;
+
+        g2.setFont(g2.getFont().deriveFont(28f));
+
+        int itemIndex = getItemIndex();
+
+        if(itemIndex < gp.player.inventory.size()) {
+            for(String line : gp.player.inventory.get(itemIndex).discription.split("\n")) {
+                g2.drawString(line, textX, textY);
+                textY += 32;
+            }
+        }
+    }
+
     //-------player prompt screen-------//
     public void drawPlayerPrompt() {
         int x = gp.player.screenX * 2 - (gp.tileSize * 3); //x position
@@ -325,5 +400,12 @@ public class UI {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();//length of text
         return tailX - length;
     }
+
+    //-------item index-------//
+    public int getItemIndex()
+    {
+        return slotCol + (slotRow * 6);
+    }
+
 
 }

@@ -4,6 +4,8 @@ import Main.GamePanel;
 import Main.KeyHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
+import Object.*;
 
 public class Player extends Entity
 {
@@ -12,7 +14,8 @@ public class Player extends Entity
     
     public final int screenX;
     public final int screenY;
-    public int hasKey =0;
+    public ArrayList<SuperObject> inventory = new ArrayList<>();
+    public final int invSize = 30;
 
     public Player(GamePanel gp, KeyHandler  keyH)
     {
@@ -32,6 +35,7 @@ public class Player extends Entity
         solidAreaDefaultY = (gp.tileSize/2)-((gp.tileSize/3)/2);
         setDefaultValues();
         getImage();
+        setItems();
     }
     
     private void setDefaultValues()
@@ -53,6 +57,13 @@ public class Player extends Entity
         currentShield = gp.objectM.objs[5];
         attack = getAttack();
         defense = getDefence();
+    }
+
+    public void setItems()
+    {
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(gp.objectM.objs[3]);
     }
 
     public int getAttack() {
@@ -163,22 +174,19 @@ public class Player extends Entity
             {
                 case "key" -> 
                 {
-                    hasKey++;
+                    inventory.add(gp.objectM.objs[3]);
                     gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                     gp.objectM.objs[i] = null;
-                    System.out.println("Key:"+hasKey);
                 }
     		case "chest" -> 
                 {
-                    if(hasKey > 0)
+                    if(checkKey())
                     {
                         if(gp.keyH.enterPressed)
                         {
                             gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                             gp.objectM.objs[i] = null;
-                            hasKey--;
-                            life--;
-                            System.out.println("Key:"+hasKey);
+                            inventory.remove(gp.objectM.objs[3]);
                         }
                         return true;
                     }
@@ -186,6 +194,18 @@ public class Player extends Entity
             }
     	}
         return false;
+    }
+
+    public boolean checkKey()
+    {
+        boolean isItemFound =false;
+        for(SuperObject item: inventory){
+            if(item.equals(gp.objectM.objs[3])){
+                isItemFound = true;
+                return isItemFound;
+            }
+        }
+        return  isItemFound;
     }
     
     public boolean interactNPC(int i)
