@@ -355,6 +355,10 @@ public class Entity {
             }
             actionLock = 0;
         }
+
+        if(i > 99 && !projectile.alive) {
+            projectile.set(worldX, worldY, direction, true, this);
+        }
     }
 
     public void damageReaction()

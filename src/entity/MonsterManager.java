@@ -54,6 +54,7 @@ public class MonsterManager {
         monsters[i].attack = 3;
         monsters[i].defense = 0;
         monsters[i].exp = 3;
+        monsters[i].projectile = gp.projM.projs[1];
         i++;
 
         monsters[i] = new Entity(gp);
@@ -71,19 +72,13 @@ public class MonsterManager {
         monsters[i].attack = 3;
         monsters[i].defense = 0;
         monsters[i].exp = 3;
+        monsters[i].projectile = gp.projM.projs[2];
         i++;
     }
 
     public void getImage() {
         for (Entity monster : monsters) {
                 monster.getImage();
-        }
-    }
-
-    public void setAction() {
-        for (Entity monster : monsters) {
-            if(monster != null)
-                monster.setAction();
         }
     }
 

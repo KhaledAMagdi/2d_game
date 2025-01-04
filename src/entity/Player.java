@@ -16,6 +16,8 @@ public class Player extends Entity
     public final int screenY;
     public ArrayList<SuperObject> inventory = new ArrayList<>();
     public final int invSize = 30;
+    int counter = 0;
+    boolean count = true;
 
     public Player(GamePanel gp, KeyHandler  keyH)
     {
@@ -58,6 +60,8 @@ public class Player extends Entity
         attack = getAttack();
         defense = getDefence();
         projectile = gp.projM.projs[0];
+        maxMana = 4;
+        mana = maxMana;
     }
 
     public void setItems()
@@ -158,9 +162,26 @@ public class Player extends Entity
 
        if(gp.keyH.ePressed && !projectile.alive)
        {
-           projectile.set(worldX, worldY, direction, true, this);
+           if(mana >= projectile.cost) {
+               mana -= projectile.cost;
+               projectile.set(worldX, worldY, direction, true, this);
+           }
+           else {
+               if(count) {
+                   gp.ui.addMessage("Not enough mana!");
+                   count = false;
+               }
+           }
        }
 
+       if(!count)
+       {
+           counter++;
+           if(counter == 120) {
+               count = true;
+               counter = 0;
+           }
+       }
         if(invincible)
         {
             invincibleTimer++;

@@ -16,7 +16,7 @@ public class UI {
     ArrayList<Integer> messageCounter = new ArrayList<>(); //message coounter
     public String currentDialogue = ""; //current dialogue to be drawn
     public int commandNum = 0; //game select
-    BufferedImage heart, halfHeart, emptyHeart, keyImage; //images to be used in UI
+    BufferedImage heart, halfHeart, emptyHeart, keyImage, mana, emptyMana; //images to be used in UI
     public int slotCol = 0;
     public int slotRow = 0;
 
@@ -31,6 +31,8 @@ public class UI {
         halfHeart = gp.objectM.objs[1].image[0]; //load image from object
         emptyHeart = gp.objectM.objs[2].image[0]; //load image from object
         keyImage = gp.objectM.objs[3].image[0]; //load image from object
+        mana = gp.objectM.objs[15].image[0];
+        emptyMana = gp.objectM.objs[14].image[0];
     }
 
     //-------message to be displayed-------//
@@ -55,16 +57,16 @@ public class UI {
                 drawPlayerPrompt(); //player prompt draw method
 
             //drawKeys(); //keys in inventory draw method
-            drawPlayerLife(); //health bar draw method
+            drawPlayerHUD(); //health bar draw method
             drawMessage();
         }
         if (gp.gameState == gp.pauseState) {
             drawPauseScreen(); //pause menu draw method
             //drawKeys(); //keys in inventory draw method
-            drawPlayerLife(); //health bar draw method
+            drawPlayerHUD(); //health bar draw method
         }
         if (gp.gameState == gp.dialogueState) {
-            drawPlayerLife(); //health bar draw method
+            drawPlayerHUD(); //health bar draw method
             drawDialogueScreen(); //dialogue draw method
         }
         if (gp.gameState == gp.characterState) {
@@ -99,35 +101,12 @@ public class UI {
         }
     }
 
-//    //-------key in inventory-------//
-//    public void drawKeys() {
-//        int x = 0; //x position
-//        int y = gp.tileSize * 2; //y position
-//        g2.setFont(arial); //font
-//        g2.setColor(Color.white); //colour of text
-//        g2.drawImage(keyImage, x, y, gp.tileSize, gp.tileSize, null); //draws key image
-//        g2.drawString("x " + gp.player.hasKey, x + gp.tileSize, y + gp.tileSize - 10); //draw amount of keys
-//
-//        if (messageOn == true)//new key aquired
-//        {
-//            g2.setFont(g2.getFont().deriveFont(20F));//sets font
-//           // g2.drawString(message, x + 20, y + gp.tileSize * 2);//draws said message
-//
-//           // messageCounter++;//increments message to be
-//
-//            //if (messageCounter > 60) //message stays displayed for 60 frames
-//            {
-//               // messageCounter = 0;
-//                messageOn = false;
-//            }
-//        }
-//    }
-
     //-------player health bar-------//
-    public void drawPlayerLife() {
+    public void drawPlayerHUD() {
         int x = gp.tileSize / 5; //x position
         int y = gp.tileSize / 5; //y position
         int i = 0; //control variable
+        int xAfter;
 
         while (i < gp.player.maxLife / 2) //every 2 maxlife = 1 heart, while loop to draw all empty hearts
         {
@@ -135,6 +114,17 @@ public class UI {
             i++; //increment control
 
             x += gp.tileSize + 10; //increment x position to draw hearts next to each other
+        }
+
+        xAfter = x;
+        i = 0;
+
+        while (i < gp.player.maxMana) //every 2 maxlife = 1 heart, while loop to draw all empty hearts
+        {
+            g2.drawImage(emptyMana, x, y, gp.tileSize, gp.tileSize, null); //draw empty heart
+            i++; //increment control
+
+            x += gp.tileSize/2 + 10; //increment x position to draw hearts next to each other
         }
 
         x = gp.tileSize / 5; //rest x position
@@ -152,6 +142,16 @@ public class UI {
             }
             i++;//increment control
             x += gp.tileSize + 10;//increment x position to draw heart next to each other
+        }
+
+        i = 0;
+
+        while (i < gp.player.mana) //draw actual heart
+        {
+            g2.drawImage(mana, xAfter, y, gp.tileSize, gp.tileSize, null); //draw full heart
+
+            i++;//increment control
+            xAfter += gp.tileSize/2 + 10;//increment x position to draw heart next to each other
         }
     }
 

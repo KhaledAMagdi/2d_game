@@ -165,6 +165,29 @@ public class ObjectManager
         objs[i].type = objs[i].consumable;
         i++;
 
+        objs[i] = new SuperObject(gp); //13
+        objs[i].name = "potion_darkblue";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 15 * gp.tileSize;
+        objs[i].worldY = 11 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].msgShown = "You've gotten a potion!";
+        objs[i].discription = "[" + objs[i].name + "]\nAn even bluer potion\nI wonder what it does";
+        objs[i].type = objs[i].consumable;
+        i++;
+
+        objs[i] = new SuperObject(gp); //14
+        objs[i].name = "empty_mana";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        i++;
+
+        objs[i] = new SuperObject(gp); //15
+        objs[i].name = "mana";
+        objs[i].image = new BufferedImage[1];
+        objs[i].drawable = false;
+        i++;
+
 // ---------------Custom made objects---------------//
         objs[i] = new SuperObject(gp);
         objs[i].name = "key";
@@ -233,9 +256,14 @@ public class ObjectManager
         switch (obj.name) {
             case "potion_blue" -> {
                 gp.gameState = gp.dialogueState;
-                if (gp.player.life < gp.player.maxLife)
-                    gp.player.life = gp.player.maxLife;
-                gp.ui.currentDialogue = "You drank the potion ?\n It healed you!";
+                if (gp.player.mana < gp.player.maxMana)
+                    gp.player.mana = gp.player.maxMana;
+                gp.ui.currentDialogue = "You drank the potion ?\n It recovered your mana!";
+            }
+            case "potion_darkblue" -> {
+                gp.gameState = gp.dialogueState;
+                gp.player.maxMana++;
+                gp.ui.currentDialogue = "You drank the potion ?\n It increased your mana!";
             }
         }
     }

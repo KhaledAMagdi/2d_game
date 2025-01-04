@@ -40,8 +40,14 @@ public class Projectiles extends SuperObject {
                 gp.player.damageMonster(monsterIndex, attackValue);
                 alive = false;
             }
-        }else {
-
+        }else
+        {
+            boolean contact = gp.cChecker.checkPlayer(this);
+            if(contact)
+            {
+                gp.player.contactMonster(1);
+                alive = false;
+            }
         }
 
         switch (direction) {

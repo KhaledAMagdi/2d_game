@@ -30,8 +30,34 @@ public class ProjectileManager {
         projs[i].speed = 5;
         projs[i].maxLife = 80;
         projs[i].life = projs[i].maxLife;
-        projs[i].attackValue = 2;
+        projs[i].attackValue = 3;
         projs[i].cost = 1;
+        projs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        projs[i].solidAreaDefaultX = 0;
+        projs[i].solidAreaDefaultY = 0;
+        projs[i].image = new BufferedImage[2];
+        i++;
+
+        projs[i] = new Projectiles(gp); //1
+        projs[i].name = "egg";
+        projs[i].speed = 8;
+        projs[i].maxLife = 80;
+        projs[i].life = projs[i].maxLife;
+        projs[i].attackValue = 1;
+        projs[i].cost = 1;
+        projs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        projs[i].solidAreaDefaultX = 0;
+        projs[i].solidAreaDefaultY = 0;
+        projs[i].image = new BufferedImage[2];
+        i++;
+
+        projs[i] = new Projectiles(gp); //2
+        projs[i].name = "rock";
+        projs[i].speed = 2;
+        projs[i].maxLife = 80;
+        projs[i].life = projs[i].maxLife;
+        projs[i].attackValue = 3;
+        projs[i].cost = 2;
         projs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         projs[i].solidAreaDefaultX = 0;
         projs[i].solidAreaDefaultY = 0;
@@ -101,7 +127,7 @@ public class ProjectileManager {
                     int screenX = proj.worldX - gp.player.worldX + gp.player.screenX;
                     int screenY = proj.worldY - gp.player.worldY + gp.player.screenY;
 
-                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
+                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize/2), (int) (gp.tileSize/2), null);
 
                     if (gp.devMode) {
                         g2.setColor(Color.magenta);
