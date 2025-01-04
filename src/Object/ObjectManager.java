@@ -75,6 +75,7 @@ public class ObjectManager
         objs[i].solidAreaDefaultX = 0;
         objs[i].solidAreaDefaultY = 0;
         objs[i].discription = "[" + objs[i].name + "]\nA key that can be used to open \nseveral things";
+        objs[i].type = objs[i].pickable;
         i++;
 
         objs[i] = new SuperObject(gp); //4
@@ -237,6 +238,18 @@ public class ObjectManager
         objs[i].name = "key";
         objs[i].image = new BufferedImage[1];
         objs[i].worldX = 16 * gp.tileSize;
+        objs[i].worldY = 9 * gp.tileSize;
+        objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = 0;
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].msgShown = "You've gotten a key!";
+        objs[i].type = objs[i].consumable;
+        i++;
+
+        objs[i] = new SuperObject(gp);
+        objs[i].name = "key";
+        objs[i].image = new BufferedImage[1];
+        objs[i].worldX = 20 * gp.tileSize;
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         objs[i].solidAreaDefaultX = 0;

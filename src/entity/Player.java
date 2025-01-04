@@ -40,7 +40,7 @@ public class Player extends Entity
         setItems();
     }
     
-    private void setDefaultValues()
+    public void setDefaultValues()
     {
         worldX = gp.tileSize * 9;
         worldY = gp.tileSize * 7;
@@ -62,13 +62,29 @@ public class Player extends Entity
         projectile = gp.projM.projs[0];
         maxMana = 4;
         mana = maxMana;
+        setItems();
+    }
+
+    public void setDefualtPosition()
+    {
+        worldX = gp.tileSize * 9;
+        worldY = gp.tileSize * 7;
+        speed = 20;
+        direction = "down";
+    }
+
+    public void resortHUD()
+    {
+        life = maxLife;
+        mana = maxMana;
+        invincible = false;
     }
 
     public void setItems()
     {
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(gp.objectM.objs[3]);
     }
 
     public int getAttack() {
@@ -191,6 +207,9 @@ public class Player extends Entity
                 invincibleTimer = 0;
             }
         }
+        if(life <= 0){
+            gp.gameState = gp.gameoverState;
+        }
     }
 
     public boolean pickUpObject(int i)
@@ -237,7 +256,7 @@ public class Player extends Entity
     {
         boolean isItemFound =false;
         for(SuperObject item: inventory){
-            if(item.equals(gp.objectM.objs[3])){
+            if(item.name.equals(gp.objectM.objs[3].name)){
                 isItemFound = true;
                 return isItemFound;
             }

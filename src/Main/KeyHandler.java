@@ -48,6 +48,10 @@ public class KeyHandler implements KeyListener
         {
             optionsState(code);
         }
+        else if(gp.gameState == gp.gameoverState)
+        {
+            gameoverState(code);
+        }
 
     }
     public void optionsState(int code)
@@ -103,7 +107,10 @@ public class KeyHandler implements KeyListener
         {
             switch (gp.ui.commandNum) //check which selection is the user on
             {
-                case 0 -> gp.gameState = gp.playState;//new game
+                case 0 -> {
+                    gp.gameState = gp.playState;
+                    gp.restart();
+                }//new game
                 case 1 -> gp.gameState = gp.playState;//load game
                 case 2 -> System.exit(0);//exit game
             }
@@ -222,6 +229,31 @@ public class KeyHandler implements KeyListener
         if(code == KeyEvent.VK_ENTER)
         {
             gp.player.selectItem();
+        }
+    }
+
+    public void gameoverState(int code){
+        if(code == KeyEvent.VK_W)//if W is pressed
+        {if(gp.ui.commandNum > 0)//on further selection
+            gp.ui.commandNum--;//go back by one
+        }
+        if(code == KeyEvent.VK_S)//if s is pressed
+        {
+            if(gp.ui.commandNum < 1)//on further backward seelct
+                gp.ui.commandNum++;//go upwards by one
+        }
+        if(code == KeyEvent.VK_ENTER)//if enter is pressed
+        {
+            switch (gp.ui.commandNum) //check which selection is the user on
+            {
+                case 0 -> {
+                    gp.gameState = gp.playState;
+                    gp.retry();
+                }//new game
+                case 1 ->{
+                    gp.gameState = gp.titleState;
+                }
+            }
         }
     }
 

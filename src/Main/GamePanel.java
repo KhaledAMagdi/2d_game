@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1; //normal play state
     public final int dialogueState = 2; //dialogue display state
     public final int characterState = 3; //stats screen
+    public final int gameoverState = 4;
     public boolean devMode = false; //developer state
     public int gameState = titleState; //seting the default game state
 
@@ -88,7 +89,21 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void retry(){
+        player.resortHUD();
+        player.setDefualtPosition();
+        monsterM = new MonsterManager(this);
+        npcM = new NPCManager(this);
+    }
 
+    public void restart()
+    {
+        player.setDefaultValues();
+        player.setDefualtPosition();
+        objectM = new ObjectManager(this);
+        monsterM = new MonsterManager(this);
+        npcM = new NPCManager(this);
+    }
     //-------FPS management-------//
     @Override
     public void run() {
@@ -123,7 +138,6 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
     //-------updates game(position,dialogue,etc)-------//
     public void update() {
 
@@ -140,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
+
     public void drawToScreen()
     {
         Graphics g = getGraphics();
@@ -181,6 +196,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
     }
+
     public void setFullScreen()
     {
         //Get local screen device

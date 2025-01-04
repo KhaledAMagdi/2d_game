@@ -12,7 +12,7 @@ public class Main
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Mini Sowrds Man");
+        window.setTitle("Mini Swords Man");
 
         //-------creates the main calss of the game-------//
         GamePanel gamePanel = new GamePanel();

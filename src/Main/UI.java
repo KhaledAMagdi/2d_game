@@ -77,6 +77,9 @@ public class UI {
         if (gp.gameState == gp.optionsState) {
             drawOptionsScreen();
         }
+        if(gp.gameState == gp.gameoverState){
+            drawGameOverScreen();
+        }
     }
     public void drawOptionsScreen()
     {
@@ -319,8 +322,6 @@ public class UI {
         }
 
     }
-
-
     public void drawMessage()
     {
         int messageX = gp.tileSize/2;
@@ -461,6 +462,51 @@ public class UI {
         int x = getXforMidtext(text);//x position
         int y = gp.screenHeight / 2;//y position
         g2.drawString(text, x, y);//draw text
+    }
+
+    //-------gameover screen-------//
+    public void drawGameOverScreen() {
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 110F));
+
+        text = "Game Over";
+        g2.setColor(Color.black);
+        x = getXforMidtext(text);
+        y = gp.screenHeight / 2;
+        g2.drawString(text, x, y);
+
+        g2.setColor(Color.white);
+        g2.drawString(text, x-4, y-4);
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+        text = "Retry";
+        x = getXforMidtext(text);
+        y += gp.tileSize * 2;
+        g2.drawString(text, x, y);
+        if(commandNum == 0){
+            g2.drawString(">",x-25,y);
+            if(gp.keyH.enterPressed == true){
+                subState = 0;
+                commandNum = 3;
+            }
+        }
+
+        text = "Quit";
+        x = getXforMidtext(text);
+        y += gp.tileSize/2;
+        g2.drawString(text, x, y);
+        if(commandNum == 1){
+            g2.drawString(">",x-25,y);
+            if(gp.keyH.enterPressed == true){
+                subState = 0;
+                commandNum = 3;
+            }
+        }
     }
 
     //-------dialogue screen-------//
