@@ -88,7 +88,7 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_S)//if s is pressed
         {
-            if (gp.ui.commandNum < 2)//on further backward seelct
+            if (gp.ui.commandNum < 1)//on further backward seelct
                 gp.ui.commandNum++;//go upwards by one
         }
         if (code == KeyEvent.VK_ENTER)//if enter is pressed
@@ -99,8 +99,7 @@ public class KeyHandler implements KeyListener {
                     gp.gameState = gp.playState;
                     gp.restart();
                 }//new game
-                case 1 -> gp.gameState = gp.playState;//load game
-                case 2 -> System.exit(0);//exit game
+                case 1 -> System.exit(0);
             }
         }
     }
@@ -137,15 +136,15 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_C) {
             gp.gameState = gp.characterState;
         }
-        if (code == KeyEvent.VK_ESCAPE)//if ESC is pressed
+        if (code == KeyEvent.VK_P)//if ESC is pressed
         {
             gp.gameState = gp.pauseState;//change game state
         }
-        if (code == KeyEvent.VK_L)//if L is pressed
+        if (code == KeyEvent.VK_ESCAPE)//if L is pressed
         {
             gp.gameState = gp.optionsState;//change game state
         }
-        if (code == KeyEvent.VK_P)//if p is pressed
+        if (code == KeyEvent.VK_O)//if p is pressed
         {
             if (gp.devMode)//if gamedev more is on
                 gp.devMode = false; //turn off

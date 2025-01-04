@@ -5,12 +5,10 @@ import Main.GamePanel;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class SuperObject 
-{
+public class SuperObject {
     GamePanel gp;
 
-    public SuperObject(GamePanel gp)
-    {
+    public SuperObject(GamePanel gp) {
         this.gp = gp;
     }
 
@@ -18,7 +16,7 @@ public class SuperObject
     public String name;
     public boolean collision = false;
     public int worldX, worldY;
-    public Rectangle solidArea = new Rectangle(0,0,0,0);
+    public Rectangle solidArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
     public String msgShown = "";
@@ -33,8 +31,7 @@ public class SuperObject
     public final int pickable = 3;
     public int price = 0;
 
-    public SuperObject(SuperObject obj)
-    {
+    public SuperObject(SuperObject obj) {
         this.image = obj.image;
         this.name = obj.name;
         this.collision = obj.collision;

@@ -16,13 +16,12 @@ public class Projectiles extends SuperObject {
     public boolean collisionOn = false;
 
     Entity user;
-    public Projectiles(GamePanel gp)
-    {
+
+    public Projectiles(GamePanel gp) {
         super(gp);
     }
 
-    public void set(int worldX, int worldY, String direction, boolean alive, Entity user)
-    {
+    public void set(int worldX, int worldY, String direction, boolean alive, Entity user) {
         this.worldX = worldX;
         this.worldY = worldY;
         this.user = user;
@@ -33,18 +32,15 @@ public class Projectiles extends SuperObject {
 
     public void update() {
 
-        if(user == gp.player){
+        if (user == gp.player) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monsterM.monsters);
-            if(monsterIndex != 999)
-            {
+            if (monsterIndex != 999) {
                 gp.player.damageMonster(monsterIndex, attackValue);
                 alive = false;
             }
-        }else
-        {
+        } else {
             boolean contact = gp.cChecker.checkPlayer(this);
-            if(contact)
-            {
+            if (contact) {
                 gp.player.contactMonster(1);
                 alive = false;
             }
@@ -58,8 +54,7 @@ public class Projectiles extends SuperObject {
         }
 
         life--;
-        if(life <= 0)
-        {
+        if (life <= 0) {
             alive = false;
         }
 

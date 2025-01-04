@@ -52,9 +52,9 @@ public class Player extends Entity
         dexterity = 1;
         exp = 0;
         nextLevelExp = 5;
-        coin = 100;
-        currentWeapon = gp.objectM.objs[4];
-        currentShield = gp.objectM.objs[8];
+        coin = 1000;
+        currentWeapon = gp.objectM.objs[6];
+        currentShield = gp.objectM.objs[10];
         attack = getAttack();
         defense = getDefence();
         projectile = gp.projM.projs[0];
@@ -217,7 +217,7 @@ public class Player extends Entity
             if(inventory.size() < invSize) {
                 switch (gp.objectM.objs[i].name) {
                     case "key" -> {
-                        inventory.add(gp.objectM.objs[3]);
+                        inventory.add(new SuperObject(gp.objectM.objs[3]));
                         gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                         gp.objectM.objs[i].drawable = false;
                     }
@@ -226,13 +226,20 @@ public class Player extends Entity
                             if (gp.keyH.enterPressed) {
                                 gp.ui.addMessage(gp.objectM.objs[i].msgShown);
                                 gp.objectM.objs[i] = null;
-                                inventory.remove(gp.objectM.objs[3]);
+                                SuperObject ToBeRemoved = null;
+                                for(SuperObject item: inventory){
+                                    if(!item.name.equals(gp.objectM.objs[3].name) && item.name.equals("key")){
+                                        ToBeRemoved = item;
+                                        break;
+                                    }
+                                }
+                                inventory.remove(ToBeRemoved);
                             }
                             return true;
                         }
                     }
                     case "coin", "heart", "mana"-> {
-                        gp.objectM.use(gp.objectM.objs[i]);
+                        gp.objectM.use(new SuperObject(gp.objectM.objs[i]));
                         gp.objectM.objs[i].drawable = false;
                     }
                     default -> {

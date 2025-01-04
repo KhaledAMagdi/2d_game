@@ -38,8 +38,8 @@ public class UI {
         halfHeart = gp.objectM.objs[1].image[0]; //load image from object
         emptyHeart = gp.objectM.objs[2].image[0]; //load image from object
         keyImage = gp.objectM.objs[3].image[0]; //load image from object
-        mana = gp.objectM.objs[15].image[0];
-        emptyMana = gp.objectM.objs[14].image[0];
+        mana = gp.objectM.objs[3].image[0];
+        emptyMana = gp.objectM.objs[4].image[0];
         coin = gp.objectM.objs[16].image[0];
     }
 
@@ -436,23 +436,12 @@ public class UI {
         }
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48));//font settings
-        text = "Load Game";//text to be drawn
-        x = getXforMidtext(text);//x position
-        y += (gp.tileSize);//y position
-        g2.drawString(text, x, y);//draw selection
-
-        if (commandNum == 1)//checks which selection the user is on
-        {
-            g2.drawString(">", x - gp.tileSize / 2, y);//draw select thingy
-        }
-
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48));//font settings
         text = "Quit";//text to be drawn
         x = getXforMidtext(text);//x position
         y += (gp.tileSize);//y position
         g2.drawString(text, x, y);//draw selection
 
-        if (commandNum == 2)//checks which selection the user is on
+        if (commandNum == 1)//checks which selection the user is on
         {
             g2.drawString(">", x - gp.tileSize / 2, y);//draw select thingy
         }

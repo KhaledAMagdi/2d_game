@@ -12,8 +12,7 @@ public class ProjectileManager {
     public Projectiles[] projs;
     int projNum = 100;
 
-    public ProjectileManager(GamePanel gp)
-    {
+    public ProjectileManager(GamePanel gp) {
         this.gp = gp;
 
         projs = new Projectiles[projNum];
@@ -22,7 +21,7 @@ public class ProjectileManager {
         getObjectsImage();
     }
 
-    private void initiateObjects(){
+    private void initiateObjects() {
         int i = 0;
 
         projs[i] = new Projectiles(gp); //0
@@ -65,8 +64,8 @@ public class ProjectileManager {
         i++;
     }
 
-    private void getObjectsImage(){
-        for(Projectiles proj : projs) {
+    private void getObjectsImage() {
+        for (Projectiles proj : projs) {
             if (proj != null) {
                 try {
                     for (int i = 0; i < proj.image.length; i++) {
@@ -80,12 +79,10 @@ public class ProjectileManager {
         }
     }
 
-    public void update()
-    {
-        for(Projectiles proj : projs)
-        {
-            if(proj != null)
-                if(proj.alive)
+    public void update() {
+        for (Projectiles proj : projs) {
+            if (proj != null)
+                if (proj.alive)
                     proj.update();
         }
     }
@@ -127,7 +124,7 @@ public class ProjectileManager {
                     int screenX = proj.worldX - gp.player.worldX + gp.player.screenX;
                     int screenY = proj.worldY - gp.player.worldY + gp.player.screenY;
 
-                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize/2), (int) (gp.tileSize/2), null);
+                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize / 2), (int) (gp.tileSize / 2), null);
 
                     if (gp.devMode) {
                         g2.setColor(Color.magenta);

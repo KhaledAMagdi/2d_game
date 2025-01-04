@@ -53,7 +53,7 @@ public class MonsterManager {
         monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
         monsters[i].maxLife = 4;
         monsters[i].life = monsters[i].maxLife;
-        monsters[i].attack = 3;
+        monsters[i].attack = 2;
         monsters[i].defense = 0;
         monsters[i].exp = 3;
         monsters[i].projectile = gp.projM.projs[1];
@@ -71,7 +71,7 @@ public class MonsterManager {
         monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
         monsters[i].maxLife = 4;
         monsters[i].life = monsters[i].maxLife;
-        monsters[i].attack = 3;
+        monsters[i].attack = 2;
         monsters[i].defense = 0;
         monsters[i].exp = 3;
         monsters[i].projectile = gp.projM.projs[1];
