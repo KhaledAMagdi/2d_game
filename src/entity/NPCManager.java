@@ -20,6 +20,7 @@ public class NPCManager {
 
         initiateNPCs();
         getNPCImage();
+        setItems();
     }
 
     private void initiateNPCs() {
@@ -40,45 +41,61 @@ public class NPCManager {
 //        npcs[i].dialogue[0] = "dialogue";
 //        i++;
 // ---------------Custom made objects---------------//
-//        int i = 0;
-//
-//        npcs[i] = new Entity(gp);
-//        npcs[i].type = npcs[i].type_npc;
-//        npcs[i].name = "farmer_";
-//        npcs[i].speed = 3;
-//        npcs[i].numOfImages = 4;
-//        npcs[i].up = new BufferedImage[npcs[0].numOfImages];
-//        npcs[i].down = new BufferedImage[npcs[0].numOfImages];
-//        npcs[i].right = new BufferedImage[npcs[0].numOfImages];
-//        npcs[i].left = new BufferedImage[npcs[0].numOfImages];
-//        npcs[i].worldX = 12 * gp.tileSize;
-//        npcs[i].worldY = 10 * gp.tileSize;
-//        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-//        npcs[i].solidAreaDefaultX = 0;
-//        npcs[i].solidAreaDefaultY = 0;
-//        npcs[i].direction = "left";
-//        npcs[i].dialogue = new String[1];
-//        npcs[i].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
-//        i++;
-//
-//        npcs[i] = new Entity(gp);
-//        npcs[i].type = npcs[i].type_npc;
-//        npcs[i].name = "chillguy_";
-//        npcs[i].speed = 3;
-//        npcs[i].numOfImages = 4;
-//        npcs[i].up = new BufferedImage[npcs[1].numOfImages];
-//        npcs[i].down = new BufferedImage[npcs[1].numOfImages];
-//        npcs[i].right = new BufferedImage[npcs[1].numOfImages];
-//        npcs[i].left = new BufferedImage[npcs[1].numOfImages];
-//        npcs[i].worldX = 10 * gp.tileSize;
-//        npcs[i].worldY = 10 * gp.tileSize;
-//        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
-//        npcs[i].solidAreaDefaultX = 0;
-//        npcs[i].solidAreaDefaultY = 0;
-//        npcs[i].direction = "right";
-//        npcs[i].dialogue = new String[1];
-//        npcs[i].dialogue[0] = "just a chill guy\ndrurururu\nrurururururu";
-//        i++;
+        int i = 0;
+
+        npcs[i] = new Entity(gp);
+        npcs[i].type = npcs[i].type_npc;
+        npcs[i].name = "farmer_";
+        npcs[i].speed = 3;
+        npcs[i].numOfImages = 4;
+        npcs[i].up = new BufferedImage[npcs[0].numOfImages];
+        npcs[i].down = new BufferedImage[npcs[0].numOfImages];
+        npcs[i].right = new BufferedImage[npcs[0].numOfImages];
+        npcs[i].left = new BufferedImage[npcs[0].numOfImages];
+        npcs[i].worldX = 12 * gp.tileSize;
+        npcs[i].worldY = 10 * gp.tileSize;
+        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        npcs[i].solidAreaDefaultX = 0;
+        npcs[i].solidAreaDefaultY = 0;
+        npcs[i].direction = "left";
+        npcs[i].dialogue = new String[1];
+        npcs[i].dialogue[0] = "Hello\nWelcome to the adventure island\nHope u dont die right away";
+        i++;
+
+        npcs[i] = new Entity(gp);
+        npcs[i].type = npcs[i].type_npc;
+        npcs[i].name = "chillguy_";
+        npcs[i].speed = 3;
+        npcs[i].numOfImages = 4;
+        npcs[i].up = new BufferedImage[npcs[1].numOfImages];
+        npcs[i].down = new BufferedImage[npcs[1].numOfImages];
+        npcs[i].right = new BufferedImage[npcs[1].numOfImages];
+        npcs[i].left = new BufferedImage[npcs[1].numOfImages];
+        npcs[i].worldX = 12 * gp.tileSize;
+        npcs[i].worldY = 6 * gp.tileSize;
+        npcs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        npcs[i].solidAreaDefaultX = 0;
+        npcs[i].solidAreaDefaultY = 0;
+        npcs[i].direction = "down";
+        npcs[i].dialogue = new String[1];
+        npcs[i].dialogue[0] = "Do you want to trade";
+        npcs[i].moveable = false;
+        i++;
+    }
+
+    public void setItems()
+    {
+        for (Entity npc : npcs){
+            if(npc != null) {
+                if(!npc.moveable){
+                    npc.inventory.clear();
+                    npc.inventory.add(gp.objectM.objs[0]);
+                    npc.inventory.add(gp.objectM.objs[3]);
+                    npc.inventory.add(gp.objectM.objs[7]);
+                    npc.inventory.add(gp.objectM.objs[15]);
+                }
+            }
+        }
     }
 
     private void getNPCImage() {
@@ -102,6 +119,10 @@ public class NPCManager {
                 case "right" -> npcs[index].direction = "left";
                 case "left" -> npcs[index].direction = "right";
             }
+        if(!npcs[index].moveable) {
+            gp.gameState = gp.tradeState;
+            gp.ui.npc = npcs[index];
+        }
     }
 
     public void update() {

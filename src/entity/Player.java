@@ -14,8 +14,6 @@ public class Player extends Entity
     
     public final int screenX;
     public final int screenY;
-    public ArrayList<SuperObject> inventory = new ArrayList<>();
-    public final int invSize = 30;
     int counter = 0;
     boolean count = true;
 
@@ -54,7 +52,7 @@ public class Player extends Entity
         dexterity = 1;
         exp = 0;
         nextLevelExp = 5;
-        coin = 0;
+        coin = 100;
         currentWeapon = gp.objectM.objs[4];
         currentShield = gp.objectM.objs[8];
         attack = getAttack();
@@ -346,10 +344,12 @@ public class Player extends Entity
         if(i != 999)
         {
             if(!invincible) {
-                int damage = gp.monsterM.monsters[i].attack - defense;
-                if(damage < 0) damage = 0;
-                life -= damage;
-                invincible = true;
+                if(gp.monsterM.monsters[i] != null) {
+                    int damage = gp.monsterM.monsters[i].attack - defense;
+                    if (damage < 0) damage = 0;
+                    life -= damage;
+                    invincible = true;
+                }
             }
         }
     }
@@ -396,7 +396,7 @@ public class Player extends Entity
 
     public void selectItem()
     {
-       int itemIndex = gp.ui.getItemIndex();
+       int itemIndex = gp.ui.getItemIndex(gp.ui.pslotCol, gp.ui.pslotRow);
 
        if(itemIndex < inventory.size())
        {

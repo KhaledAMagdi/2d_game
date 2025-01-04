@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int dialogueState = 2; //dialogue display state
     public final int characterState = 3; //stats screen
     public final int gameoverState = 4;
+    public final int tradeState = 5;
     public boolean devMode = false; //developer state
     public int gameState = titleState; //seting the default game state
 

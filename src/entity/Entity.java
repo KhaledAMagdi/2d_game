@@ -3,6 +3,7 @@ package entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import Object.*;
 
@@ -56,7 +57,6 @@ public class Entity {
     public int dexterity;
     public int attack;
     public int defense;
-    public int magic;
     public int exp;
     public int nextLevelExp;
     public int coin;
@@ -65,6 +65,9 @@ public class Entity {
 
     public boolean invincible = false;
     public int invincibleTimer = 0;
+
+    public ArrayList<SuperObject> inventory = new ArrayList<>();
+    public final int invSize = 30;
 
     public int type = 0; // 0->player 1->npc 2->monster
     public final int type_player = 0;
@@ -82,6 +85,7 @@ public class Entity {
     public int maxMana;
     public int mana;
     public Projectiles projectile;
+    public boolean moveable = true;
 
     public Entity(GamePanel gp) {this.gp = gp;}
 
@@ -340,24 +344,27 @@ public class Entity {
         int i = random.nextInt(100) + 1;
         actionLock++;
 
-        if (actionLock == 120) {
-            if (i <= 25) {
-                direction = "up";
+        if((type == type_npc && moveable) || (type == type_monster)) {
+            if (actionLock == 120) {
+                if (i <= 25) {
+                    direction = "up";
+                }
+                if (i > 25 && i <= 50) {
+                    direction = "down";
+                }
+                if (i > 50 && i <= 75) {
+                    direction = "left";
+                }
+                if (i > 75 && i <= 100) {
+                    direction = "right";
+                }
+                actionLock = 0;
             }
-            if (i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if (i > 50 && i <= 75) {
-                direction = "left";
-            }
-            if (i > 75 && i <= 100) {
-                direction = "right";
-            }
-            actionLock = 0;
         }
-
-        if(i > 99 && !projectile.alive) {
-            projectile.set(worldX, worldY, direction, true, this);
+        if(type == type_monster) {
+            if (i > 99 && !projectile.alive) {
+                projectile.set(worldX, worldY, direction, true, this);
+            }
         }
     }
 
@@ -372,12 +379,14 @@ public class Entity {
 
         setAction();
 
-        if (!collisionOn) {
-            switch (direction) {
-                case "up" -> worldY -= speed;
-                case "down" -> worldY += speed;
-                case "left" -> worldX -= speed;
-                case "right" -> worldX += speed;
+        if((type == type_npc && moveable) || (type == type_monster)) {
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
+                }
             }
         }
 

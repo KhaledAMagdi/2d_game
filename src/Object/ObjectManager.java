@@ -47,6 +47,8 @@ public class ObjectManager
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         objs[i].solidAreaDefaultX = 0;
         objs[i].solidAreaDefaultY = 0;
+        objs[i].discription = "[" + objs[i].name + "]\nCan restore health and whatnot";
+        objs[i].price = 10;
         i++;
 
         objs[i] = new SuperObject(gp); //1
@@ -76,6 +78,7 @@ public class ObjectManager
         objs[i].solidAreaDefaultY = 0;
         objs[i].discription = "[" + objs[i].name + "]\nA key that can be used to open \nseveral things";
         objs[i].type = objs[i].pickable;
+        objs[i].price = 50;
         i++;
 
         objs[i] = new SuperObject(gp); //4
@@ -127,6 +130,7 @@ public class ObjectManager
         objs[i].attackValue = 5;
         objs[i].discription = "[" + objs[i].name + "]\nFeels heavy";
         objs[i].type = objs[i].sword;
+        objs[i].price = 85;
         i++;
 
         objs[i] = new SuperObject(gp); //8
@@ -174,7 +178,8 @@ public class ObjectManager
         objs[i].worldY = 9 * gp.tileSize;
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         objs[i].solidAreaDefaultX = 0;
-        objs[i].solidAreaDefaultY = 0;        objs[i].msgShown = "You've gotten a shield!";
+        objs[i].solidAreaDefaultY = 0;
+        objs[i].msgShown = "You've gotten a shield!";
         objs[i].defenseValue = 6;
         objs[i].discription = "[" + objs[i].name + "]\nFinally an iron shield";
         objs[i].type = objs[i].shield;
@@ -221,6 +226,10 @@ public class ObjectManager
         objs[i].solidArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         objs[i].solidAreaDefaultX = 0;
         objs[i].solidAreaDefaultY = 0;
+        objs[i].discription = "[" + objs[i].name + "]\nRestores mana";
+        objs[i].type = objs[i].consumable;
+        objs[i].price = 20;
+
         i++;
 
         objs[i] = new SuperObject(gp); //16
@@ -339,11 +348,15 @@ public class ObjectManager
             }
             case "heart" -> {
                 gp.ui.addMessage("You've found a heart!");
-                gp.player.life += 2;
+                if(gp.player.life < gp.player.maxLife-1)
+                    gp.player.life += 2;
+                else if(gp.player.life < gp.player.maxLife)
+                    gp.player.life++;
             }
             case "mana" -> {
                 gp.ui.addMessage("You've found some mana!");
-                gp.player.mana += 1;
+                if(gp.player.mana < gp.player.maxMana)
+                    gp.player.mana ++;
             }
         }
     }
