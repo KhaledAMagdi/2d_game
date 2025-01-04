@@ -44,6 +44,48 @@ public class KeyHandler implements KeyListener
         {
             characterState(code);
         }
+        else if(gp.gameState == gp.optionsState)
+        {
+            optionsState(code);
+        }
+
+    }
+    public void optionsState(int code)
+    {
+        if(code == KeyEvent.VK_L)
+        {
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_ENTER)
+        {
+            enterPressed = true;
+        }
+
+        int maxCommandNum = 0; //max number of items in options menu so cursor doesnt go beyond border
+        switch(gp.ui.subState)
+        {
+            case 0: maxCommandNum = 5; break;
+            case 3: maxCommandNum = 1; break;
+        }
+            if(code == KeyEvent.VK_W)
+            {
+                gp.ui.commandNum--;
+                // ADD SE HERE
+                if(gp.ui.commandNum < 0)
+                {
+                    gp.ui.commandNum = maxCommandNum;
+                }
+            }
+            if(code == KeyEvent.VK_S)
+                {
+                    gp.ui.commandNum++;
+                    //Add SE HERE
+                    if(gp.ui.commandNum > maxCommandNum)
+                {
+                gp.ui.commandNum = 0;
+                }
+        }
+
     }
 
     public void titleState(int code)
@@ -105,6 +147,10 @@ public class KeyHandler implements KeyListener
         if(code == KeyEvent.VK_ESCAPE)//if ESC is pressed
         {
             gp.gameState = gp.pauseState;//change game state
+        }
+        if(code == KeyEvent.VK_L)//if L is pressed
+        {
+            gp.gameState = gp.optionsState;//change game state
         }
         if(code == KeyEvent.VK_P)//if p is pressed
         {

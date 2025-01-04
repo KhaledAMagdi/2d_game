@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     int screenHeight2 = screenHeight;
     BufferedImage tempScreen;
     Graphics2D g2;
+    public boolean fullScreenOn = false;
 
     //-------world settings-------//
     public final int maxWorldCol = 50; //raw world width
@@ -53,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //-------game states-------//
     public final int titleState = 0; //title screen state
+    public final int optionsState = -2;
     public final int pauseState = -1; //paused game state
     public final int playState = 1; //normal play state
     public final int dialogueState = 2; //dialogue display state
