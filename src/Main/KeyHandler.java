@@ -2,6 +2,7 @@ package Main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import Object.*;
 
 public class KeyHandler implements KeyListener {
     GamePanel gp; //gamepanel
@@ -158,7 +159,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_MINUS)
                 gp.player.speed--;
             if (code == KeyEvent.VK_K)//change keys in inventory
-                gp.player.inventory.add(gp.objectM.objs[3]);
+                gp.player.inventory.add(new SuperObject(gp.objectM.objs[5]));
             if (code == KeyEvent.VK_L)
                 if (gp.player.checkKey())
                     gp.player.inventory.remove(gp.objectM.objs[3]);

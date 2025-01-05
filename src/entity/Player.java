@@ -42,7 +42,7 @@ public class Player extends Entity
     {
         worldX = gp.tileSize * 9;
         worldY = gp.tileSize * 7;
-        speed = 20;
+        speed = 8;
         direction = "down";
         
         maxLife = 6;
@@ -67,7 +67,7 @@ public class Player extends Entity
     {
         worldX = gp.tileSize * 9;
         worldY = gp.tileSize * 7;
-        speed = 20;
+        speed = 8;
         direction = "down";
     }
 
@@ -234,6 +234,7 @@ public class Player extends Entity
                                     }
                                 }
                                 inventory.remove(ToBeRemoved);
+                                coin += 100;
                             }
                             return true;
                         }
@@ -261,7 +262,7 @@ public class Player extends Entity
     {
         boolean isItemFound =false;
         for(SuperObject item: inventory){
-            if(item.name.equals(gp.objectM.objs[3].name)){
+            if(item.name.equals(gp.objectM.objs[5].name)){
                 isItemFound = true;
                 return isItemFound;
             }

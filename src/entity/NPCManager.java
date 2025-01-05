@@ -178,7 +178,7 @@ public class NPCManager {
         npcs[2].inventory.add(gp.objectM.objs[0]);
         npcs[2].inventory.add(gp.objectM.objs[3]);
         npcs[2].inventory.add(gp.objectM.objs[14]);
-        npcs[2].inventory.add(gp.objectM.objs[15]);
+        npcs[2].inventory.add(gp.objectM.objs[5]);
     }
 
     private void getNPCImage() {

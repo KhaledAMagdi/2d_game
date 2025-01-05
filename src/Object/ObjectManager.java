@@ -319,7 +319,23 @@ public class ObjectManager {
         objs[i].solidAreaDefaultY = objs[i].solidArea.y;
         i++;
 // ---------------Custom made objects---------------//
-
+        objs[i] = new SuperObject(gp); //16 Coin
+        objs[i].image = new BufferedImage[1];
+        objs[i].name = "chest";
+        objs[i].collision = false;
+        objs[i].msgShown = "You've gotten a 100 coins!";
+        objs[i].drawable = true;
+        objs[i].attackValue = 0;
+        objs[i].defenseValue = 0;
+        objs[i].discription = "[Chest]\nA chest\nHow did you even get a chest in your inventory ?";
+        objs[i].type = objs[i].pickable;
+        objs[i].price = 0;
+        objs[i].solidArea = new Rectangle( 0, 0, gp.tileSize, gp.tileSize);
+        objs[i].solidAreaDefaultX = objs[i].solidArea.x;
+        objs[i].solidAreaDefaultY = objs[i].solidArea.y;
+        objs[i].worldX = 40 * gp.tileSize;
+        objs[i].worldY = 16 * gp.tileSize;
+        i++;
         // Enable collision for all objects
         for (SuperObject obj : objs) {
             if (obj != null) {
