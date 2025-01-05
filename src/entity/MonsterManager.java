@@ -4,12 +4,13 @@ import Main.GamePanel;
 
 import java.awt.*;
 import java.util.Random;
+
 import Object.*;
 
 public class MonsterManager {
     GamePanel gp;
     public Entity[] monsters;
-    int monsterNum = 2;
+    int monsterNum = 26;
 
     public MonsterManager(GamePanel gp) {
         this.gp = gp;
@@ -39,60 +40,100 @@ public class MonsterManager {
 //        monsters[i].exp = 3;
 //        i++;
 // ---------------Custom made objects---------------//
-        int i = 0;
+        for (int i = 0; i < 10; i++) {
+            monsters[i] = new Entity(gp);
+            monsters[i].type = monsters[i].type_monster;
+            monsters[i].name = "bat_";
+            monsters[i].speed = 3;
+            monsters[i].numOfImages = 3;
+            monsters[i].worldX = (10 + i) * gp.tileSize;
+            monsters[i].worldY = 9 * gp.tileSize;
+            monsters[i].solidArea = new Rectangle(3*(int)(gp.tileSize * 0.25),3*(int)(gp.tileSize * 0.25),(int)(gp.tileSize * 0.5), (int)(gp.tileSize * 0.5));
+            monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+            monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+            monsters[i].maxLife = 4;
+            monsters[i].life = monsters[i].maxLife;
+            monsters[i].attack = 2;
+            monsters[i].defense = 0;
+            monsters[i].exp = 3;
+            monsters[i].projectile = gp.projM.projs[1];
+        }
+        int j = 0;
+        monsters[j].direction = "down";
+        j++;
+        monsters[j].direction = "up";
+        j++;
+        monsters[j].direction = "left";
+        j++;
+        monsters[j].direction = "right";
+        j++;
+        monsters[j].direction = "down";
+        j++;
+        monsters[j].direction = "up";
+        j++;
+        monsters[j].direction = "left";
+        j++;
+        monsters[j].direction = "right";
+        j++;
+        monsters[j].direction = "down";
+        j++;
+        monsters[j].direction = "up";
+        j++;
 
-        monsters[i] = new Entity(gp);
-        monsters[i].type = monsters[i].type_monster;
-        monsters[i].name = "bat_";
-        monsters[i].speed = 3;
-        monsters[i].numOfImages = 3;
-        monsters[i].worldX = 10 * gp.tileSize;
-        monsters[i].worldY = 9 * gp.tileSize;
-        monsters[i].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
-        monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
-        monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
-        monsters[i].maxLife = 4;
-        monsters[i].life = monsters[i].maxLife;
-        monsters[i].attack = 2;
-        monsters[i].defense = 0;
-        monsters[i].exp = 3;
-        monsters[i].projectile = gp.projM.projs[1];
-        i++;
-
-        monsters[i] = new Entity(gp);
-        monsters[i].type = monsters[i].type_monster;
-        monsters[i].name = "bat_";
-        monsters[i].speed = 3;
-        monsters[i].numOfImages = 3;
-        monsters[i].worldX = 12 * gp.tileSize;
-        monsters[i].worldY = 9 * gp.tileSize;
-        monsters[i].solidArea = new Rectangle(0, 0, (int) (gp.tileSize * 0.5), (int) (gp.tileSize * 0.5));
-        monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
-        monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
-        monsters[i].maxLife = 4;
-        monsters[i].life = monsters[i].maxLife;
-        monsters[i].attack = 2;
-        monsters[i].defense = 0;
-        monsters[i].exp = 3;
-        monsters[i].projectile = gp.projM.projs[1];
-        i++;
+        for (int i = 10; i < 25; i++) {
+            monsters[i] = new Entity(gp);
+            monsters[i].type = monsters[i].type_monster;
+            monsters[i].name = "mushrom_";
+            monsters[i].speed = 3;
+            monsters[i].numOfImages = 11;
+            monsters[i].worldX = (10 + i) * gp.tileSize;
+            monsters[i].worldY = 30 * gp.tileSize;
+            monsters[i].solidArea = new Rectangle(3*(int)(gp.tileSize * 0.25),3*(int)(gp.tileSize * 0.25),(int)(gp.tileSize * 0.5), (int)(gp.tileSize * 0.5));
+            monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+            monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+            monsters[i].maxLife = 10;
+            monsters[i].life = monsters[i].maxLife;
+            monsters[i].attack = 3;
+            monsters[i].defense = 2;
+            monsters[i].exp = 5;
+            monsters[i].projectile = gp.projM.projs[2];
+        }
+        for (int i = 25; i < 26; i++) {
+            monsters[i] = new Entity(gp);
+            monsters[i].type = monsters[i].type_boss;
+            monsters[i].name = "mushrom_";
+            monsters[i].speed = 3;
+            monsters[i].numOfImages = 11;
+            monsters[i].worldX = (10 + i) * gp.tileSize;
+            monsters[i].worldY = 30 * gp.tileSize;
+            monsters[i].solidArea = new Rectangle(13*(int)(gp.tileSize * 0.25),14*(int)(gp.tileSize * 0.25),(int)(gp.tileSize * 0.5) * 3, (int)(gp.tileSize * 0.5) * 4)  ;
+            monsters[i].solidAreaDefaultX = monsters[i].solidArea.x;
+            monsters[i].solidAreaDefaultY = monsters[i].solidArea.y;
+            monsters[i].maxLife = 100;
+            monsters[i].life = monsters[i].maxLife;
+            monsters[i].attack = 10;
+            monsters[i].defense = 10;
+            monsters[i].exp = 50;
+            monsters[i].projectile = gp.projM.projs[1];
+        }
     }
 
     public void getImage() {
         for (Entity monster : monsters) {
+            if (monster != null)
                 monster.getImage();
         }
     }
 
     public void update() {
-        for (int i = 0; i < monsters.length; i++ ) {
-            if(monsters[i] != null) {
+        for (int i = 0; i < monsters.length; i++) {
+            if (monsters[i] != null) {
                 if (monsters[i].alive && !monsters[i].dying) {
                     monsters[i].update();
 
                     if (gp.cChecker.checkPlayer(monsters[i]) && !gp.player.invincible) {
                         int damage = monsters[i].attack - gp.player.defense;
-                        if(damage < 0) damage = 0;
+                        if (damage < 0) damage = 0;
                         gp.player.life -= damage;
                         gp.player.invincible = true;
                     }
@@ -116,7 +157,7 @@ public class MonsterManager {
                         }
                     }
                 }
-                if(!monsters[i].alive) {
+                if (!monsters[i].alive) {
                     monsters[i].checkDrop();
                     monsters[i] = null;
                 }
@@ -126,7 +167,7 @@ public class MonsterManager {
 
     public void draw(Graphics2D g2) {
         for (Entity monster : monsters) {
-            if(monster != null)
+            if (monster != null)
                 monster.draw(g2);
         }
     }

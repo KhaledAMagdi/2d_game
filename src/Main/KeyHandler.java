@@ -185,24 +185,24 @@ public class KeyHandler implements KeyListener {
             {
                 gp.ui.commandNum--;//go back by one
                 if (gp.ui.commandNum < 0)//on further selection
-                   gp.ui.commandNum = 2;
+                    gp.ui.commandNum = 2;
             }
             if (code == KeyEvent.VK_S)//if s is pressed
             {
                 gp.ui.commandNum++;//go upwards by one
                 if (gp.ui.commandNum > 2)//on further backward seelct
-                   gp.ui.commandNum = 0;
+                    gp.ui.commandNum = 0;
             }
         }
-        if(gp.ui.subState == 1){
+        if (gp.ui.subState == 1) {
             npcInventory(code);
-            if(code == KeyEvent.VK_ESCAPE){
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.ui.subState = 0;
             }
         }
-        if(gp.ui.subState == 2){
+        if (gp.ui.subState == 2) {
             playerInventory(code);
-            if(code == KeyEvent.VK_ESCAPE){
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.ui.subState = 0;
             }
         }

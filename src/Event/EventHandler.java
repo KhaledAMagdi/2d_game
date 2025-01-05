@@ -1,6 +1,7 @@
 package Event;
 
 import Main.GamePanel;
+import entity.MonsterManager;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -53,7 +54,7 @@ public class EventHandler {
             events[j].y = 20;
             events[j].direction = "any";
             events[j].gameState = gp.dialogueState;
-            events[j].eventToDo = "heal";
+            events[j].eventToDo = "heal_special";
             events[j].dialogue = "you've rested";
             j++;
         }
@@ -140,6 +141,15 @@ public class EventHandler {
                 gp.ui.currentDialogue = event.dialogue; //draw dialogue
                 gp.player.worldX = 10 * gp.tileSize; //teleport player too x position
                 gp.player.worldY = 9 * gp.tileSize; //teleport player top y position
+            }
+            case "heal_special" -> //if event is heal
+            {
+                event.doneTimes++;
+                gp.gameState = event.gameState; //change game state
+                gp.ui.currentDialogue = event.dialogue; //draw dialogue
+                gp.player.life = gp.player.maxLife; //increase player life
+                gp.player.mana = gp.player.maxMana;
+                gp.monsterM = new MonsterManager(gp);
             }
         }
     }

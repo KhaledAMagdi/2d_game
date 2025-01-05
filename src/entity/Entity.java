@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
 import Object.*;
 
 import Main.GamePanel;
@@ -73,6 +74,7 @@ public class Entity {
     public final int type_player = 0;
     public final int type_npc = 1;
     public final int type_monster = 2;
+    public final int type_boss = 3;
     public String typeString = "";
 
     public boolean alive = true;
@@ -87,7 +89,9 @@ public class Entity {
     public Projectiles projectile;
     public boolean moveable = true;
 
-    public Entity(GamePanel gp) {this.gp = gp;}
+    public Entity(GamePanel gp) {
+        this.gp = gp;
+    }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
@@ -168,20 +172,20 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        if(type == type_monster && hpBarOn) {
+        if (type == type_monster && hpBarOn) {
 
             double oneScale = (double) gp.tileSize / maxLife;
             double hpBar = oneScale * life;
 
-            g2.setColor(new Color(35,35,35));
+            g2.setColor(new Color(35, 35, 35));
             g2.fillRect(screenX - 1, screenY - 16, gp.tileSize + 2, 12);
 
             g2.setColor(new Color(255, 0, 30));
-            g2.fillRect(screenX, screenY - 15, (int)hpBar, 10);
+            g2.fillRect(screenX, screenY - 15, (int) hpBar, 10);
 
             hpBarCounter++;
 
-            if(hpBarCounter >= 500) {
+            if (hpBarCounter >= 500) {
                 hpBarCounter = 0;
                 hpBarOn = false;
             }
@@ -194,48 +198,52 @@ public class Entity {
             hpBarCounter = 0;
             changeAlpha(g2, 0.5f);
         }
-        if(dying)
-        {
+        if (dying) {
             dyingAnimation(g2);
         }
 
-        if(alive){
-            if(attacking)
-            {
-                switch(direction){
-                    case "down" ->{
-                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
-                        g2.drawImage(weapon, screenX-(gp.tileSize/10), screenY+(gp.tileSize/4), (int)(gp.tileSize),(int)(gp.tileSize), null);
+        if (alive) {
+            if (attacking) {
+                switch (direction) {
+                    case "down" -> {
+                        g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
+                        g2.drawImage(weapon, screenX - (gp.tileSize / 10), screenY + (gp.tileSize / 4), (int) (gp.tileSize), (int) (gp.tileSize), null);
                     }
-                    case "up" ->{
-                        g2.drawImage(weapon, screenX, screenY-(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
-                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    case "up" -> {
+                        g2.drawImage(weapon, screenX, screenY - (gp.tileSize / 10), (int) (gp.tileSize), (int) (gp.tileSize), null);
+                        g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
                     }
-                    case "left" ->{
-                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
-                        g2.drawImage(weapon, screenX-(gp.tileSize/5), screenY+(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    case "left" -> {
+                        g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
+                        g2.drawImage(weapon, screenX - (gp.tileSize / 5), screenY + (gp.tileSize / 10), (int) (gp.tileSize), (int) (gp.tileSize), null);
                     }
-                    case "right" ->{
-                        g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
-                        g2.drawImage(weapon, screenX+(gp.tileSize/5), screenY+(gp.tileSize/10), (int)(gp.tileSize),(int)(gp.tileSize), null);
+                    case "right" -> {
+                        g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
+                        g2.drawImage(weapon, screenX + (gp.tileSize / 5), screenY + (gp.tileSize / 10), (int) (gp.tileSize), (int) (gp.tileSize), null);
                     }
                 }
+            } else{
+                if(type == type_player || type == type_npc)
+                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize), (int) (gp.tileSize), null);
+                else if(type == type_monster)
+                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize * 2), (int) (gp.tileSize * 2), null);
+                else if(type == type_boss)
+                    g2.drawImage(image, screenX, screenY, (int) (gp.tileSize * 8), (int) (gp.tileSize * 8), null);
             }
-            else g2.drawImage(image, screenX, screenY, (int)(gp.tileSize),(int)(gp.tileSize), null);
         }
 
         changeAlpha(g2, 1f);
 
         if (gp.devMode) {
 
-            if(invincible) {
+            if (invincible) {
                 System.out.println("invinsibletimer: " + invincibleTimer);
             }
 
             g2.setColor(Color.magenta);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
-            if(type == type_player) {
+            if (type == type_player) {
                 String text = String.format(" -/= Speed = " + speed);
                 g2.setColor(Color.white);
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20));
@@ -251,29 +259,42 @@ public class Entity {
         }
     }
 
-    void dyingAnimation(Graphics2D g2)
-    {
+    void dyingAnimation(Graphics2D g2) {
         dyingCounter++;
 
         int i = 5;
 
-        if(dyingCounter <= i){changeAlpha(g2, 1f);}
-        if(dyingCounter > i && dyingCounter <= i*2){changeAlpha(g2, 0f);}
-        if(dyingCounter > i*2 && dyingCounter <= i*3){changeAlpha(g2, 1f);}
-        if(dyingCounter > i*3 && dyingCounter <= i*4){changeAlpha(g2, 0f);}
-        if(dyingCounter > i*4 && dyingCounter <= i*5){changeAlpha(g2, 1f);}
-        if(dyingCounter > i*5 && dyingCounter <= i*6){changeAlpha(g2, 0f);}
-        if(dyingCounter > i*6 && dyingCounter <= i*7){changeAlpha(g2, 1f);}
-        if(dyingCounter > i*7 && dyingCounter <= i*8){changeAlpha(g2, 0f);}
-        if(dyingCounter > i*8)
-        {
+        if (dyingCounter <= i) {
+            changeAlpha(g2, 1f);
+        }
+        if (dyingCounter > i && dyingCounter <= i * 2) {
+            changeAlpha(g2, 0f);
+        }
+        if (dyingCounter > i * 2 && dyingCounter <= i * 3) {
+            changeAlpha(g2, 1f);
+        }
+        if (dyingCounter > i * 3 && dyingCounter <= i * 4) {
+            changeAlpha(g2, 0f);
+        }
+        if (dyingCounter > i * 4 && dyingCounter <= i * 5) {
+            changeAlpha(g2, 1f);
+        }
+        if (dyingCounter > i * 5 && dyingCounter <= i * 6) {
+            changeAlpha(g2, 0f);
+        }
+        if (dyingCounter > i * 6 && dyingCounter <= i * 7) {
+            changeAlpha(g2, 1f);
+        }
+        if (dyingCounter > i * 7 && dyingCounter <= i * 8) {
+            changeAlpha(g2, 0f);
+        }
+        if (dyingCounter > i * 8) {
             dying = false;
             alive = false;
         }
     }
 
-    public void changeAlpha(Graphics2D g2, float alpha)
-    {
+    public void changeAlpha(Graphics2D g2, float alpha) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
 
@@ -282,7 +303,7 @@ public class Entity {
             typeString = "player";
         if (type == type_npc)
             typeString = "npcs";
-        if (type == type_monster)
+        if (type == type_monster || type == type_boss)
             typeString = "monsters";
 
         try {
@@ -344,7 +365,7 @@ public class Entity {
         int i = random.nextInt(100) + 1;
         actionLock++;
 
-        if((type == type_npc && moveable) || (type == type_monster)) {
+        if ((type == type_npc && moveable) || (type == type_monster) || (type == type_boss)) {
             if (actionLock == 120) {
                 if (i <= 25) {
                     direction = "up";
@@ -361,15 +382,14 @@ public class Entity {
                 actionLock = 0;
             }
         }
-        if(type == type_monster) {
+        if (type == type_monster) {
             if (i > 99 && !projectile.alive) {
                 projectile.set(worldX, worldY, direction, true, this);
             }
         }
     }
 
-    public void damageReaction()
-    {
+    public void damageReaction() {
         actionLock = 0;
 
         direction = gp.player.direction;
@@ -379,7 +399,7 @@ public class Entity {
 
         setAction();
 
-        if((type == type_npc && moveable) || (type == type_monster)) {
+        if ((type == type_npc && moveable) || (type == type_monster) || (type == type_boss)){
             if (!collisionOn) {
                 switch (direction) {
                     case "up" -> worldY -= speed;
@@ -397,21 +417,17 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monsterM.monsters);
     }
 
-    public void checkDrop()
-    {
+    public void checkDrop() {
         int i = new Random().nextInt(100) + 1;
 
-        if(i < 50)
-        {
+        if (i < 25) {
             gp.objectM.dropItem(gp.objectM.objs[0], this);
         }
-        if(i >= 50 && i < 75)
-        {
-            gp.objectM.dropItem(gp.objectM.objs[15],this);
+        if (i >= 25 && i < 50) {
+            gp.objectM.dropItem(gp.objectM.objs[3], this);
         }
-        if(i >= 75 && i < 100)
-        {
-            gp.objectM.dropItem(gp.objectM.objs[16],this);
+        if (i >= 50 && i < 100) {
+            gp.objectM.dropItem(gp.objectM.objs[16], this);
         }
     }
 }

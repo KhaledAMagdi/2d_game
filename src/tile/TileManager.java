@@ -14,7 +14,7 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][];
-    int tileNum = 714;
+    int tileNum = 170;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;

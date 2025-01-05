@@ -387,6 +387,7 @@ public class Player extends Entity
             level++;
             nextLevelExp += nextLevelExp;
             maxLife += 2;
+            maxMana++;
             strength++;
             dexterity++;
 
